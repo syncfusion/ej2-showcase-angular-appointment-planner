@@ -1,0 +1,76 @@
+<div id='patient-wrapper' class="planner-patient-wrapper">
+    <header>
+        <div class="module-title">
+            <div class='title'>PATIENT LIST</div>
+            <div class='underline'></div>
+        </div>
+        <div class='add-patient' (click)="onAddPatient()">
+            <div class="e-icon-add e-icons"></div>
+            <div class="add-patient-label">Add New</div>
+        </div>
+    </header>
+    <div class="patients-detail-wrapper">
+        <div class="patient-operations">
+            <div id='searchTemplate' class='search-wrapper planner-patient-search'>
+                <div class="e-input-group" role="search">
+                    <input id="schedule_searchbar" class="e-input" name="input" type="search"
+                        placeholder="Search Patient" (keyup)="patientSearch($event)" />
+                    <span id="schedule_searchbutton" class="e-input-group-icon search-icon e-icons" tabindex="-1"
+                        title="Search" aria-label="search"></span>
+                </div>
+            </div>
+            <button ejs-button cssClass="e-normal add-details" [isPrimary]="true" (click)='onAddPatient()'>Add
+                New Patient</button>
+        </div>
+        <div class="patient-display">
+            <ejs-grid #gridObj [dataSource]='filteredPatients' [editSettings]='editSettings'
+                (actionComplete)='onDataEdit($event)'>
+                <e-columns>
+                    <e-column field='Id' width='50' headerText='ID' textAlign='Left'></e-column>
+                    <e-column field='Name' width='100' textAlign='Left'>
+                        <ng-template #template let-data>
+                            <span class="patient-name" (click)='onPatientClick($event)'>{{data.Name}}</span>
+                        </ng-template>
+                    </e-column>
+                    <e-column field='Gender' width='80' textAlign='Left'></e-column>
+                    <e-column field='BloodGroup' headerText='Blood Group' width='100' textAlign='Left'></e-column>
+                    <e-column field='Symptoms' width='150' textAlign='Left' clipMode='EllipsisWithTooltip'></e-column>
+                    <e-column field='Mobile' headerText='Mobile Number' width='100' textAlign='Left'></e-column>
+                    <e-column field='Email' headerText='Email' width='120' textAlign='Left'></e-column>
+                </e-columns>
+                <ng-template #editSettingsTemplate let-data>
+                    <div class='grid-edit-dialog'>
+                        <div class='field-row'>
+                            <label> Patient Id </label><span id='Id'>{{activePatientData.Id}}</span>
+                        </div>
+                        <div class='field-row'>
+                            <label> Patient Name </label><span id='Name'>{{activePatientData.Name}}</span>
+                        </div>
+                        <div class='field-row'>
+                            <label> Gender </label><span id='Gender'>{{activePatientData.Gender}}</span>
+                        </div>
+                        <div class='field-row'>
+                            <label> DOB </label><span id='DOB'>{{activePatientData.DOB}}</span>
+                        </div>
+                        <div class='field-row'>
+                            <label> Blood Group </label><span id='BloodGroup'>{{activePatientData.BloodGroup}}</span>
+                        </div>
+                        <div class='field-row'>
+                            <label> Mobile Number </label><span id='Mobile'>{{activePatientData.Mobile}}</span>
+                        </div>
+                        <div class='field-row'>
+                            <label> Email </label><span id='Email'>{{activePatientData.Email}}</span>
+                        </div>
+                        <div class='field-row'>
+                            <label> Symptoms </label><span id='Symptoms'>{{activePatientData.Symptoms}}</span>
+                        </div>
+                        <div class='field-row history-row'>
+                            <label>Appointment History</label>
+                        </div>
+                    </div>
+                </ng-template>
+            </ejs-grid>
+        </div>
+    </div>
+</div>
+<app-add-edit-patient #addEditPatientObj (refreshEvent)="gridRefresh()"></app-add-edit-patient>

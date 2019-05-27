@@ -1,0 +1,185 @@
+@import '../common.scss';
+
+.planner-patient-wrapper {
+    margin: 50px;
+
+    header {
+        display: flex;
+
+        .module-title {
+            margin-left: 16.5px;
+        }
+
+        .add-patient {
+            flex: initial;
+            display: none;
+
+            .e-icon-add {
+                padding: 9px 0 10px 20px;
+                font-size: 10px;
+                color: $planner-element-bg-color;
+
+                &::before {
+                    content: '\e95c';
+                }
+            }
+
+            .add-patient-label {
+                font-weight: 600;
+                font-size: 13px;
+                color: $planner-element-bg-color;
+                letter-spacing: 0.39px;
+                padding: 7px;
+            }
+        }
+    }
+
+    .patients-detail-wrapper {
+        .patient-operations {
+            display: flex;
+            justify-content: flex-end;
+        
+            .planner-patient-search.search-wrapper {
+                width: 190px;
+                margin-right: 16px;
+
+                .e-input-group {
+                    span.search-icon {
+                        cursor: default;
+    
+                        &::before {
+                            content: '\e993';
+                        }
+                    }
+                }
+            }
+        }
+    
+        .patient-display {
+            margin-top: 17px;
+
+            .e-grid {
+                .e-gridcontent {
+                    tr.e-row {
+                        td.e-rowcell {
+                            .patient-name {
+                                color: $planner-element-bg-color;
+                                cursor: pointer;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.e-dialog.e-edit-dialog {
+    max-height: 495px !important;
+
+    .e-dlg-content {
+        .grid-edit-dialog {
+            width: 325px;
+            height: 360px;
+
+            .field-row {
+                display: flex;
+                padding: 5px 0;
+
+                label {
+                    font-weight: 600;
+                    font-size: 12px;
+                    letter-spacing: 0.3px;
+                    padding: 5px 0;
+                }
+
+                label,
+                span {
+                    flex: 1;
+                }
+
+                span {
+                    font-size: 14px;
+                    color: $planner-font-color1;
+                    letter-spacing: 0.39px;
+                }
+
+                &.history-row {
+                    flex-direction: column;
+
+                    label {
+                        color: $planner-element-bg-color !important;
+                    }
+                    
+                    .history-content {
+                        padding: 5px;                        
+                        font-size: 13px;
+                        color: $planner-font-color1;
+                        letter-spacing: 0.39px;
+                        line-height: 18px;
+                        margin: 10px 0;
+                        border-left: 2px solid blue;
+                    }
+
+                    .empty-container {
+                        font-weight: 600;
+                        font-size: 15px;
+                        letter-spacing: 0.3px;
+                        padding: 5px 10px;
+                    }
+                }
+            }            
+        }
+    }
+
+    .e-footer-content {
+        :nth-child(1),
+        :nth-child(2) {
+            display: none;
+        }
+    }
+}
+
+@media (max-width: 850px) {
+    .planner-patient-wrapper {
+        margin: 20px 10px;
+        
+        header {
+            .module-title {
+                margin-left: 10px;
+                flex: 1;
+            }
+            
+            .add-patient {
+                margin-right: 6px;
+                display: flex;
+                cursor: pointer;
+
+                .add-patient-label {
+                    font-weight: 500;
+                }
+            }
+        }
+
+        .patients-detail-wrapper {
+            margin: 0;
+
+            .patient-operations {
+                margin-top: 3.3%;
+
+                .e-btn {
+                    display: none;
+                }
+        
+                .planner-patient-search.search-wrapper {
+                    flex: 1;
+                    margin: 0;
+                }
+            }
+            
+            .patient-display {
+                margin-top: 3.3%;
+            }            
+        }
+    }
+}

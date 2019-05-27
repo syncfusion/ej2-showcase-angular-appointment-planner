@@ -1,0 +1,18 @@
+<div class='availability-title'><span class='header-text'>
+    <h3>Doctor's Availability</h3>
+  </span><span class='all-text'><a routerLink='/doctors'>View All</a></span></div>
+<ejs-listview id='listview_template' #availabilityObj height='88%' width='100%' cssClass='e-list-template'
+  [dataSource]='dataSource' [showHeader]='false'>
+  <ng-template #template let-data="">
+    <div class="availabilty-container">
+      <div class='image-container'>
+        <span class='doctor-image'><img src="./assets/images/{{data.Text}}.png" /><span
+            class='availability {{data.Availability}}'></span></span>
+      </div>
+      <div class="detail-container">
+        <span class="doctor-name">Dr.{{data.Name}}</span>
+        <span class="doctor-speciality">{{getSpecializationText(data.Specialization)}}</span>
+      </div>
+    </div>
+  </ng-template>
+</ejs-listview>

@@ -1,0 +1,22 @@
+$planner-hover-bg-color: #f5f5f5;
+$planner-element-bg-color: #7575FF;
+$planner-element-back-color: #FFFFFF;
+$planner-delete-btn-color: #FF0000;
+$planner-box-shadow: 1px 2px 20px 0 rgba(173,173,255,0.20);
+$planner-font-color1: #333333;
+$planner-font-color2: #666666;
+$planner-tooltip-bg-color:#000;
+
+$planner-btn-hover-bg-color: $planner-element-back-color !important;
+$planner-btn-hover-color: darken($planner-element-bg-color, 20%);
+
+
+.e-float-input textarea ~ .e-float-text, .e-float-input.e-control-wrapper textarea ~ .e-float-text {
+    top : 16px;
+}
+
+.e-popup-open{
+    .e-list-item{
+        padding: 4px 0;
+    }
+}

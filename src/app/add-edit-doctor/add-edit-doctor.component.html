@@ -1,0 +1,65 @@
+<div class="new-doctor-container" style="display:none">
+  <ejs-dialog #newDoctorObj width='390px' cssClass='new-doctor-dialog' [isModal]='true' [visible]='false'
+    [animationSettings]='animationSettings' [header]='title' [showCloseIcon]='true' target='body'
+    (beforeOpen)='onBeforeOpen($event)'>
+    <ng-template #content>
+      <form id='new-doctor-form'>
+        <div class="name-container">
+          <ejs-textbox id='Name' name='Name' cssClass='doctor-name e-field' placeholder='Doctor Name' floatLabelType='Always'>
+          </ejs-textbox>
+        </div>
+        <div class="gender-container">
+          <div class="gender">
+            <div><label>Gender</label></div>
+            <div class='e-btn-group e-round-corner e-field'>
+              <input type="radio" id="patientCheckMale" name="Gender" value="Male" checked
+                (change)='onGenderChange($event)'>
+              <label class="e-btn" for="patientCheckMale">Male</label>
+              <input type="radio" id="patientCheckFemale" name="Gender" value="Female"
+                (change)='onGenderChange($event)' />
+              <label class="e-btn" for="patientCheckFemale">Female</label>
+            </div>
+          </div>
+          <div class="mobile">
+            <ejs-textbox id='Mobile' name='Mobile' cssClass='e-field' width='345px' placeholder='Mobile Number'
+              floatLabelType='Always'></ejs-textbox>
+          </div>
+        </div>
+        <div class="email-container">
+          <ejs-textbox id='Email' name='Email' cssClass='e-field' placeholder='Email' floatLabelType='Always'></ejs-textbox>
+        </div>
+        <div class="education-container">
+          <div class="department">
+            <ejs-dropdownlist id='Specialization' width='160px' cssClass='doctor-department e-field' index=0
+              placeholder='Department' floatLabelType='Always' [dataSource]='specializationData' [fields]='fields'>
+            </ejs-dropdownlist>
+          </div>
+          <div class="education">
+            <ejs-textbox id='Education' name='Education' cssClass='e-field' width='345px' placeholder='Education'
+              floatLabelType='Always'></ejs-textbox>
+          </div>
+        </div>
+        <div class="experience-container">
+          <div class="experience">
+            <ejs-dropdownlist id='Experience' name='Experience' cssClass='e-field' width='160px' placeholder='Experience' index=0
+              floatLabelType='Always' [dataSource]='experienceData' [fields]='fields'></ejs-dropdownlist>
+          </div>
+          <div class="designation">
+            <ejs-textbox id='Designation' name='Designation' cssClass='e-field' width='345px' placeholder='Designation'
+              floatLabelType='Always'></ejs-textbox>
+          </div>
+        </div>
+        <div class="duty-container">
+          <ejs-dropdownlist id="DutyTiming" cssClass='e-field' width='100%' placeholder='Duty Timing' index=0
+            floatLabelType='Always' [dataSource]='dutyTimingsData' [fields]='fields'></ejs-dropdownlist>
+        </div>
+      </form>
+    </ng-template>
+    <ng-template #footerTemplate>
+      <div class="button-container">
+        <button ejs-button cssClass="e-normal" (click)='onCancelClick($event)'>Cancel</button>
+        <button ejs-button cssClass="e-normal" [isPrimary]="true" (click)='onSaveClick()'>Save</button>
+      </div>
+    </ng-template>
+  </ejs-dialog>
+</div>

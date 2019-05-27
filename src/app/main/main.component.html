@@ -1,0 +1,54 @@
+<div class="planner-wrapper">
+  <ejs-sidebar #sideBar id="plannerSiderBar" [enableGestures]='false' [showBackdrop]='showBackdrop'
+    [closeOnDocumentClick]='closeOnDocumentClick'>
+    <div class="dock">
+      <div class="info align-center">
+        <div class="image"><img src="./assets/images/Admin.png" /></div>
+        <div class="content nameContent">
+          <p class='name'>Jane Deo</p>
+          <p class='user-type'>Admin</p>
+        </div>
+      </div>
+      <div class="sidebar-item dashboard" routerLink="/dashboard" (click)="onItemClick($event)">
+        <span class="dashboard-image"><span class="icon-dashboard item-image"></span></span>
+        <span class="text" title="dashboard">Dashboard</span>
+      </div>
+      <div class="sidebar-item calendar" routerLink="/calendar" (click)="onItemClick($event)">
+        <span class="scheduler-image"><span class="icon-schedule item-image"></span></span>
+        <span class="text" title="calendar">Schedule</span>
+      </div>
+      <div class="sidebar-item doctors" routerLink="/doctors" (click)="onItemClick($event)">
+        <span class="doctors-image"><span class="icon-doctors item-image"></span></span>
+        <span class="text" title="doctors">Doctors</span>
+      </div>
+      <div class="sidebar-item patients" routerLink="/patients" (click)="onItemClick($event)">
+        <span class="patients-image"><span class="icon-patients item-image"></span></span>
+        <span class="text" title="patients">Patients</span>
+      </div>
+      <div class="sidebar-item preference" routerLink="/preference" (click)="onItemClick($event)">
+        <span class="preference-image"><span class="icon-preference item-image"></span></span>
+        <span class="text" title="preference">Preference</span>
+      </div>
+      <div class="sidebar-item about" routerLink="/about" (click)="onItemClick($event)">
+        <span class="about-image"><span class="icon-about item-image"></span></span>
+        <span class="text" title="about">About</span>
+      </div>
+    </div>
+  </ejs-sidebar>
+  <main>
+    <div class="planner-header">
+      <div class="side-bar-opener">
+        <span class="open-icon e-icons" (click)='btnClick()'></span>
+      </div>
+      <div class="name-cantainer">
+        <span class="clinic-image icon-logo"></span>
+        <span class='clinic-name'>EXAMPLE CLINIC</span>
+      </div>
+      <div class='logout-container'>
+        <div class="logout-icon-container"><span class="icon-logout logout-image"></span></div>
+        <span class='logout-name'>Logout</span>
+      </div>
+    </div>
+    <router-outlet></router-outlet>
+  </main>
+</div>

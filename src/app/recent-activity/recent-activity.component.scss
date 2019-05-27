@@ -1,0 +1,61 @@
+@import '../common.scss';
+
+.activity-template {
+    .e-list-header {
+        border-bottom: 0;
+        font-weight: 600;
+        font-size: 16px;
+        color: $planner-font-color1 !important;
+        letter-spacing: 0.48px;
+        padding: 10px 16px;
+    }
+
+    .e-content {
+        .e-list-item {
+            border: none;
+            height: 100%;
+            padding: 0px 16px;
+            margin-bottom: 10.2px;
+            line-height: 18px;
+            
+            .activity-container {
+                padding: 5px 0;
+                
+                &.doctor {
+                    border-left: 2px solid #E16651;
+                }
+                &.appointment {
+                    border-left: 2px solid #5851E1;   
+                }
+                &.patient {
+                    border-left: 2px solid #51E1B7;    
+                }
+
+                .activity-message {
+                    font-weight: 400;
+                    font-size: 13px;
+                    color: $planner-font-color1;
+                    letter-spacing: 0.39px;
+                    line-height: 18px;
+                    height: auto;
+                    margin-left: 12px;
+                    padding-bottom: 5px;
+
+                    .type-name {
+                        font-weight: bold;
+                    }
+                }
+
+                .activity-time {
+                    font-size: 13px;
+                    color: #999999;
+                    letter-spacing: 0.39px;
+                    line-height: 18px;
+                    width: 254px;
+                    height: 20.1px;
+                    margin-left: 12px;
+                }
+            }
+        }
+    }
+}

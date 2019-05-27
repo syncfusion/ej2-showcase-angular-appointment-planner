@@ -1,0 +1,195 @@
+<div class="planner-calendar">
+    <div class="doctor-container" style="display:none">
+        <div class="app-doctors">
+        </div>
+        <div class="app-doctor-icon">
+        </div>
+    </div>
+    <div class="drag-sample-wrapper droppable">
+        <div class="schedule-container">
+            <ejs-schedule #scheduleObj height='800px' cssClass='doctor-appointment-planner' [showWeekend]='false'
+                [startHour]="startHour" [endHour]='endHour' [selectedDate]="selectedDate"
+                [eventSettings]="eventSettings" [timeScale]="timeScale" [workDays]="workDays" [workHours]="workHours"
+                [firstDayOfWeek]='firstDayOfWeek' [currentView]='currentView' (actionBegin)='onActionBegin($event)'
+                (actionComplete)='onActionComplete($event)' (popupOpen)='onPopupOpen($event)'
+                (eventRendered)='onEventRendered($event)' (navigating)='onNavigation($event)'
+                (dataBound)='onDataBound()'>
+                <e-resources>
+                    <e-resource field='DepartmentId' title='Department' name='Departments' query='resourceQuery'
+                        [dataSource]='specialistCategory' textField='Text' idField='DepartmentId' colorField='Color'>
+                    </e-resource>
+                    <e-resource field='DoctorId' title='Consultation' name='Doctors' [dataSource]='resourceDataSource'
+                        textField='Name' idField='Id' groupIDField='DepartmentId' colorField='Color'
+                        workDaysField='AvailableDays' startHour='StartHour' endHour='EndHour' query='resourceQuery'>
+                    </e-resource>
+                </e-resources>
+                <e-views>
+                    <e-view option="Day"></e-view>
+                    <e-view option="Week"></e-view>
+                    <e-view option="Month"></e-view>
+                </e-views>
+                <ng-template #dateHeaderTemplate let-data>
+                    <div class="date-text">{{getDateHeaderText(data.date)}}</div>
+                </ng-template>
+                <ng-template #quickInfoTemplatesHeader let-data>
+                    <div *ngIf="(data.elementType === 'event')">
+                        <div class="quick-info-header">
+                            <div class="quick-info-header-content" [ngStyle]=getBackGroundColor(data)>
+                                <div class="quick-info-title">
+                                    Appointment Details
+                                </div>
+                                <div class='duration-text'>
+                                    {{getEventDetails(data)}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template #quickInfoTemplatesContent let-data>
+                    <ng-container [ngTemplateOutlet]="data.elementType == 'cell' ? cellContent : eventContent"
+                        [ngTemplateOutletContext]="{data:data}"></ng-container>
+                </ng-template>
+                <ng-template #cellContent let-data="data">
+                    <div class="e-cell-content">
+                        <form class="e-schedule-form">
+                            <div style="padding:10px">
+                                <input class="subject e-field" type="text" name="Subject" placeholder="Title"
+                                    style="width:100%">
+                            </div>
+                            <div style="padding:10px">
+                                <input class="location e-field" type="text" name="Location" placeholder="Location"
+                                    style="width:100%">
+                            </div>
+                        </form>
+                    </div>
+                </ng-template>
+                <ng-template #eventContent let-data="data">
+                    <div *ngIf="(data.elementType === 'event')">
+                        <div class="event-content">
+                            <div class="patient-name-wrap">
+                                <label>Patient Name</label>:
+                                <span>{{getPatientName(data)}}</span>
+                            </div>
+                            <div class="doctor-name-wrap">
+                                <label>Doctor Name</label>:
+                                <span>Dr.{{getDoctorName(data)}}</span>
+                            </div>
+                            <div class="notes-wrap">
+                                <label>Notes</label>:
+                                <span>{{data.Symptoms}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ejs-schedule>
+        </div>
+        <div class="treeview-container">
+            <div class="add-event-container">
+                <button ejs-button (click)='createNewEvent($event)' class="e-primary">Add Appointment</button>
+            </div>
+            <div class="title-container">
+                <h1 class="title-text">Waiting List</h1>
+            </div>
+            <ejs-treeview #treeObj [fields]='field' cssClass='treeview-external-drag'
+                [allowDragAndDrop]='allowDragAndDrop' (nodeDragStop)="onTreeDragStop($event)"
+                (nodeDragging)="onItemDrag($event)">
+                <ng-template #nodeTemplate="" let-data="">
+                    <div id="waiting">
+                        <div id="waitdetails">
+                            <div id="waitlist">{{data.Name}}</div>
+                            <div id='event-time'>{{getEventTime(data)}}</div>
+                            <div id="waitcategory">{{getDepartmentName(data.DepartmentId)}} -
+                                {{getTreatmentDetail(data)}}</div>
+                        </div>
+                        <div id="item-icon-container">
+                            <span class="item-icon icon-reorder"></span>
+                        </div>
+                    </div>
+                </ng-template>
+            </ejs-treeview>
+            <ejs-toast #calendarToast [position]='position' [width]='toastWidth' height='70px' showCloseButton='true'>
+                <ng-template #content>
+                    <div>{{toastContent}}</div>
+                </ng-template>
+            </ejs-toast>
+        </div>
+    </div>
+</div>
+<div class="specialist-dialog" style="display:none">
+    <ejs-dialog #specialistObj height='500px' [isModal]='true' [visible]='false' cssClass='specialist-selection'
+        [animationSettings]='animationSettings' [showCloseIcon]='false' target='body' width='100%'>
+        <ng-template #header>
+            <div class="specialist-header">
+                <div>
+                    <span class="back-icon icon-previous" (click)='onBackIconClick($event)'></span><span
+                        class="title-text">CHOOSE
+                        SPECIALIST</span>
+                </div>
+                <div>
+                    <button ejs-button cssClass="e-small" (click)='clearSelection($event)'>CLEAR</button>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template #content>
+            <div *ngFor="let specialist of specialistData">
+                <div class="specialist-item" [attr.data-deptid]=specialist.DepartmentId
+                    [attr.data-doctorid]=specialist.Id (click)='onSpecialistSelect($event)'>
+                    <img class="value" src="./assets/images/{{specialist.Text}}.png" alt="doctor" />
+                    <div class="doctor-details">
+                        <div class="name">Dr.{{specialist.Name}}</div>
+                        <div class="designation">{{specialist.Designation}}</div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template #footerTemplate>
+            <div class="add-doctor" (click)="onAddClick($event)">
+                <div class="e-icon-add e-icons"></div>
+                <div class="add-doctor-text">Add New Doctor</div>
+            </div>
+        </ng-template>
+    </ejs-dialog>
+</div>
+<div class="waiting-list-container" style="display:none">
+    <ejs-dialog #waitingObj height='80%' cssClass='waiting-list-dialog' [isModal]='true' [visible]='false'
+        [animationSettings]='animationSettings' [showCloseIcon]='false' target='body' width='100%'
+        (close)='onWaitingListClosed($event)'>
+        <ng-template #header>
+            <div class="waitlist-header">
+                <div class="text-container">
+                    <span class="back-icon icon-previous" (click)='onBackIconClick($event)'></span>
+                    <span class="title-text">Waiting List</span>
+                </div>
+                <div class="button-container">
+                    <span class="delete-button">
+                        <button ejs-button cssClass="e-flat e-small" (click)='onItemDelete($event)'>Delete</button>
+                    </span>
+                    <span class="add-button">
+                        <button ejs-button cssClass="e-flat e-small" (click)='onItemAdd($event)'>Add</button>
+                    </span>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template #content>
+            <div class='external-drag-items' *ngFor="let data of activeWaitingItem">
+                <div id='waiting-item-check'>
+                    <ejs-checkbox #checkbox id={{data.Id}} [checked]="false" (change)="onItemChecked($event)">
+                    </ejs-checkbox>
+                </div>
+                <div id="waiting">
+                    <div id="waitdetails">
+                        <div id="waitlist">{{data.Name}}</div>
+                        <div id='event-time'>{{getEventTime(data)}}</div>
+                        <div id="waitcategory">{{getDepartmentName(data.DepartmentId)}} -
+                            {{getTreatmentDetail(data)}}</div>
+                    </div>
+                    <div id="item-icon-container">
+                        <span class="item-icon icon-reorder"></span>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </ejs-dialog>
+</div>
+<app-add-edit-doctor #addEditDoctorObj></app-add-edit-doctor>
+<app-add-edit-patient #addEditPatientObj></app-add-edit-patient>
