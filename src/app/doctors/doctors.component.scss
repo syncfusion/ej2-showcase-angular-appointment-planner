@@ -1,0 +1,305 @@
+@import '../common.scss';
+
+.doctors-wrapper {
+    margin: 50px;
+
+    header {
+        display: flex;
+
+        .module-title {
+            margin-left: 15.5px;
+            flex: auto;
+        }
+
+        .add-doctor {
+            flex: initial;
+            display: none;
+            
+            .e-icon-add {
+                padding: 9px 0 10px 20px;
+                font-size: 10px;
+                color: $planner-element-bg-color;
+
+                &::before {
+                    content: '\e95c';
+                }
+            }
+
+            .add-doctor-label {
+                font-weight: 600;
+                font-size: 13px;
+                color: $planner-element-bg-color;
+                letter-spacing: 0.39px;
+                padding: 7px;
+            }
+        }
+    }
+
+    .specialization-detail-wrapper {
+        .specialization-types {
+            display: flex;
+            justify-content: flex-end;
+
+            #Specialization {
+                margin: 0 18px;
+                width: 200px;
+            }
+        }
+
+        /* Specialist list item display */
+        .specialist-display {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-column-gap: 22px;
+            grid-row-gap: 29px;
+            padding-top: 16px;
+            
+            .specialist-item {
+                display: flex;
+                height: 120px;
+                background: $planner-element-back-color;
+                box-shadow: 1px 2px 20px 0 rgba(173,173,255,0.20);
+
+                &:hover {
+                    cursor: pointer;
+                    box-shadow: 0px 1px 4px 1px $planner-element-bg-color;
+                }
+
+                &:focus,
+                &:active {
+                    border-color: $planner-element-bg-color;
+                }
+                
+                .specialist-image {
+                    margin: 9.6px 16.5px 10.4px 11.5px;
+                    position: relative;
+
+                    img.profile {
+                        height: 100px;
+                        width: 100px;
+                        border-radius: 50px;
+                    }
+
+                    .availability {
+                        border-radius: 16px;
+                        border: 2px solid $planner-element-back-color;
+                        height: 16px;
+                        width: 16px;    
+                        margin: 3px;
+                        position: absolute;
+                        top: 65%;
+                        left: 75%;
+
+                        &.busy {
+                            background:#D40000;
+                        }
+                        
+                        &.away {
+                            background: #FF8C2E;
+                        }
+                        
+                        &.available {
+                            background: #00D406;
+                        }
+                    }
+
+                    .upload {
+                        position: absolute;
+                        top: 35%;
+                        left: 35%;
+                        display: none;
+                        font-size: 30px;
+                        color: white;
+                    }
+
+                    &:hover {
+                        .upload.icon-upload_photo {
+                            &.new-doctor {
+                                display: block;
+                            }
+                        }
+                    }
+                }
+
+                .specialist-detail {
+                    margin: 17.5px 0 24.5px;
+
+                    .name {
+                        height: 19px;
+                        font-size: 16px;
+                        color: $planner-font-color1;
+                        letter-spacing: 0.48px;
+                        font-weight: 500;
+                    }
+
+                    .education {
+                        height: 16px;
+                        font-size: 13px;
+                        color: $planner-font-color1;
+                        letter-spacing: 0.33px;
+                        overflow: hidden;
+
+                        &:hover {
+                            overflow: visible;
+                        }
+                    }
+
+                    .specialist-experience {
+                        display: flex;
+                        margin-top: 6px;
+
+                        .specialization {
+                            border-right: 1px solid #ABABAB;
+                            padding-right: 12px !important;
+                        }
+
+                        .experience {
+                            padding-left: 12px !important;
+                        }
+
+                        .specialization,
+                        .experience {
+                            display: flex;
+                            flex-direction: column;
+
+                            .label-text,
+                            .specialization-text {
+                                font-size: 13px;
+                                letter-spacing: 0.39px;
+                            }
+    
+                            .label-text {
+                                color: $planner-font-color2;
+                                margin-bottom: 6px;
+                            }
+    
+                            .specialization-text {
+                                color: $planner-font-color1;    
+                            }
+                        }                        
+                    }
+                }                
+            }
+        }
+    }
+}
+
+.e-tooltip-wrap {
+    border-radius: 15px 15px 15px 0;
+    opacity: 0.8;
+    background: $planner-font-color1;
+    
+    .e-tip-content {
+        border-radius: 15px 15px 15px 0;        
+        font-size: 13px;
+        color: $planner-element-back-color;
+        letter-spacing: 0.39px;
+        padding: 5px 8px;    
+    }
+}
+
+@media (max-width: 850px) {
+    .doctors-wrapper {
+        margin: 20px 10px;
+
+        header {
+            .module-title {
+                margin-left: 10px;
+            }
+
+            .add-doctor {
+                flex: initial;
+                display: flex;
+                cursor: pointer;
+
+                .add-doctor-label {
+                    margin-right: 6px;
+                    font-weight: 500;
+                }
+            }
+        }
+
+        .specialization-detail-wrapper {
+            .specialization-types {
+                display: flex;
+                margin: 21px 0 16px 0;
+
+                #Specialization {
+                    flex: 1;
+                    margin: 0;
+                    width: 100% !important;
+                }
+
+                .e-btn {
+                    display: none;
+                }
+            }
+
+            .specialist-display {
+                grid-template-columns: 1fr;
+                grid-gap: 10px;
+                padding: 0;
+
+                .specialist-item {
+                    .specialist-image {
+                        margin: 29.5px 16.5px 30.5px 11.3px;
+
+                        .profile {
+                            height: 60px !important;
+                            width: 60px !important;
+                            border-radius: 30px !important;
+                        }
+
+                        .availability {
+                            height: 12px;
+                            width: 12px;
+                            top: 60%;
+                            left: 65%;
+                        }
+                    }
+
+                    .specialist-detail {
+                        margin: 19px 0 23px;
+
+                        .name {
+                            height: 19px;
+                            margin-bottom: 2px;
+                            padding: 0;
+                        }
+
+                        .education {
+                            height: 14px;
+                            padding: 0;
+                            margin-bottom: 6px;
+                        }
+
+                        .specialist-experience {
+                            .specialization {
+                                padding: 0 12px 0 0 !important;
+                            }
+
+                            .experience {
+                                padding: 0 0 0 12px !important;
+                            }
+
+                            .specialization,
+                            .experience {
+                                display: flex;
+                                flex-direction: column;
+
+                                .label-text {
+                                    height: 16px;
+                                    margin-bottom: 6px;
+                                }
+    
+                                .specialization-text {
+                                    height: 16px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

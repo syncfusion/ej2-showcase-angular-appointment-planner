@@ -1,0 +1,49 @@
+@import '../common.scss';
+
+.preference-container {
+    margin: 50px 64px;
+
+    .module-title {
+        margin-left: 2.5px;
+    }
+
+    .control-container {
+        padding-top: 16px;
+        
+        .label-text {
+            margin-left: 11.5px;
+            font-weight: 500;
+            font-size: 11px;
+            color: $planner-font-color2;
+            letter-spacing: 0.33px;
+            padding-bottom: 7px;
+        }
+
+        &:nth-child(2) {
+            padding-top: 34px;
+        }
+    }
+}
+
+@media (max-width: 850px) {
+    .preference-container {
+        margin: 20px 13px;
+
+        .module-title {
+            padding-left: 12.5px !important;
+        }
+
+        .control-container {
+            padding-top: 16px;
+            
+            .label-text {
+                padding-bottom: 7px;
+                margin-left: 11.5px;
+            }
+
+            &:nth-child(2) {
+                padding-top: 30px;
+            }                        
+        }
+    }
+}

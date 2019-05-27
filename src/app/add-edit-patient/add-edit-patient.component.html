@@ -1,0 +1,55 @@
+<div class="new-patient-container" style="display:none">
+  <ejs-dialog #newPatientObj width='390px' cssClass='new-patient-dialog' [isModal]='true'
+      [visible]='false' [animationSettings]='animationSettings' [header]='title' [showCloseIcon]='true'
+      target='body' (beforeOpen)='onBeforeOpen($event)'>
+      <ng-template #content>
+          <form id='new-patient-form'>
+              <div class="field-container name-container">
+                  <ejs-textbox id='Name' name='Name' cssClass='patient-name e-field' placeholder='Patient Name'
+                      floatLabelType='Always'></ejs-textbox>
+              </div>
+              <div class="field-container gender-container">
+                  <div class="gender">
+                      <div><label>Gender</label></div>
+                      <div class='e-btn-group e-round-corner e-field'>
+                          <input type="radio" id="doctorCheckMale" name="Gender" value="Male" checked
+                              (change)='onGenderChange($event)'>
+                          <label class="e-btn" for="doctorCheckMale">Male</label>
+                          <input type="radio" id="doctorCheckFemale" name="Gender" value="Female"
+                              (change)='onGenderChange($event)' />
+                          <label class="e-btn" for="doctorCheckFemale">Female</label>
+                      </div>
+                  </div>
+                  <div class="dob">
+                      <ejs-datepicker id='DOB' cssClass='e-field' placeholder='DOB' [value]='dobValue'
+                      floatLabelType='Always' [showClearButton]='false'></ejs-datepicker>
+                  </div>
+              </div>
+              <div class="field-container contact-container">
+                  <div class="mobile">
+                      <ejs-textbox id='Mobile' name='Mobile' cssClass='e-field' width='345px' placeholder='Mobile Number'
+                          floatLabelType='Always'></ejs-textbox>
+                  </div>
+                  <div class="blood-group">
+                      <ejs-dropdownlist id='BloodGroup' cssClass='e-field' placeholder='Blood Group' index=0
+                          floatLabelType='Always' [dataSource]='bloodGroupData' [fields]='fields'></ejs-dropdownlist>
+                  </div>
+              </div>
+              <div class="field-container email-container">
+                  <ejs-textbox cssClass='e-field' id='Email' name ='Email' placeholder='Email' floatLabelType='Always'>
+                  </ejs-textbox>
+              </div>
+              <div class="field-container symptom-container">
+                  <ejs-textbox cssClass='e-field' id='Symptoms' name='Symptoms' placeholder='Symptom' floatLabelType='Always'>
+                  </ejs-textbox>
+              </div>
+          </form>
+      </ng-template>
+      <ng-template #footerTemplate>
+          <div class="button-container">
+              <button ejs-button cssClass="e-normal" (click)='onCancelClick($event)'>Cancel</button>
+              <button ejs-button cssClass="e-normal" [isPrimary]="true" (click)='onSaveClick()'>Save</button>
+          </div>
+      </ng-template>
+  </ejs-dialog>
+</div>

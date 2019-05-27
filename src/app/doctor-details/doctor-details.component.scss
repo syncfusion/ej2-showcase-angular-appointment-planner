@@ -1,0 +1,413 @@
+@import '../common.scss';
+
+.doctor-details-container {
+    margin: 50px 57px;
+
+    header {
+        display: flex;
+        margin-bottom: 34.2px;
+        flex-direction: column;
+
+        .detail-header-title {
+            display: flex;
+            span {
+                padding-right: 10px;
+                font-size: 25px;
+                cursor: pointer;
+            }
+
+            .e-add-icon {
+                padding: 0 6px;
+            }
+        }
+
+        .doctor-detail {
+            display: flex;
+            justify-content: flex-end;
+
+            .edit-details,
+            .delete-details {
+                width: 100px;
+                height: 32px;
+                color: white;
+            }
+            .edit-details{
+                background-color: $planner-element-bg-color;
+            }
+            .delete-details {
+                margin-right: 16px;
+                background-color: #FF4F4F;
+            }
+        }
+    }
+
+    .active-doctor {
+        display: grid;
+        grid-template-columns: 0.3fr 1fr 1fr;
+
+        .active-doctor-info .designation,
+        .active-doctor-info .label-text,
+        .active-doctor-info .specialization,
+        .active-doctor-info .experience,
+        .active-doctor-info .available-days,
+        .active-doctor-info .mobile,
+        .work-days-container header .title-text,
+        .work-days-content .day-name,
+        .work-days-content .day-break-hours {
+            font-size: 13px;
+            letter-spacing: 0.39px;
+        }
+
+        .active-doctor-info .designation,
+        .active-doctor-info .specialization,
+        .active-doctor-info .experience,
+        .active-doctor-info .available-days,
+        .active-doctor-info .mobile,
+        .work-days-content .day-name,
+        .work-days-content .day-break-hours {    
+            color: $planner-font-color1;
+        }
+
+        .active-doctor-image {
+            position: relative;
+            display: flex;
+            margin: 0 auto;
+
+            img {
+                height: 100px;
+                width: 100px;
+                border-radius: 50px;
+            }
+
+            .availability {
+                height: 16px;
+                width: 16px;
+                top: 70px;
+                left: 77px;
+                position: absolute;
+                border: 2px solid $planner-element-back-color;
+                border-radius: 16px;
+
+                &.busy {
+                    background:#D40000;
+                }
+
+                &.away {
+                    background: #FF8C2E;
+                }
+
+                &.available {
+                    background: #00D406;
+                }
+            }
+
+            .upload {
+                position: absolute;
+                top: 35px;
+                left: 35px;
+                display: none;
+                font-size: 30px;
+                color: white;
+            }
+
+            &:hover {
+                .upload.icon-upload_photo {
+                    &.new-doctor {
+                        display: block;
+                    }
+                }
+            }
+        }
+
+        .active-doctor-info {
+            flex: 1;
+
+            .label-text {
+                color: $planner-font-color2;
+            }
+
+            .info-field-container {
+                margin-bottom: 20px;
+
+                div {
+                    &.name {
+                        padding-bottom: 3px;
+                    }
+
+                    &.education {
+                        padding-bottom: 7px;
+                    }
+
+                    &.label-text {
+                        padding-bottom: 4px;
+                    }
+                }
+            }
+
+            .basic-detail {
+                .name {
+                    font-weight: 600;
+                    font-size: 18px;
+                    color: $planner-font-color1;
+                    letter-spacing: 0.54px;
+                    height: 22px;
+                    font-weight: bold;
+                }
+
+                .education {
+                    font-size: 10px;
+                    color: $planner-font-color1;
+                    letter-spacing: 0.3px;
+                    height: 13px;
+                }
+            }
+        }
+
+        .work-days-container {
+            flex: 2;
+
+            header {
+                display: flex;
+                margin-bottom: 17.9px;
+                flex-direction: row;
+
+                .title-text {
+                    margin: 5px 0;
+                    color: $planner-font-color2;
+                }
+
+                .add-container {
+                    padding-left: 18.3px;
+                    display: flex;
+
+                    .e-btn {
+                        width: 23.3px;
+                        height: 22.8px;
+                        margin: 2px 0;
+
+                        .e-btn-icon {
+                            font-size: 11px;
+                        }
+                    }
+
+                    .button-label {
+                        margin: auto 0;
+                        font-weight: 500;
+                        font-size: 13px;
+                        color: $planner-element-bg-color;
+                        letter-spacing: 0.39px;
+                        padding: 0 10px;
+                        cursor: pointer;
+                    }
+                }
+
+                .e-add-icon::before {
+                    content: '\e95c';
+                }
+            }
+
+            .work-days-content {
+                .work-day-item {
+                    display: grid;
+                    grid-template-columns: 100px auto;
+                    padding-bottom: 10px;
+
+                    .day-break-hours {
+                        &.TimeOff {
+                            font-size: 13px;
+                            color: $planner-delete-btn-color;
+                            letter-spacing: 0.39px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.break-hour-dialog {
+    width: 445px;
+    max-height: 98% !important;
+
+    .e-dlg-content {
+        .break-hour-operations {
+            font-weight: 600;
+            font-size: 11px;
+            color: $planner-font-color2;
+            letter-spacing: 0.33px;
+            line-height: 18px;
+            padding-bottom: 20px;
+        }
+
+        .break-hour-header {
+            display: flex;
+
+            div {
+                &:nth-child(1){
+                    flex: 0.25;
+                }
+
+                &:nth-child(2),
+                &:nth-child(3) {
+                    flex: 1;
+                    margin: 0 30px;
+                    font-weight: 600;
+                    font-size: 11px;
+                    color: $planner-font-color2;
+                    letter-spacing: 0.33px;
+                }
+            }
+        }
+
+        :nth-child(3) {
+            &.break-hour-days {
+                padding-top: 7px !important;
+            }
+        }
+
+        .break-hour-days {
+            display: flex;
+            padding-top: 21px;
+
+            .day-button {
+                height: 32px;
+                width: 32px;
+
+                .e-btn {                    
+                    background: $planner-element-bg-color;
+                    border-color: $planner-element-bg-color;
+                    height: 32px;
+                    width: 32px;
+                }
+
+                &.TimeOff {
+                    margin: 5px 0;
+
+                    .e-btn {
+                        background: $planner-delete-btn-color;
+                        border-color: $planner-delete-btn-color;
+                    }
+                }
+
+                &.RemoveBreak {
+                    .e-btn {
+                        background: $planner-element-back-color;
+                        border: 1px solid #C0C0C0;
+                        color: $planner-font-color1;
+                    }
+                }
+            }
+
+            .start-container {
+                margin: 0 14.4px 0 16px;
+            }
+
+            .start-container,
+            .end-container {
+                &.TimeOff {
+                    display: none;
+                }
+            }
+
+            .state-container {
+                &:not(.TimeOff) {
+                    display: none;
+                }
+
+                &.TimeOff {
+                    display: block;
+                    margin: auto 27.9px;
+                    font-size: 13px;
+                    color: $planner-font-color1;
+                    letter-spacing: 0.39px;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 850px) {
+    .doctor-details-container {
+        margin: 20px 29px;
+
+        header {
+            flex-direction: row;
+            margin: 10px 0;
+            
+            .detail-header-title {
+                flex: auto;
+            }
+
+            .doctor-detail {
+                justify-content: normal;
+
+                .delete-details,
+                .edit-details {
+                    width: 70px;
+                }
+
+                .delete-details {
+                    margin-right: 10px;
+                }
+            }
+        }
+
+        .active-doctor {
+            grid-template-rows: 0fr 1fr 1fr;
+            grid-template-columns: none;
+
+            .active-doctor-image {
+                margin-bottom: 35px;
+                margin-top: 21px;
+
+                .availability {
+                    left: 80px;
+                    top: 65px;
+                }
+
+                .upload {
+                    top: 30%;
+                    left: 35%;
+                }
+            }
+
+            .active-doctor-info {
+                .info-field-container {
+                    &.basic-detail {    
+                        .name {
+                            height: 29px;
+                            padding-bottom: 3px;
+                        }
+                    }
+                }                
+            }
+
+            .work-days-container {
+                header {
+                    margin: 0;
+
+                    .title-text {
+                        margin-top: 5px;
+                        margin-right: 18.7px;
+                    }
+
+                    div:nth-child(2) {
+                        display: flex;
+
+                        .button-label {
+                            padding-right: 6.6px;
+                            margin: auto 0;
+                        }
+                    }                    
+                }
+
+                .work-days-content {
+                    .work-day-item {
+                        padding: 0;
+                        padding-top: 14.4px;
+                    }
+                }
+            }
+        }
+    }
+}

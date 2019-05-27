@@ -1,0 +1,126 @@
+@import '../common.scss';
+
+.e-list-template {
+    .e-list-header {
+        border-bottom: 0;
+        flex: auto;
+        font-weight: 600;
+        font-size: 16px;
+        color: $planner-font-color1 !important;
+        letter-spacing: 0.48px;
+        padding: 10px 16px;
+
+        .e-headertemplate-text {
+            width: 100%;
+
+            .availability-title {
+                display: flex;
+
+                .header-text {
+                    flex: auto;
+                }
+
+                .all-text {
+                    flex: initial;
+                    font-weight: 400;
+                    font-size: 13px;
+                    color: #5851E1;
+                    letter-spacing: 0.39px;
+                    text-align: right;
+                    margin-right: 4px;
+                }
+            }
+        }
+    }
+
+    .e-content {
+        padding-top: 17.5px;
+
+        li.e-list-item {
+            border: none;
+            display: flex;
+            padding: 5px 16px;
+            
+            .availabilty-container {
+                display: flex;
+    
+                .image-container {
+                    display: flex;
+                    padding-left: 1px;
+    
+                    .doctor-image {
+                        padding: 5px 0;
+                        position: relative;
+                
+                        img {
+                            height: 32px;
+                            width: 32px;
+                            border-radius: 16px;
+                        }
+                
+                        .availability {
+                            &.busy,
+                            &.available,
+                            &.away {
+                                display: inline-block;
+                                border: 2px solid $planner-element-back-color;
+                                border-radius: 16px;
+                                height: 10px;
+                                width: 10px;
+                                position: absolute;
+                                top: 47%;
+                                left: 65%;
+                            }
+                        
+                            &.busy {
+                                background:#D40000;
+                            }
+                        
+                            &.away {
+                                background: #FF8C2E;
+                            }
+                        
+                            &.available {
+                                background: #00D406;
+                            }
+                        }
+                    }
+                }
+    
+                .detail-container {
+                    display: grid;
+                    padding-left: 16px;
+    
+                    .doctor-name {
+                        font-weight: 500;
+                        font-size: 13px;
+                        color: $planner-font-color2;
+                        letter-spacing: 0.39px;
+                        padding: 3px 0;
+                    }
+    
+                    .doctor-speciality {
+                        font-size: 10px;
+                        color: $planner-font-color2;
+                        letter-spacing: 0.3px;
+                        padding: 2px 0;
+                    }
+                }
+            }
+        }  
+    }
+}
+div[id^=listview].e-tooltip-wrap {
+    border-radius: 15px 15px 15px 0;
+    opacity: 0.8;
+    background: $planner-tooltip-bg-color;
+    
+    .e-tip-content {
+        border-radius: 15px 15px 15px 0;        
+        font-size: 13px;
+        color: $planner-element-back-color;
+        letter-spacing: 0.39px;
+        padding: 5px 8px;    
+    }
+}
+

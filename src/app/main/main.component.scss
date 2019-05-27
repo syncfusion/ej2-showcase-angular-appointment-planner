@@ -1,0 +1,206 @@
+@import '../common.scss';
+
+#plannerSiderBar {
+    .info {
+        margin-top: 60px;
+        padding-bottom: 10px;
+    
+        .image {
+            border: 2px solid $planner-element-back-color;
+            box-shadow: 0 3px 7px 0 rgba(117,117,255,0.30);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: auto;
+        
+            img {
+                height: 80px;
+                width: 80px;
+                border-radius: 50%;
+            }
+        }
+    
+        .name,
+        .user-type {
+            text-align: center;
+        }
+    
+        .name {
+            font-weight: bold;
+            font-size: 16px;
+            color: $planner-font-color1;
+            letter-spacing: 0.48px;
+            margin-bottom: 0;
+        }
+    
+        .user-type {
+            font-size: 11px;
+            color: #808080;
+            letter-spacing: 0.33px;
+            margin-top: 5px;
+        }
+    
+        &::after {
+            content: '';
+            background-image: linear-gradient(-90deg, $planner-element-back-color 3%, #B8CBCC 51%, $planner-element-back-color 95%);
+            height: 1px;
+            width: 100%;
+            position: absolute;
+        }
+    }
+    
+    div.sidebar-item {
+        width: 210px;
+        height: 50px;
+        border-radius: 3px;
+        margin: 0 16px;
+        display: flex;
+        align-items: center;   
+        color: $planner-font-color2;
+        cursor: pointer;
+    
+        .text {
+            font-weight: 500;
+            font-size: 13px;
+            letter-spacing: 0.39px;
+            margin: 0 15px;
+            text-align: left;
+        }
+    
+        &:first {
+            padding-top: 10px;
+        }
+    
+        &:hover {
+            background-color: $planner-hover-bg-color;
+        }
+    
+        &.active-item {
+            background-color: $planner-element-bg-color !important;  
+            color: $planner-element-back-color;
+    
+            &:hover {
+                color: $planner-element-back-color !important;
+            }
+        }
+    
+        .dashboard-image,
+        .scheduler-image,
+        .doctors-image,
+        .patients-image,
+        .preference-image,
+        .about-image {
+            width: 30%;
+            text-align: right;
+        }
+    }
+}
+
+.planner-header {
+    background: $planner-element-bg-color !important;
+    height: 50px;
+    display: flex;
+
+    .name-cantainer {
+        flex: auto;
+        display: inline-flex;
+
+        .clinic-image {
+            font-size: 50px;
+            color: $planner-element-back-color;            
+            padding-left: 6px;
+        }
+    }
+
+    .clinic-name,
+    .logout-name {
+        margin: auto 0;
+        color: white;
+        cursor: default;
+    }
+
+    div.side-bar-opener {
+        display: block;
+        flex: auto;
+        position: relative;
+
+        .open-icon {
+            margin: 15px;
+            position: absolute;
+            font-size: 20px;
+            color: $planner-element-back-color;
+            height: 24px;
+            width: 24px;
+
+            &::before {
+                content:'\e941';
+            }
+        }
+    }
+
+    .logout-container {
+        padding: 5px;
+        flex: initial;
+        display: flex;
+
+        .logout-icon-container {
+            opacity: 1;
+            flex: auto;
+            padding: 0 7px;
+            align-self: center;
+        }
+
+        .logout-name {
+            display: none;
+        }
+
+        .logout-image {
+            color: $planner-element-back-color;
+            font-size: 25px;
+        }
+    }
+}
+
+.planner-header {
+    &:not(.device-header) {
+        display: flex;
+    
+        div.side-bar-opener {
+            display: none;
+        }
+
+        .logout-container {            
+            padding: 7px 20px;    
+                
+            .logout-name {
+                flex: initial;
+                display: block;
+            }
+                    
+            .logout-icon-container {
+                opacity: 0.5;
+            }
+                
+            &::before {
+                content: '';
+                height: 33px;
+                border: 1px solid $planner-element-back-color;
+                opacity: 0.5;
+            }
+        }
+    }
+}
+
+.planner-wrapper {
+    .e-content-animation {
+        margin-left: 0 !important;
+        padding-left: 243px;    
+    }
+
+    &.device-wrapper {
+        .e-content-animation {
+            margin-left: 243;
+            padding-left: 0;    
+        }   
+    }
+}

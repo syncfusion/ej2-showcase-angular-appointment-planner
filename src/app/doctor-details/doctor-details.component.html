@@ -1,0 +1,101 @@
+<div class="doctor-details-container">
+  <header>
+    <div class="detail-header-title">
+      <span class="back-icon icon-previous" (click)='onBackIconClick()'></span>
+      <div class="module-title">
+        <div class='title'>DOCTOR DETAILS</div>
+        <div class='underline'></div>
+      </div>
+    </div>
+    <div class='doctor-detail'>
+      <button ejs-button cssClass="e-small delete-details" (click)='onDoctorDelete()'>Delete</button>
+      <button ejs-button cssClass="e-small edit-details" (click)='onDoctorEdit()'>Edit</button>
+    </div>
+  </header>
+  <div class="active-doctor">
+    <div class="active-doctor-image">
+      <img class="value" src="./assets/images/{{activeData.Text}}.png" alt="doctor" />
+      <span class='availability {{activeData.Availability}}'></span>
+      <span class='upload icon-upload_photo {{activeData.NewDoctorClass}}'></span>
+    </div>
+    <div class="active-doctor-info">
+      <div class="basic-detail info-field-container">
+        <div class="name">Dr. {{activeData.Name}}</div>
+        <div class="education">{{getEducation(activeData.Education)}}</div>
+        <div class="designation">{{activeData.Designation}}</div>
+      </div>
+      <div class="speciality-detail info-field-container">
+        <div class="label-text">Specialization</div>
+        <div class="specialization">{{getSpecializationText(activeData.Specialization)}}</div>
+      </div>
+      <div class="work-experience info-field-container">
+        <div class="label-text">Experience</div>
+        <div class="experience">{{activeData.Experience}}</div>
+      </div>
+      <div class="work-availability info-field-container">
+        <div class="label-text">Availability</div>
+        <div class="available-days">{{getAvailability(activeData)}}</div>
+      </div>
+      <div class="contact-info info-field-container">
+        <div class="label-text">Mobile</div>
+        <div class="mobile">{{activeData.Mobile}}</div>
+      </div>
+    </div>
+    <div class="work-days-container">
+      <header>
+        <div class="title-text">Break Hours</div>
+        <div class="add-container" (click)='onAddBreak()'>
+          <button ejs-button cssClass="e-small e-round" iconCss="e-icons e-add-icon" [isPrimary]="true"></button>
+          <span class="button-label">Add</span>
+        </div>
+      </header>
+      <div class="work-days-content">
+        <div class='work-day-item' *ngFor="let data of activeData.WorkDays">
+          <div class="day-name">{{getWorkDayName(data.Day)}}</div>
+          <div class="day-break-hours {{data.State}}">{{getBreakDetails(data)}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="break-hours-container" style="display:none">
+  <ejs-dialog #breakHourObj width='445px' cssClass='break-hour-dialog' [isModal]='true' [visible]='false'
+    [animationSettings]='animationSettings' header='Break Hours' [showCloseIcon]='true' target='body'>
+    <ng-template #content>
+      <form>
+        <div class="break-hour-operations">
+          * Click on day to add break, double click to take time off and third click to remove break
+        </div>
+        <div class="break-hour-header">
+          <div></div>
+          <div>Start Time</div>
+          <div>End Time</div>
+        </div>
+        <div class='break-hour-days' *ngFor="let day of breakDays">
+          <div class="day-button {{day.State}}">
+            <button ejs-button id={{day.Day}}_button cssClass="e-small e-round" [isPrimary]="true"
+              (click)='onChangeStatus($event)' [attr.data-state]=day.State>{{getDayName(day.Day)}}</button>
+          </div>
+          <div class="start-container {{day.State}}">
+            <ejs-timepicker cssClass="e-field" id={{day.Day}}_start [enabled]=getStatus(day.State)
+              [value]=day.BreakStartHour [showClearButton]=false></ejs-timepicker>
+          </div>
+          <div class="end-container {{day.State}}">
+            <ejs-timepicker cssClass='e-field' id={{day.Day}}_end [enabled]=getStatus(day.State)
+              [value]=day.BreakEndHour [showClearButton]=false></ejs-timepicker>
+          </div>
+          <div class='state-container {{day.State}}'>
+            <div>Time Off</div>
+          </div>
+        </div>
+      </form>
+    </ng-template>
+    <ng-template #footerTemplate>
+      <div class="button-container">
+        <button ejs-button cssClass="e-normal" (click)='onCancelClick($event)'>Cancel</button>
+        <button ejs-button cssClass="e-normal" [isPrimary]="true" (click)='onSaveClick($event)'>Save</button>
+      </div>
+    </ng-template>
+  </ejs-dialog>
+</div>
+<app-add-edit-doctor #addEditDoctorObj (refreshDoctors)="refreshDetails()"></app-add-edit-doctor>

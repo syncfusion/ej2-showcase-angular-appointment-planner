@@ -1,0 +1,10 @@
+<h3>Recent Activity</h3>
+<ejs-listview id='listview_template' height='88%' width='100%' [dataSource]='dataSource' cssClass='activity-template'
+  [showHeader]='false'>
+  <ng-template #template let-data="">
+    <div class='activity-container {{data.Type}}'>
+      <div class='activity-message'><span class='type-name'>{{data.Name}}</span> - <span>{{data.Message}}</span></div>
+      <span class='activity-time'>{{data.Time}}</span>
+    </div>
+  </ng-template>
+</ejs-listview>

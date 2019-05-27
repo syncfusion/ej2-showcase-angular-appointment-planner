@@ -1,0 +1,694 @@
+@import '../common.scss';
+
+.planner-calendar {
+    font-size: 14px;
+    margin: 30px 50px;
+    color: #9aa5bb;
+    letter-spacing: .05px;
+    .e-all-day-appointment-wrapper,.e-timeline-wrapper{
+        font-size: 0;
+    }
+    .drag-sample-wrapper {
+        display: flex;
+        justify-content: space-between;
+
+        .schedule-container {
+            padding-right: 25px;
+            width: 100%;
+
+            .e-schedule-toolbar-container {
+                .e-toolbar-items {
+                    .e-toolbar-center {
+                        .planner-dropdown {
+                            margin-top: 5px;
+                            margin-left: 20px;
+                        }
+                    }
+                }
+            }
+
+            .e-table-container {
+                .e-month-view {
+                    .e-content-wrap {
+                        .e-work-cells {
+                            .e-block-indicator {
+                                visibility: hidden;
+                            }
+
+                            .e-appointment {
+                                .e-time,
+                                .e-subject {
+                                    padding: 2px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .e-quick-popup-wrapper.e-popup-open {
+                .e-event-popup {
+                    .quick-info-header {
+                        background-color: white;
+                        padding: 8px 18px;
+
+                        .quick-info-header-content {
+                            height: 50px;
+                            justify-content: flex-end;
+                            display: flex;
+                            flex-direction: column;
+                            padding: 0 10px 5px;
+    
+                            .quick-info-title {
+                                font-weight: 500;
+                                font-size: 16px;
+                                letter-spacing: 0.48px;
+                                height: 22px;
+                            }
+    
+                            .duration-text {
+                                font-size: 11px;
+                                letter-spacing: 0.33px;
+                                height: 14px;
+                            }                       
+                        }
+                    }
+
+                    .event-content {
+                        height: 90px;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        padding: 0 15px;
+
+                        div {
+                            font-size: 11px;
+                            color: $planner-font-color2;
+                            letter-spacing: 0.33px;
+                            height: 14px;
+                            padding: 5px;
+
+                            label {
+                                display: inline-block;
+                                min-width: 70px;
+                                color: $planner-font-color2;
+                            }
+
+                            span {
+                                font-size: 11px;
+                                color: #151515;
+                                letter-spacing: 0.33px;
+                                line-height: 14px;
+                                padding-left: 8px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .treeview-container {
+            /* add event button customization */
+            .add-event-container,
+            .specialization-types {
+                margin: 5px;
+                width: 216px;
+            }
+
+            .title-container {
+                margin-top: 45px;
+                margin-left: 10px;
+
+                .title-text {
+                    font-weight: 400;
+                    font-size: 16px;
+                    color: $planner-font-color1;
+                    letter-spacing: 0.48px;
+                    font-weight: bold;
+                    padding: 0 5px;
+                }
+            }
+
+            .treeview-external-drag {
+                padding: 0 !important;
+
+                .e-list-parent {
+                    height: 100%;
+                    padding: 0 2px;
+
+                    &.e-ul {
+                        overflow: hidden;
+                    }
+
+                    .e-list-item {
+                        height: 60px;
+                        border-radius: 4px;
+                        margin: 5px 0;
+
+                        &.e-hover,
+                        &.e-active,
+                        &.e-active.e-hover {
+                            .e-fullrow {
+                                background-color: transparent;
+                                border-color: transparent;
+                                box-shadow: none !important;
+                            }
+
+                            .e-text-content {
+                                .e-list-text {
+                                    color: $planner-font-color1;
+                                }
+                            }
+                        }
+
+                        .e-fullrow {
+                            height: 55px;
+                        }
+
+                        .e-text-content {
+                            padding: 0;
+                            height: 60px;
+
+                            .e-list-text {
+                                background: #FFF5F5;
+                                border-radius: 4px;
+                                height: 100%;
+                                padding: 6px 10px;
+                            }
+                        }
+
+                        .e-list-text {
+                            background: white;
+                            border: 0.5px solid #E1E7EC;
+                            height: 50px;
+                            line-height: 15px;
+                            padding: 0 5px;
+                            width: 220px;        
+                            
+                            #waiting {
+                                height: 100%;
+                                padding: 0;
+                                display: flex;
+            
+                                #waitdetails {
+                                    width: 90%;
+                                    float: left;
+                                    height: 100%;
+                                    padding: 0;
+            
+                                    #waitlist {
+                                        height: 16px;
+                                        font-weight: 500;
+                                        font-size: 13px;
+                                        color: $planner-font-color1;
+                                        letter-spacing: 0.39px;
+                                    }
+            
+                                    #event-time {
+                                        font-size: 10px;
+                                        color: $planner-font-color1;
+                                        letter-spacing: 0.3px;
+                                        height: 13px;
+                                        padding: 2px 0;
+                                    }
+            
+                                    #waitcategory {
+                                        height: 13px;
+                                        font-size: 10px;
+                                        color: #999999;
+                                        letter-spacing: 0.3px;    
+                                    }
+                                }
+                            }
+
+                            #item-icon-container {
+                                position: relative;
+                                padding: 10px 0;
+
+                                .item-icon {
+                                    position: absolute;
+                                    font-size: 20px;
+                                    color: #C0C0C0;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.e-drag-item.treeview-external-drag {
+    height: 60px;
+    border-radius: 4px;
+    margin: 5px 0;
+    background: #FFF5F5;
+    box-shadow: 1px 2px 4px 0 rgba(255,0,0,0.25);    
+
+    &.e-hover,
+    &.e-active,
+    &.e-active.e-hover {
+        .e-fullrow {
+            background-color: transparent;
+            border-color: transparent;
+            box-shadow: none !important;
+        }
+
+        .e-text-content {
+            .e-list-text {
+                color: $planner-font-color1;
+            }
+        }
+    }
+
+    .e-fullrow {
+        height: 55px;
+    }
+
+    .e-text-content {
+        padding: 0;
+        height: 60px;
+
+        .e-list-text {
+            background: #FFF5F5;
+            border-radius: 4px;
+            height: 100%;
+            padding: 6px 10px;            
+            border: none;
+        }
+    }
+
+    .e-list-text {
+        background: white;
+        border: 0.5px solid #E1E7EC;
+        height: 50px;
+        line-height: 15px;
+        padding: 0 5px;
+        width: 220px;        
+        
+        #waiting {
+            height: 100%;
+            padding: 0;
+            display: flex;
+
+            #waitdetails {
+                width: 90%;
+                float: left;
+                height: 100%;
+                padding: 0;
+
+                #waitlist {
+                    height: 16px;
+                    font-weight: 500;
+                    font-size: 13px;
+                    color: $planner-font-color1;
+                    letter-spacing: 0.39px;
+                }
+
+                #event-time {
+                    font-size: 10px;
+                    color: $planner-font-color1;
+                    letter-spacing: 0.3px;
+                    height: 13px;
+                    padding: 2px 0;
+                }
+
+                #waitcategory {
+                    height: 13px;
+                    font-size: 10px;
+                    color: #999999;
+                    letter-spacing: 0.3px;    
+                }
+            }
+        }
+
+        #item-icon-container {
+            position: relative;
+            padding: 10px 0;            
+
+            .item-icon {
+                position: absolute;
+                font-size: 20px;
+                color: #C0C0C0;
+            }
+        }
+    }
+}
+
+.e-schedule-dialog {
+    .e-dlg-content {
+        .e-all-day-time-zone-row,
+        .e-title-location-row {
+            display: none;
+        }
+
+        .custom-field-row {
+            padding-bottom: 12px;
+
+            .custom-field-container {
+                display: grid;
+                grid-template-columns: 12fr 1fr;
+    
+                .e-btn {
+                    margin-top: 27px;
+                    margin-left: 9px;
+                }
+            }
+        }        
+
+        .e-add-icon::before {
+            content: '\e95c';
+        }
+    }
+
+    &.e-device {
+        .e-dlg-content {
+            .custom-field-row {
+                padding-bottom: 0;
+            }
+        }
+    }
+}
+
+.add-doctor {
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+
+    .e-icon-add {
+        padding: 10px 0 10px 5px;
+        font-size: 10px;
+        color: $planner-element-bg-color;
+
+        &::before {
+            content: '\e95c';
+        }
+    }
+
+    .add-doctor-text {
+        font-weight: 500;
+        font-size: 10px;
+        color: $planner-element-bg-color;
+        letter-spacing: 0.3px;
+        padding: 10px 5px;
+    }
+}
+
+.e-dropdownbase {
+    .e-list-item {
+        padding: 0 10px;
+
+        .specialist-item {
+            height: 40px;
+            width: 100%;
+            display: flex;
+
+            img {
+                height: 32px;
+                width: 32px;
+                border-radius: 16px;
+                padding: 3px;
+            }
+
+            .doctor-details {
+                height: 100%;
+                width: 80%;
+                text-indent: 0;
+                padding-left: 10px;
+
+                .name {
+                    font-size: 13px;
+                    letter-spacing: 0.39px;
+                    height: 16px;
+                }
+
+                .designation {
+                    font-size: 10px;
+                    letter-spacing: 0.3px;
+                    height: 13px;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 850px) {
+    .planner-calendar {
+        margin: 20px 10px;
+
+        .drag-sample-wrapper {
+            display: block;
+
+            .schedule-container {
+                padding-right: 0;
+
+                .e-schedule {
+                    .e-schedule-toolbar-container {
+                        .e-schedule-toolbar {        
+                            .e-toolbar-items {        
+                                .e-toolbar-center {
+                                    padding: 7px 0;
+
+                                    .e-tbar-btn {
+                                        border-radius: 16px;
+                                    }
+        
+                                    .active-doctor {
+                                        height: 32px;
+                                        width: 32px;
+                                        border-radius: 16px;
+                                    }
+                                }
+
+                                .e-toolbar-right {
+                                    .e-add {
+                                        .e-btn-icon {
+                                            padding: 0;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .treeview-container {
+                .treeview-external-drag {
+                    &.e-treeview {
+                        width: 225px;
+                        &.e-drag-item {
+                            position: relative !important;
+                        }
+                    }
+                }
+            }
+        }        
+    }  
+
+    .add-doctor {
+        justify-content: center;
+
+        .e-icon-add {
+            padding: 12px 0 10px 5px;
+        }
+
+        .add-doctor-text {
+            font-size: 13px;
+        }
+    }
+
+    /* Dialog Customization */
+    .specialist-selection {
+        max-height: 98% !important;
+
+        .e-dlg-header-content {
+            .e-dlg-header {
+                width: 100% !important;
+
+                .specialist-header {
+                    display: flex !important;                
+                    width: 100% !important;
+
+                    div:nth-child(1) {
+                        width: 70%;
+                        display: flex;
+                        margin: auto;
+
+                        .back-icon {
+                            width: 12%;
+                            font-size: 25px;
+                        }
+                
+                        .title-text {
+                            font-weight: 600;
+                            font-size: 16px;
+                            color: $planner-font-color1;
+                            letter-spacing: 0.48px;
+                            padding: 2px;
+                        }
+                    }
+                    div:nth-child(2) {
+                        width: 30%;
+
+                        .e-btn {
+                            width: 100%;
+                        }
+                    }                    
+                }
+            }            
+        }
+
+        .e-dlg-content {
+            .specialist-item {
+                height: 60px;
+                width: 100%; 
+                display: flex;
+
+                &:hover {
+                    background: #EBEBFF;
+                }
+        
+                img {
+                    height: 46px;
+                    width: 46px;
+                    border-radius: 28px;
+                    padding: 5px;
+                }
+        
+                .doctor-details {
+                    padding: 5px;
+                    width: 80%;
+                    text-indent: 0;
+        
+                    .name {
+                        font-size: 15px;
+                        font-weight: bold;
+                        color: $planner-font-color1;
+                        letter-spacing: 0.39px;
+                        padding: 5px;
+                    }
+        
+                    .designation {
+                        font-size: 12px;
+                        color: $planner-font-color2;
+                        letter-spacing: 0.3px;
+                        padding: 5px;
+                    }
+                }
+            }
+        }
+
+        .e-footer-content {
+            border-top: none;
+        }
+    }   
+
+    .waiting-list-dialog {
+        max-height: 98% !important;
+
+        .e-dlg-header {
+            width: 100% !important;
+
+            .waitlist-header {
+                display: flex;
+                width: 100% !important;
+
+                .text-container {
+                    display: flex;
+                    flex: 1;
+
+                    span.back-icon {
+                        padding: 5px 0;
+                        font-size: 33px;
+                        width: 35px;
+                    }
+    
+                    span.title-text {
+                        padding: 11px 0;
+                    }
+                }               
+
+                .button-container {
+                    display: flex;
+                    flex: 1;
+
+                    span:nth-child(1) {
+                        padding-right: 15px;
+                    }
+
+                    .delete-button,
+                    .add-button {
+                        .e-btn {
+                            width: 100%;
+                        }
+                    }
+                }                
+            }
+        }
+
+        .external-drag-items {
+            display: flex;
+            height: 60px;
+            margin-bottom: 10px;
+    
+            #waiting-item-check {
+                padding: 20px 10px;
+                flex: initial;
+            }
+    
+            #waiting {
+                flex: auto;
+                height: 100%;
+                background: #FFF5F5;
+                border: 1px solid #C0C0C0;
+                border-radius: 4px;
+                display: flex;
+    
+                #waitdetails {
+                    width: 90%;
+                    float: left;
+                    height: 100%;
+    
+                    #waitlist {
+                        height: 16px;
+                        font-weight: 500;
+                        font-size: 13px;
+                        color: $planner-font-color1;
+                        letter-spacing: 0.39px;
+                        padding: 3px 5px;
+                    }
+        
+                    #event-time {
+                        font-size: 10px;
+                        color: $planner-font-color1;
+                        letter-spacing: 0.3px;
+                        height: 13px;
+                        padding: 3px 5px;
+                    }
+        
+                    #waitcategory {
+                        height: 13px;
+                        font-size: 10px;
+                        color: #999999;
+                        letter-spacing: 0.3px;    
+                        padding: 3px 5px;
+                    }
+                }
+
+                #item-icon-container {
+                    position: relative;
+                    padding: 15px 0;
+
+                    .item-icon {
+                        position: absolute;
+                        font-size: 20px;
+                        color: #C0C0C0;
+                    }
+                }
+            }
+        }
+    }
+}

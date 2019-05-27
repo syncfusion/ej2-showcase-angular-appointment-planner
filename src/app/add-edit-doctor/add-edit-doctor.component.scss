@@ -1,0 +1,67 @@
+@import '../common.scss';
+
+.new-doctor-dialog {
+    max-height: 98% !important;
+
+    .e-dlg-content {
+        #new-doctor-form {
+            .e-float-input input {
+                color: $planner-font-color1 !important;
+            }
+
+            .name-container,
+            .gender-container,
+            .email-container,
+            .education-container,
+            .experience-container {
+                padding-bottom: 16px;
+            }
+
+            .gender-container,
+            .education-container,
+            .experience-container {
+                display: flex;
+            }
+
+            .gender-container .gender,
+            .education-container .department,
+            .experience-container .experience {
+                padding-right: 8px;
+            }
+
+            .gender-container .mobile,
+            .education-container .education,
+            .experience-container .designation {
+                padding-left: 8px;
+            }
+
+            .gender-container {
+                .gender {
+                    display: flex;
+                    flex-direction: column;
+                    flex: 1;
+
+                    label:not(.e-btn) {
+                        font-weight: bold;
+                        color: #333;
+                        font-size: 12px;
+                        font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif, "-apple-system", "BlinkMacSystemFont";
+                    }
+
+                    .e-btn-group {
+                        height: 32px;
+                        margin-top: 8px;
+
+                        label {
+                            width: 50%;
+                        }
+                    }
+                }
+
+                .mobile {
+                    flex: 1;
+                }
+            }
+        }
+    }
+}

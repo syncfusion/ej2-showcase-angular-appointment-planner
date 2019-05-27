@@ -1,0 +1,38 @@
+<div class='preference-container'>
+  <header>
+    <div class="module-title">
+      <div class='title'>PREFERENCE</div>
+      <div class='underline'></div>
+    </div>
+  </header>
+  <div class="control-container">
+    <div class='label-text'>Default View</div>
+    <ejs-dropdownlist cssClass='preference-drop-down' id='CurrentView' [width]='width' [dataSource]='views'
+      [fields]='fields' [value]='selectedView' (change)='onValueChange($event)'></ejs-dropdownlist>
+  </div>
+  <div class="control-container">
+    <div class='label-text'>Calendar Start Time</div>
+    <ejs-dropdownlist cssClass='preference-drop-down' id='CalendarStart' [width]='width' [dataSource]='startHours'
+      [fields]='fields' [value]='selectedStartHour' (change)='onValueChange($event)'></ejs-dropdownlist>
+  </div>
+  <div class="control-container">
+    <div class='label-text'>Calendar End Time</div>
+    <ejs-dropdownlist cssClass='preference-drop-down' id='CalendarEnd' [width]='width' [dataSource]='endHours'
+      [fields]='fields' [value]='selectedEndHour' (change)='onValueChange($event)'></ejs-dropdownlist>
+  </div>
+  <div class="control-container">
+    <div class='label-text'>Slot Duration</div>
+    <ejs-dropdownlist cssClass='preference-drop-down' id='Duration' [width]='width' [dataSource]='timeSlots'
+      [fields]='fields' [value]='timeInterval' (change)='onValueChange($event)'></ejs-dropdownlist>
+  </div>
+  <div class="control-container">
+    <div class='label-text'>Booking Color</div>
+    <ejs-dropdownlist cssClass='preference-drop-down' id='BookingColor' [width]='width' [dataSource]='colorCategory'
+      [fields]='fields' [value]='selectedCategory' (change)='onValueChange($event)'></ejs-dropdownlist>
+  </div>
+  <div class="control-container">
+    <div class='label-text'>First Day of Week</div>
+    <ejs-dropdownlist cssClass='preference-drop-down' id='FirstDayOfWeek' [width]='width' [dataSource]='dayOfWeeks'
+      [fields]='fields' [value]='selectedDayOfWeek' (change)='onValueChange($event)'></ejs-dropdownlist>
+  </div>
+</div>
