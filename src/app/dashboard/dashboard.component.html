@@ -1,63 +1,86 @@
-<div class="planner-dashboard">
-  <header>
-    <div class="module-title">
-      <div class='title'>DASHBOARD</div>
-      <div class='underline'></div>
-    </div>
-  </header>
-  <div class="view-detail-display">
-    <div class="text-display">
-      <div class='day-events-container'>
-        <span class="label-text">Total Appointments - Today</span>
-        <div class="count-container">
-          <span class="icon-day"><img src="./assets/Icons/Today_Widget.svg" /></span>
-          <span class='day-event-count'></span>
+<div id="dashboard" class="planner-dashboard">
+  <div class="row content view-detail-display" style="margin: 0px;">
+    <div class="col-lg-8 col-md-8 col-sm-8">
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 text-display">
+          <div class="e-card card day-events-container">
+            <div class="e-card-content">
+              <span class="card-text label-text">Total Appointments - Today</span>
+              <div class="count-container">
+                <span class="icon-day"><img src="./assets/Icons/Today_Widget.svg" alt="Today" /></span>
+                <span class="day-event-count"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 text-display">
+          <div class="e-card card week-events-container">
+            <div class="e-card-content">
+              <span class="card-text label-text">Total Appointments - This Week</span>
+              <div class="count-container">
+                <span class="icon-week"><img src="./assets/Icons/ThisWeek_Widget.svg" alt="ThisWeek" /></span>
+                <span class="week-event-count"></span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="week-events-container">
-        <span class="label-text">Total Appointments - This Week</span>
-        <div class="count-container">
-          <span class="icon-week"><img src="./assets/Icons/ThisWeek_Widget.svg" /></span>
-          <span class='week-event-count'></span>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 dashboard-control">
+          <div class="e-card grid-container">
+            <div class="e-card-header">
+              <div class="e-card-header-caption">
+                <div class="e-card-header-title">
+                  <span class='label-text'> Today's Appointments</span>
+                  <span class='link-text'><a routerLink="/calendar">Book Appointments</a></span>
+                </div>
+              </div>
+            </div>
+            <div class="e-card-content">
+              <ejs-grid [dataSource]='gridData' height='160px'>
+                <e-columns>
+                  <e-column field='Time' width='80' textAlign='Left'></e-column>
+                  <e-column field='Name' width='120' textAlign='Left'></e-column>
+                  <e-column field='DoctorName' headerText='Doctor Name' width='150' textAlign='Left'>
+                    <ng-template #template let-data>
+                      <a routerLink="/doctor-details/{{data.DoctorId}}">{{data.DoctorName}}</a>
+                    </ng-template>
+                  </e-column>
+                  <e-column field='Symptoms' width='150' textAlign='Left' clipMode='EllipsisWithTooltip'></e-column>
+                </e-columns>
+              </ejs-grid>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 dashboard-control">
+          <div class="e-card chart-container">
+            <div class="e-card-content">
+              <ejs-chart id="chartcontainer" height='340px' [chartArea]='chartArea' [primaryXAxis]='primaryXAxis'
+                [primaryYAxis]='primaryYAxis' [title]='title' [titleStyle]='titleStyle'
+                [legendSettings]='legendSettings'>
+                <e-series-collection>
+                  <e-series [dataSource]='chartData' type='Spline' width='2px' xName='Date' yName='EventCount'
+                    name='Diabetology' legendShape='Circle' fill='#60F238'></e-series>
+                  <e-series [dataSource]='chartData1' type='Spline' width='2px' xName='Date' yName='EventCount'
+                    name='Orthopaedics' legendShape='Circle' fill='#388CF5'></e-series>
+                  <e-series [dataSource]='chartData2' type='Spline' width='2px' xName='Date' yName='EventCount'
+                    name='Cardiology' legendShape='Circle' fill='#F29438'></e-series>
+                </e-series-collection>
+              </ejs-chart>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="grid-container">
-      <div class="today-events"><span class='label-text'> Today's Appointment</span><span class='link-text'><a
-            routerLink="/calendar">Book Appointment</a></span></div>
-      <ejs-grid [dataSource]='gridData' height='160px'>
-        <e-columns>
-          <e-column field='Time' width='80' textAlign='Left'></e-column>
-          <e-column field='Name' width='120' textAlign='Left'></e-column>
-          <e-column field='DoctorName' headerText='Doctor Name' width='150' textAlign='Left'>
-            <ng-template #template let-data>
-              <a routerLink="/doctor-details/{{data.DoctorId}}">{{data.DoctorName}}</a>
-            </ng-template>
-          </e-column>
-          <e-column field='Symptoms' width='150' textAlign='Left' clipMode='EllipsisWithTooltip'></e-column>
-        </e-columns>
-      </ejs-grid>
-    </div>
-    <div class="chart-container">
-      <ejs-chart id="chartcontainer" height='340px' [chartArea]='chartArea' [primaryXAxis]='primaryXAxis'
-        [primaryYAxis]='primaryYAxis' [title]='title' [titleStyle]='titleStyle' [legendSettings]='legendSettings'>
-        <e-series-collection>
-          <e-series [dataSource]='chartData' type='Spline' width='2px' xName='Date' yName='EventCount'
-            name='Diabetology' legendShape='Circle' fill='#60F238'></e-series>
-          <e-series [dataSource]='chartData1' type='Spline' width='2px' xName='Date' yName='EventCount'
-            name='Orthopaedics' legendShape='Circle' fill='#388CF5'></e-series>
-          <e-series [dataSource]='chartData2' type='Spline' width='2px' xName='Date' yName='EventCount'
-            name='Cardiology' legendShape='Circle' fill='#F29438'></e-series>
-        </e-series-collection>
-      </ejs-chart>
-    </div>
-  </div>
-  <div class="list-display">
-    <div class="recent-activity">
-      <app-recent-activity></app-recent-activity>
-    </div>
-    <div class="doctor-availability">
-      <app-doctor-availability></app-doctor-availability>
+    <div class="col-lg-4 col-md-4 col-sm-4 list-display" style="padding-right: 0px;">
+      <div class="recent-activity">
+        <app-recent-activity></app-recent-activity>
+      </div>
+      <div class="doctor-availability">
+        <app-doctor-availability></app-doctor-availability>
+      </div>
     </div>
   </div>
 </div>

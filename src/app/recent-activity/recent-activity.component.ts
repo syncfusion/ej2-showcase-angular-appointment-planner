@@ -17,9 +17,7 @@ export class RecentActivityComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.updateTimeString();
-    this.interval = setInterval(() => {
-      this.updateTimeString();
-    }, 60000);
+    this.interval = setInterval(() => { this.updateTimeString(); }, 60000);
   }
 
   updateTimeString() {

@@ -49,12 +49,15 @@ export class DoctorsComponent implements OnInit {
     this.tooltipObj.appendTo(this.specialistItemObj.nativeElement);
   }
 
+  getColor(args: { [key: string]: string }) {
+    return args.Color;
+  }
+
   onSpecializationChange(args?: any) {
     let filteredData: { [key: string]: Object }[];
     if (args && args.value) {
       this.selectedDepartmentId = args ? args.itemData.DepartmentId : this.selectedDepartmentId;
-      filteredData = this.doctorsData.filter(
-        (item: any) => item.DepartmentId === this.selectedDepartmentId);
+      filteredData = this.doctorsData.filter((item: any) => item.DepartmentId === this.selectedDepartmentId);
     } else {
       this.selectedDepartmentId = null;
       filteredData = this.doctorsData;
@@ -65,8 +68,7 @@ export class DoctorsComponent implements OnInit {
   onSpecialistClick(args: any) {
     this.tooltipObj.close();
     const specialistId: string = args.currentTarget.querySelector('.specialist-item')['id'].split('_')[1];
-    const filteredData: Object[] = this.doctorsData.filter(
-      (item: any) => item.Id === parseInt(specialistId as string, 10));
+    const filteredData: Object[] = this.doctorsData.filter((item: any) => item.Id === parseInt(specialistId as string, 10));
     this.dataService.setActiveDoctorData(<{ [key: string]: Object }>filteredData[0]);
     this.router.navigateByUrl('/doctor-details/' + specialistId);
   }
@@ -78,8 +80,7 @@ export class DoctorsComponent implements OnInit {
   updateDoctors() {
     this.doctorsData = this.dataService.getDoctorsData();
     if (this.selectedDepartmentId) {
-      this.filteredDoctors = this.doctorsData.filter(
-        (item: any) => item.DepartmentId === this.selectedDepartmentId);
+      this.filteredDoctors = this.doctorsData.filter((item: any) => item.DepartmentId === this.selectedDepartmentId);
     }
   }
 

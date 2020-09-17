@@ -1,9 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Internationalization } from '@syncfusion/ej2-base';
 import { Predicate, Query, DataManager } from '@syncfusion/ej2-data';
 import {
-  CategoryService, DataLabelService, DateTimeService, SplineSeriesService,
-  DateTimeCategoryService, LegendService
+  CategoryService, DataLabelService, DateTimeService, SplineSeriesService, DateTimeCategoryService, LegendService
 } from '@syncfusion/ej2-angular-charts';
 import { addDays, getWeekFirstDate, resetTime } from '@syncfusion/ej2-angular-schedule';
 import { DataService } from '../data.service';
@@ -12,10 +10,7 @@ import { DataService } from '../data.service';
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
-  providers: [
-    CategoryService, DataLabelService, SplineSeriesService,
-    LegendService, DateTimeService, DateTimeCategoryService
-  ],
+  providers: [CategoryService, DataLabelService, SplineSeriesService, LegendService, DateTimeService, DateTimeCategoryService],
   encapsulation: ViewEncapsulation.None
 })
 export class DashboardComponent implements OnInit {
@@ -33,7 +28,6 @@ export class DashboardComponent implements OnInit {
   public chartArea: Object;
   public chartData1: Object[] = [];
   public chartData2: Object[] = [];
-  public intl: Internationalization = new Internationalization();
   public initialChartLoad = true;
 
   constructor(private dataService: DataService) { }
@@ -52,15 +46,9 @@ export class DashboardComponent implements OnInit {
     document.querySelector('.week-event-count').textContent = currentViewEvents.length.toString();
     document.querySelector('.day-event-count').textContent = currentDayEvents.length.toString();
     // Chart Control Code
-    const diabetologyData: Object[] = currentViewEvents.filter(
-      (item: { [key: string]: Object }) => item.DepartmentId === 5
-    );
-    const orthopaedicsData: Object[] = currentViewEvents.filter(
-      (item: { [key: string]: Object }) => item.DepartmentId === 4
-    );
-    const cardiologyData: Object[] = currentViewEvents.filter(
-      (item: { [key: string]: Object }) => item.DepartmentId === 6
-    );
+    const diabetologyData: Object[] = currentViewEvents.filter((item: { [key: string]: Object }) => item.DepartmentId === 5);
+    const orthopaedicsData: Object[] = currentViewEvents.filter((item: { [key: string]: Object }) => item.DepartmentId === 4);
+    const cardiologyData: Object[] = currentViewEvents.filter((item: { [key: string]: Object }) => item.DepartmentId === 6);
     let date: Date = firstDayOfWeek;
     for (let i = 0; i < 7; i++) {
       this.chartData.push(this.getChartData(diabetologyData, date));
@@ -100,12 +88,8 @@ export class DashboardComponent implements OnInit {
     for (let i = 0; i < currentDayEvents.length; i++) {
       const eventData: { [key: string]: Object } = currentDayEvents[i];
       if (eventData) {
-        const filteredPatients: {
-          [key: string]: Object;
-        }[] = this.patientsData.filter(item => item.Id === eventData.PatientId);
-        const filteredDoctors: { [key: string]: Object }[] = this.doctorsData.filter(
-          item => item.Id === eventData.DoctorId
-        );
+        const filteredPatients: { [key: string]: Object }[] = this.patientsData.filter(item => item.Id === eventData.PatientId);
+        const filteredDoctors: { [key: string]: Object }[] = this.doctorsData.filter(item => item.Id === eventData.DoctorId);
         if (filteredPatients.length > 0 && filteredDoctors.length > 0) {
           const newData: { [key: string]: Object } = {
             Time: this.getDate(<Date>eventData.StartTime),
@@ -121,11 +105,8 @@ export class DashboardComponent implements OnInit {
   }
 
   getChartData(data: Object[], startDate: Date) {
-    const filteredData: any = data.filter((item: { [key: string]: Object }) => {
-      return (
-        resetTime(startDate).getTime() === resetTime(new Date(<Date>item.StartTime)).getTime()
-      );
-    });
+    const filteredData: Object[] = data.filter((item: { [key: string]: Date }) =>
+      resetTime(startDate).getTime() === resetTime(new Date(item.StartTime)).getTime());
     return { Date: startDate, EventCount: filteredData.length };
   }
 
@@ -139,7 +120,13 @@ export class DashboardComponent implements OnInit {
     return filter;
   }
 
-  getDate(value: Date): string {
-    return this.intl.formatDate(value, { skeleton: 'hm', type: 'date' });
+  getDate(date: Date): string {
+    const d: Date = new Date(date);
+    const tempHour: number = (d.getHours() === 0) ? 12 : (d.getHours() < 10) ? d.getHours() : (d.getHours() > 12) ?
+      Math.abs(12 - d.getHours()) : d.getHours();
+    const hour: string = (tempHour < 10) ? '0' + tempHour : tempHour.toString();
+    const minutes: string = (d.getMinutes() < 10) ? '0' + d.getMinutes() : d.getMinutes().toString();
+    const l: string = (d.getHours() >= 12) ? 'PM' : 'AM';
+    return hour + ':' + minutes + ' ' + l;
   }
 }

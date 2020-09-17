@@ -1,12 +1,9 @@
 import { Component, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
-import { createElement, Internationalization, isNullOrUndefined, closest } from '@syncfusion/ej2-base';
+import { createElement, Internationalization, isNullOrUndefined } from '@syncfusion/ej2-base';
 import { DataManager, Query, ReturnOption } from '@syncfusion/ej2-data';
-import { Dialog } from '@syncfusion/ej2-angular-popups';
+import { Dialog, DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { Button } from '@syncfusion/ej2-angular-buttons';
-import {
-  EditService, PageService, EditSettingsModel,
-  GridComponent, DialogEditEventArgs
-} from '@syncfusion/ej2-angular-grids';
+import { EditService, PageService, EditSettingsModel, GridComponent, DialogEditEventArgs } from '@syncfusion/ej2-angular-grids';
 import { AddEditPatientComponent } from '../add-edit-patient/add-edit-patient.component';
 import { DataService } from '../data.service';
 
@@ -20,6 +17,8 @@ import { DataService } from '../data.service';
 export class PatientsComponent implements OnInit {
   @ViewChild('gridObj') gridObj: GridComponent;
   @ViewChild('addEditPatientObj') addEditPatientObj: AddEditPatientComponent;
+  @ViewChild('deleteConfirmationDialogObj')
+  public deleteConfirmationDialogObj: DialogComponent;
   public patientsData: { [key: string]: Object }[];
   public filteredPatients: { [key: string]: Object }[];
   public activePatientData: { [key: string]: Object; };
@@ -28,6 +27,7 @@ export class PatientsComponent implements OnInit {
   public intl: Internationalization = new Internationalization();
   public editSettings: EditSettingsModel;
   public gridDialog: Dialog;
+  public animationSettings: Object = { effect: 'None' };
 
   constructor(public dataService: DataService) {
     this.patientsData = this.filteredPatients = this.dataService.getPatientsData();
@@ -95,10 +95,19 @@ export class PatientsComponent implements OnInit {
   }
 
   onDeletePatient() {
+    this.deleteConfirmationDialogObj.show();
+  }
+
+  onDeleteClick() {
     this.patientsData = this.patientsData.filter((item: { [key: string]: Object; }) => item.Id !== this.activePatientData.Id);
     this.filteredPatients = this.patientsData;
     this.dataService.setPatientsData(this.patientsData);
     this.gridObj.closeEdit();
+    this.deleteConfirmationDialogObj.hide();
+  }
+
+  onDeleteCancelClick() {
+    this.deleteConfirmationDialogObj.hide();
   }
 
   onAddPatient() {
@@ -146,7 +155,14 @@ export class PatientsComponent implements OnInit {
           }
         });
     } else {
-      this.filteredPatients = this.patientsData;
+      this.patientSearchCleared(args);
+    }
+  }
+
+  patientSearchCleared(args: MouseEvent) {
+    this.filteredPatients = this.patientsData;
+    if ((args.target as HTMLElement).previousElementSibling) {
+      ((args.target as HTMLElement).previousElementSibling as HTMLInputElement).value = '';
     }
   }
 

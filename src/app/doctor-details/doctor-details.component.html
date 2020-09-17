@@ -99,3 +99,19 @@
   </ejs-dialog>
 </div>
 <app-add-edit-doctor #addEditDoctorObj (refreshDoctors)="refreshDetails()"></app-add-edit-doctor>
+<div class="delete-confirmation-container" style="display:none">
+  <ejs-dialog #deleteConfirmationDialogObj width='445px' cssClass='break-hour-dialog' [isModal]='true' [visible]='false'
+    [animationSettings]='animationSettings' header='Doctor Details' [showCloseIcon]='true' target='body'>
+    <ng-template #content>
+      <form>
+        <div>Are you sure you want to delete this doctor?</div>
+      </form>
+    </ng-template>
+    <ng-template #footerTemplate>
+      <div class="button-container">
+        <button ejs-button cssClass="e-normal" [isPrimary]="true" (click)='onDeleteClick($event)'>Ok</button>
+        <button ejs-button cssClass="e-normal" (click)='onDeleteCancelClick($event)'>Cancel</button>
+      </div>
+    </ng-template>
+  </ejs-dialog>
+</div>
