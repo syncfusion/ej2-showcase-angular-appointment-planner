@@ -1,9 +1,7 @@
 <div class="planner-calendar">
     <div class="doctor-container" style="display:none">
-        <div class="app-doctors">
-        </div>
-        <div class="app-doctor-icon">
-        </div>
+        <div class="app-doctors"></div>
+        <div class="app-doctor-icon"></div>
     </div>
     <div class="drag-sample-wrapper droppable">
         <div class="schedule-container">
@@ -27,6 +25,10 @@
                     <e-view option="Day"></e-view>
                     <e-view option="Week"></e-view>
                     <e-view option="Month"></e-view>
+                    <e-view option="TimelineDay" [group]="group"></e-view>
+                    <e-view option="TimelineWeek" [group]="group"></e-view>
+                    <e-view option="TimelineWorkWeek" [group]="group"></e-view>
+                    <e-view option="TimelineMonth" [group]="group"></e-view>
                 </e-views>
                 <ng-template #dateHeaderTemplate let-data>
                     <div class="date-text">{{getDateHeaderText(data.date)}}</div>
@@ -35,12 +37,8 @@
                     <div *ngIf="(data.elementType === 'event')">
                         <div class="quick-info-header">
                             <div class="quick-info-header-content" [ngStyle]=getBackGroundColor(data)>
-                                <div class="quick-info-title">
-                                    Appointment Details
-                                </div>
-                                <div class='duration-text'>
-                                    {{getEventDetails(data)}}
-                                </div>
+                                <div class="quick-info-title">Appointment Details</div>
+                                <div class='duration-text'>{{getEventDetails(data)}}</div>
                             </div>
                         </div>
                     </div>
@@ -54,11 +52,11 @@
                         <form class="e-schedule-form">
                             <div style="padding:10px">
                                 <input class="subject e-field" type="text" name="Subject" placeholder="Title"
-                                    style="width:100%">
+                                    style="width:100%" />
                             </div>
                             <div style="padding:10px">
                                 <input class="location e-field" type="text" name="Location" placeholder="Location"
-                                    style="width:100%">
+                                    style="width:100%" />
                             </div>
                         </form>
                     </div>
@@ -68,15 +66,15 @@
                         <div class="event-content">
                             <div class="patient-name-wrap">
                                 <label>Patient Name</label>:
-                                <span>{{getPatientName(data)}}</span>
+                                <div><span>{{getPatientName(data)}}</span></div>
                             </div>
                             <div class="doctor-name-wrap">
                                 <label>Doctor Name</label>:
-                                <span>Dr.{{getDoctorName(data)}}</span>
+                                <div><span>Dr.{{getDoctorName(data)}}</span></div>
                             </div>
                             <div class="notes-wrap">
                                 <label>Notes</label>:
-                                <span>{{data.Symptoms}}</span>
+                                <div><span>{{data.Symptoms}}</span></div>
                             </div>
                         </div>
                     </div>
@@ -84,7 +82,13 @@
             </ejs-schedule>
         </div>
         <div class="treeview-container">
-            <div class="add-event-container">
+            <div class="choose-Specialist-container">
+                <ejs-dropdownlist id='specialist' cssClass="e-specialist-doctors" #dropdownObj [dataSource]='doctorsData'
+                    [fields]='fields' placeholder='Choose Specialist' popupHeight='auto' popupWidth='221px'
+                    showClearButton='true' (change)='onDoctorSelect($event)' (open)='onMultiSelectOpen($event)'
+                    [itemTemplate]='itemTemplate' [footerTemplate]='footerTemplate'></ejs-dropdownlist>
+            </div>
+            <div class="add-event-container" style="display: none;">
                 <button ejs-button (click)='createNewEvent($event)' class="e-primary">Add Appointment</button>
             </div>
             <div class="title-container">
@@ -121,9 +125,8 @@
         <ng-template #header>
             <div class="specialist-header">
                 <div>
-                    <span class="back-icon icon-previous" (click)='onBackIconClick($event)'></span><span
-                        class="title-text">CHOOSE
-                        SPECIALIST</span>
+                    <span class="back-icon icon-previous" (click)='onBackIconClick($event)'></span>
+                    <span class="title-text">CHOOSE SPECIALIST</span>
                 </div>
                 <div>
                     <button ejs-button cssClass="e-small" (click)='clearSelection($event)'>CLEAR</button>

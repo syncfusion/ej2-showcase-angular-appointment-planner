@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "appointment-scheduler": {
+    "appointment-planner": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/appointment-scheduler",
+            "outputPath": "dist/appointment-planner",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -61,18 +61,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "appointment-scheduler:build"
+            "browserTarget": "appointment-planner:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "appointment-scheduler:build:production"
+              "browserTarget": "appointment-planner:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "appointment-scheduler:build"
+            "browserTarget": "appointment-planner:build"
           }
         },
         "test": {
@@ -106,7 +106,7 @@
         }
       }
     },
-    "appointment-scheduler-e2e": {
+    "appointment-planner-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "prefix": "",
@@ -115,11 +115,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "appointment-scheduler:serve"
+            "devServerTarget": "appointment-planner:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "appointment-scheduler:serve:production"
+              "devServerTarget": "appointment-planner:serve:production"
             }
           }
         },
@@ -135,5 +135,5 @@
       }
     }
   },
-  "defaultProject": "appointment-scheduler"
+  "defaultProject": "appointment-planner"
 }

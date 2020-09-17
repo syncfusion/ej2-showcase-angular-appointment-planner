@@ -1,6 +1,6 @@
 import { Component, ViewChild, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
 import { isNullOrUndefined } from '@syncfusion/ej2-base';
-import { FormValidator } from '@syncfusion/ej2-angular-inputs';
+import { FormValidator, MaskedTextBoxComponent } from '@syncfusion/ej2-angular-inputs';
 import { EJ2Instance } from '@syncfusion/ej2-angular-schedule';
 import { DialogComponent, BeforeOpenEventArgs } from '@syncfusion/ej2-angular-popups';
 import { DropDownList, DropDownListComponent } from '@syncfusion/ej2-angular-dropdowns';
@@ -191,11 +191,15 @@ export class AddEditDoctorComponent {
     if (formElement && formElement.ej2_instances) {
       return;
     }
+    const customFn: (args: { [key: string]: HTMLElement }) => boolean = (e: { [key: string]: HTMLElement }) => {
+      const argsLength = ((e.element as EJ2Instance).ej2_instances[0] as MaskedTextBoxComponent).value.length;
+      return (argsLength !== 0) ? argsLength >= 10 : false;
+    };
     const rules: { [key: string]: Object } = {};
-    rules['Name'] = { required: [true, 'Enter valid Name'] };
-    rules['Mobile'] = { required: [true, 'Enter valid Mobile No'] };
-    rules['Email'] = { required: [true, 'Enter valid email'], email: [true, 'Enter valid email'] };
-    rules['Education'] = { required: [true, 'Enter valid Education'] };
+    rules['Name'] = { required: [true, 'Enter valid name'] };
+    rules['Mobile'] = { required: [customFn, 'Enter valid mobile number'] };
+    rules['Email'] = { required: [true, 'Enter valid email'], email: [true, 'Email address is invalid'] };
+    rules['Education'] = { required: [true, 'Enter valid education'] };
     this.dataService.renderFormValidator(formElement, rules, this.newDoctorObj.element);
   }
 }

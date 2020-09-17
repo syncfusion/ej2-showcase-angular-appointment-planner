@@ -18,6 +18,8 @@ export class DoctorDetailsComponent implements OnInit {
   public addEditDoctorObj: AddEditDoctorComponent;
   @ViewChild('breakHourObj')
   public breakHourObj: DialogComponent;
+  @ViewChild('deleteConfirmationDialogObj')
+  public deleteConfirmationDialogObj: DialogComponent;
   public activeData: { [key: string]: Object };
   public doctorData: { [key: string]: Object }[];
   public intl: Internationalization = new Internationalization();
@@ -26,7 +28,7 @@ export class DoctorDetailsComponent implements OnInit {
   public breakDays: Object;
   public doctorId: number;
 
-  constructor(public dataService: DataService, public router: Router, private route: ActivatedRoute, ) {
+  constructor(public dataService: DataService, public router: Router, private route: ActivatedRoute,) {
     this.doctorData = this.dataService.getDoctorsData();
     this.specializationData = this.dataService.specialistData;
   }
@@ -48,12 +50,21 @@ export class DoctorDetailsComponent implements OnInit {
   }
 
   onDoctorDelete() {
+    this.deleteConfirmationDialogObj.show();
+  }
+
+  onDeleteClick() {
     const filteredData: { [key: string]: Object }[] = this.doctorData.filter(
       (item: any) => item.Id !== parseInt(this.activeData['Id'] as string, 10));
     this.doctorData = filteredData;
     this.activeData = this.doctorData[0];
     this.dataService.setActiveDoctorData(this.activeData);
     this.dataService.setDoctorsData(this.doctorData);
+    this.deleteConfirmationDialogObj.hide();
+  }
+
+  onDeleteCancelClick() {
+    this.deleteConfirmationDialogObj.hide();
   }
 
   onDoctorEdit() {
@@ -149,8 +160,7 @@ export class DoctorDetailsComponent implements OnInit {
 
   getAvailability(data: { [key: string]: Object }) {
     const workDays: { [key: string]: Object }[] = <{ [key: string]: Object }[]>data.WorkDays;
-    const filteredData: { [key: string]: Object }[] = workDays.filter(
-      (item: any) => item.Enable !== false);
+    const filteredData: { [key: string]: Object }[] = workDays.filter((item: any) => item.Enable !== false);
     const result = filteredData.map(item => (<string>item.Day).slice(0, 3).toLocaleUpperCase()).join(',');
     // tslint:disable-next-line:max-line-length
     return `${result} - ${this.intl.formatDate(new Date(<Date>filteredData[0].WorkStartHour), { skeleton: 'hm' })} - ${this.intl.formatDate(new Date(<Date>filteredData[0].WorkEndHour), { skeleton: 'hm' })}`;

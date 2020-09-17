@@ -13,28 +13,38 @@
     <div class="specialization-types">
       <ejs-dropdownlist id='Specialization' #specializationObj [dataSource]='specializationData'
         [showClearButton]='true' (change)='onSpecializationChange($event)' [fields]='fields'
-        placeholder='Select a Specialization' popupHeight='230px'>
+        placeholder='Select a Specialization' popupWidth='100%' popupHeight='230px'>
+        <ng-template #itemTemplate let-data>
+          <div class="specialist-value">
+            <span class="{{data.Id}}" [style.background]="getColor(data)"></span>
+            <span class="name">{{data.Text}}</span>
+          </div>
+        </ng-template>
+        <ng-template #valueTemplate let-data>
+          <div class="specialist-value department-value">
+            <span class="{{data.Id}}" [style.background]="getColor(data)"></span>
+            <span class="name">{{data.Text}}</span>
+          </div>
+        </ng-template>
       </ejs-dropdownlist>
       <button ejs-button cssClass="e-normal" (click)='onAddDoctor()' [isPrimary]="true">Add New Doctor</button>
     </div>
     <div #specialistItemObj class='specialist-display'>
       <div (click)='onSpecialistClick($event)' *ngFor="let data of filteredDoctors">
-        <div class='specialist-item' id=Specialist_{{data.Id}}>
-          <div class="specialist-image">
-            <img class="profile" src="./assets/images/{{data.Text}}.png" alt="doctor" />
-            <span class='availability {{data.Availability}}'></span>
-            <span class='upload icon-upload_photo {{data.NewDoctorClass}}'></span>
+        <div class="e-cards specialist-item" id=Specialist_{{data.Id}}>
+          <div class="e-card-content">
+            <div class="specialist-image">
+              <img class="profile" src="./assets/images/{{data.Text}}.png" alt="doctor" />
+              <span class='availability {{data.Availability}}'></span>
+              <span class='upload icon-upload_photo {{data.NewDoctorClass}}'></span>
+            </div>
           </div>
           <div class="specialist-detail">
-            <div class="name">
-              Dr. {{data.Name}}
-            </div>
-            <div class="education">
-              {{getEducation(data.Education)}}
-            </div>
+            <div class="name">Dr. {{data.Name}}</div>
+            <div class="education">{{getEducation(data.Education)}}</div>
             <div class="specialist-experience">
               <div class="specialization">
-                <span class="label-text">Specialization</span>
+                <span class="label-text">Designation</span>
                 <span class="specialization-text">{{data.Designation}}</span>
               </div>
               <div class="experience">

@@ -41,7 +41,7 @@ export class DataService {
       interval: 60,
       firstDayOfWeek: 0
     };
-    this.selectedDate = new Date(2018, 6, 5);
+    this.selectedDate = new Date(2020, 7, 5);
     this.activeDoctorData = this.doctorsData[0];
     this.activePatientData = this.patientsData[0];
     this.specialistData = specializationData as { [key: string]: Object }[];

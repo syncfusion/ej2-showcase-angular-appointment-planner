@@ -28768,7 +28768,7 @@ ejs-calendar {
     display: none;
     transform: translateY(-100%); }
   .e-schedule-dialog .e-time-zone-row.e-enable {
-    height: 50px;
+    height: 60px;
     margin-bottom: 12px; }
     .e-schedule-dialog .e-time-zone-row.e-enable .e-start-time-zone-container,
     .e-schedule-dialog .e-time-zone-row.e-enable .e-end-time-zone-container {

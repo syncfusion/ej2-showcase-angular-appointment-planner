@@ -9,9 +9,9 @@ import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { ChangeEventArgs } from '@syncfusion/ej2-angular-inputs';
 import { ItemModel, TreeViewComponent, DragAndDropEventArgs } from '@syncfusion/ej2-angular-navigations';
 import {
-  DayService, WeekService, WorkWeekService, MonthService, AgendaService,
-  ResizeService, DragAndDropService, EventSettingsModel, ActionEventArgs,
-  ToolbarActionArgs, ScheduleComponent, CellClickEventArgs, TimeScaleModel,
+  DayService, WeekService, WorkWeekService, MonthService, AgendaService, TimelineViewsService,
+  TimelineMonthService, ResizeService, DragAndDropService, EventSettingsModel, ActionEventArgs,
+  ToolbarActionArgs, ScheduleComponent, CellClickEventArgs, TimeScaleModel, GroupModel,
   PopupOpenEventArgs, EJ2Instance, getWeekFirstDate, addDays, NavigatingEventArgs, WorkHoursModel
 } from '@syncfusion/ej2-angular-schedule';
 import { QuickPopups } from '@syncfusion/ej2-schedule/src/schedule/popups/quick-popups';
@@ -36,8 +36,8 @@ L10n.load({
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss'],
   providers: [
-    DayService, WeekService, WorkWeekService, MonthService, AgendaService,
-    ResizeService, DragAndDropService
+    DayService, WeekService, WorkWeekService, MonthService, AgendaService, TimelineViewsService,
+    TimelineMonthService, ResizeService, DragAndDropService
   ],
   encapsulation: ViewEncapsulation.None
 })
@@ -53,6 +53,7 @@ export class CalendarComponent implements OnInit {
   @ViewChild('scheduleObj') scheduleObj: ScheduleComponent;
   @ViewChild('treeObj') treeObj: TreeViewComponent;
   @ViewChild('specialistObj') specialistObj: DialogComponent;
+  @ViewChild('dropdownObj') dropdownObj: DropDownList;
   @ViewChild('waitingObj') waitingObj: DialogComponent;
   @ViewChild('calendarToast') toastObj: ToastComponent;
   public position: Object = { X: 'Right', Y: 'Bottom' };
@@ -62,6 +63,7 @@ export class CalendarComponent implements OnInit {
   public isTreeItemDropped = false;
   public draggedItemId = '';
   public patientValue: number;
+  public group: GroupModel = { enableCompactView: false, resources: ['Departments', 'Doctors'] };
   public field: Object = { dataSource: [], id: 'Id', text: 'Name' };
   public dropFields: Object = { text: 'Name', value: 'Id' };
   public allowDragAndDrop = true;
@@ -91,6 +93,11 @@ export class CalendarComponent implements OnInit {
   public activeWaitingItem: Object[] = [];
   public selectedWaitingItem: Object[] = [];
   public comboBox: ComboBox;
+  public fields: Object = { text: 'Name', value: 'Id' };
+  public itemTemplate: string = '<div class="specialist-item"><img class="value" src="./assets/images/${Text}.png" alt="doctor"/>' +
+    '<div class="doctor-details"><div class="name">Dr.${Name}</div><div class="designation">${Designation}</div></div></div>';
+  public footerTemplate = `<div class="add-doctor"><div class="e-icon-add e-icons"></div>
+    <div class="add-doctor-text">Add New Doctor</div></div>`;
 
   public minValidation: (args: { [key: string]: string }) => boolean = (args: { [key: string]: string; }) => {
     return args['value'].length >= 5;
@@ -144,10 +151,11 @@ export class CalendarComponent implements OnInit {
     this.specialistObj.hide();
     if (Browser.isDevice) {
       this.toastWidth = '300px';
+      addClass([this.dropdownObj.element], 'e-specialist-hide');
     }
   }
 
-  onActionBegin(args: ActionEventArgs & ToolbarActionArgs): void {
+  onActionBegin(args: ActionEventArgs): void {
     if (args.requestType === 'eventCreate' || args.requestType === 'eventChange') {
       if (this.isTreeItemDropped) {
         const treeViewdata: { [key: string]: Object }[] = this.treeObj.fields.dataSource as { [key: string]: Object }[];
@@ -232,25 +240,6 @@ export class CalendarComponent implements OnInit {
         doctorIcon.appendChild(doctorImage);
         doctorIconContainer.style.display = 'block';
         doctorIconContainer.onclick = () => this.specialistObj.show();
-      } else {
-        const doctorsElement: HTMLElement = this.scheduleObj.element.querySelector('.app-doctors') as HTMLElement;
-        const listObj: DropDownList = new DropDownList({
-          cssClass: 'planner-dropdown',
-          placeholder: 'Choose Specialist',
-          dataSource: this.doctorsData,
-          fields: { text: 'Name', value: 'Id' },
-          popupHeight: 'auto',
-          popupWidth: '195px',
-          showClearButton: true,
-          change: this.onDoctorSelect.bind(this),
-          itemTemplate: '<div class="specialist-item"><img class="value" src="./assets/images/${Text}.png" alt="doctor"/>' +
-            '<div class="doctor-details"><div class="name">Dr.${Name}</div><div class="designation">${Designation}</div></div></div>',
-          footerTemplate: `<div class="add-doctor"><div class="e-icon-add e-icons"></div><div class="add-doctor-text">Add New Doctor</div>
-            </div>`,
-          width: '195px',
-          open: this.onMultiSelectOpen.bind(this)
-        });
-        listObj.appendTo(doctorsElement);
       }
     }
     if (args.requestType === 'eventCreated' || args.requestType === 'eventChanged' || args.requestType === 'eventRemoved') {
@@ -261,13 +250,6 @@ export class CalendarComponent implements OnInit {
   onPopupOpen(args: PopupOpenEventArgs) {
     if (args.type === 'Editor') {
       this.scheduleObj.eventSettings.fields.subject = { name: 'Name', validation: { required: [true, 'Enter valid Patient Name'] } };
-      if (!Browser.isDevice) {
-        const selectors: Array<string> = ['.e-DepartmentId-container .e-DepartmentId', '.e-DoctorId-container .e-DoctorId'];
-        selectors.forEach((selector: string) => {
-          const dropdownObj: DropDownList = (args.element.querySelector(selector) as EJ2Instance).ej2_instances[0] as DropDownList;
-          dropdownObj.popupWidth = '224px';
-        });
-      }
       // additional field customization
       if (!args.element.querySelector('.custom-field-row')) {
         const row: HTMLElement = createElement('div', { className: 'custom-field-row' });
@@ -302,7 +284,8 @@ export class CalendarComponent implements OnInit {
     }
     if (args.type === 'QuickInfo') {
       if (args.target.classList.contains('e-work-cells') || args.target.classList.contains('e-header-cells')) {
-        this.scheduleObj.quickPopup.quickPopupHide(true);
+        // this.scheduleObj.quickPopup.quickPopupHide(true);
+        this.scheduleObj.closeQuickInfoPopup();
         args.cancel = true;
       } else if (args.target.classList.contains('e-appointment')) {
         (<HTMLElement>args.element).style.boxShadow = `1px 2px 5px 0 ${(<HTMLElement>args.target).style.backgroundColor}`;
@@ -310,12 +293,7 @@ export class CalendarComponent implements OnInit {
     }
     if (args.type === 'EventContainer') {
       const eventElements: NodeListOf<HTMLElement> = args.element.querySelectorAll('.e-appointment');
-      eventElements.forEach((element: HTMLElement) => {
-        const colors: Array<string> = ['rgb(96, 242, 56)', 'rgb(254, 194, 0)'];
-        if (colors.indexOf(element.style.backgroundColor) !== -1) {
-          (element.querySelector('.e-subject') as HTMLElement).style.color = 'black';
-        }
-      });
+      eventElements.forEach((element: HTMLElement) => { (element.querySelector('.e-subject') as HTMLElement).style.color = '#fff'; });
     }
   }
 
@@ -330,24 +308,8 @@ export class CalendarComponent implements OnInit {
         args.cancel = true;
         return;
       }
-      const colors: Array<string> = ['#60F238', '#fec200'];
-      let eventColor: string;
-      let result: { [key: string]: Object }[];
-      if (this.eventSettings.resourceColorField === 'Doctors') {
-        result = this.doctorsData.filter((item: any) => item.Id === args.data.DoctorId);
-      } else {
-        result = this.specialistCategory.filter((item: any) => item.DepartmentId === args.data.DepartmentId);
-      }
-      if (result && result.length > 0) {
-        eventColor = <string>result[0]['Color'];
-      } else {
-        eventColor = 'white';
-      }
-      if (colors.indexOf(eventColor) !== -1) {
-        args.element.style.color = 'black';
-      }
+      args.element.style.color = '#fff';
     }
-
   }
 
   onDataBound() {
@@ -624,22 +586,15 @@ export class CalendarComponent implements OnInit {
     return this.instance.formatDate(value, { skeleton: 'MMMEd' }).toUpperCase();
   }
 
-  getBackGroundColor(data: any) {
+  getBackGroundColor(data: { [key: string]: Object }) {
     let color: string;
-    let fontColor: string;
     if (this.eventSettings.resourceColorField === 'Doctors') {
       color = this.doctorsData.filter((item: { [key: string]: Object }) => item.Id === data.DoctorId)[0]['Color'] as string;
     } else {
       color = this.specialistCategory.filter((item: { [key: string]: Object }) =>
         item.DepartmentId === data.DepartmentId)[0]['Color'] as string;
     }
-    const colors: Array<string> = ['#60F238', '#fec200'];
-    if (colors.indexOf(color) !== -1) {
-      fontColor = '#333333';
-    } else {
-      fontColor = '#FFFFFF';
-    }
-    return { 'background-color': color, color: fontColor };
+    return { 'background-color': color, color: '#FFFFFF' };
   }
 
   onNavigation(args: NavigatingEventArgs) {

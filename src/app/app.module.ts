@@ -10,7 +10,7 @@ import { TreeViewModule, SidebarModule } from '@syncfusion/ej2-angular-navigatio
 import { ToastModule } from '@syncfusion/ej2-angular-notifications';
 import { DatePickerModule, TimePickerModule } from '@syncfusion/ej2-angular-calendars';
 import { ListViewModule } from '@syncfusion/ej2-angular-lists';
-import { TextBoxModule } from '@syncfusion/ej2-angular-inputs';
+import { TextBoxModule, MaskedTextBoxModule } from '@syncfusion/ej2-angular-inputs';
 import { ChartModule } from '@syncfusion/ej2-angular-charts';
 import { GridModule } from '@syncfusion/ej2-angular-grids';
 import { DialogModule } from '@syncfusion/ej2-angular-popups';
@@ -62,6 +62,7 @@ import { MainComponent } from './main/main.component';
     DatePickerModule,
     TimePickerModule,
     TextBoxModule,
+    MaskedTextBoxModule,
     ListViewModule,
     SidebarModule,
     ChartModule,

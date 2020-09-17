@@ -4,7 +4,7 @@ import { DialogComponent, BeforeOpenEventArgs } from '@syncfusion/ej2-angular-po
 import { DropDownList } from '@syncfusion/ej2-angular-dropdowns';
 import { EJ2Instance } from '@syncfusion/ej2-angular-schedule';
 import { DatePicker } from '@syncfusion/ej2-angular-calendars';
-import { FormValidator } from '@syncfusion/ej2-angular-inputs';
+import { FormValidator, MaskedTextBoxComponent } from '@syncfusion/ej2-angular-inputs';
 import { DataService } from '../data.service';
 
 @Component({
@@ -20,7 +20,7 @@ export class AddEditPatientComponent {
   public animationSettings: Object = { effect: 'None' };
   public title = 'New Patient';
   public selectedGender = 'Male';
-  public dobValue: Date = new Date();
+  public dobValue: Date = new Date(1996, 0, 31);
   public dialogState: string;
   public bloodGroupData: Object[];
   public fields: Object = { text: 'Text', value: 'Value' };
@@ -164,11 +164,19 @@ export class AddEditPatientComponent {
     if (formElement && formElement.ej2_instances) {
       return;
     }
+    const customFn: (args: { [key: string]: HTMLElement }) => boolean = (e: { [key: string]: HTMLElement }) => {
+      const argsLength = ((e.element as EJ2Instance).ej2_instances[0] as MaskedTextBoxComponent).value.length;
+      if (argsLength !== 0) {
+        return argsLength >= 10;
+      } else {
+        return false;
+      }
+    };
     const rules: { [key: string]: Object } = {};
-    rules['Name'] = { required: [true, 'Enter valid Name'] };
+    rules['Name'] = { required: [true, 'Enter valid name'] };
     rules['DOB'] = { required: true, date: [true, 'Select valid DOB'] };
-    rules['Mobile'] = { required: [true, 'Enter valid Mobile No'] };
-    rules['Email'] = { required: [true, 'Enter valid Email'], email: [true, 'Enter valid Email'] };
+    rules['Mobile'] = { required: [customFn, 'Enter valid mobile number'] };
+    rules['Email'] = { required: [true, 'Enter valid email'], email: [true, 'Email address is invalid'] };
     this.dataService.renderFormValidator(formElement, rules, this.newPatientObj.element);
   }
 }
