@@ -12,17 +12,15 @@ import { Tooltip, TooltipEventArgs } from '@syncfusion/ej2-angular-popups';
   encapsulation: ViewEncapsulation.None
 })
 export class DoctorsComponent implements OnInit {
-  @ViewChild('addEditDoctorObj')
-  public addEditDoctorObj: AddEditDoctorComponent;
-  @ViewChild('specializationObj')
-  public specializationObj: DropDownListComponent;
-  @ViewChild('specialistItemObj')
-  public specialistItemObj: any;
-  public doctorsData: { [key: string]: Object }[];
-  public activeDoctorData: { [key: string]: Object };
-  public filteredDoctors: { [key: string]: Object }[];
-  public specializationData: Object[];
-  public fields: Object = { text: 'Text', value: 'Id' };
+  @ViewChild('addEditDoctorObj') addEditDoctorObj: AddEditDoctorComponent;
+  @ViewChild('specializationObj') specializationObj: DropDownListComponent;
+  @ViewChild('specialistItemObj') specialistItemObj: any;
+
+  public doctorsData: Record<string, any>[];
+  public activeDoctorData: Record<string, any>;
+  public filteredDoctors: Record<string, any>[];
+  public specializationData: Record<string, any>[];
+  public fields: Record<string, any> = { text: 'Text', value: 'Id' };
   public selectedDepartmentId: string;
   public tooltipObj: Tooltip;
 
@@ -32,7 +30,7 @@ export class DoctorsComponent implements OnInit {
     this.specializationData = this.dataService.specialistData;
   }
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.dataService.updateActiveItem('doctors');
     this.tooltipObj = new Tooltip({
       height: '30px',
@@ -46,15 +44,17 @@ export class DoctorsComponent implements OnInit {
           args.target.classList[1].charAt(0).toUpperCase() + args.target.classList[1].slice(1);
       }
     });
-    this.tooltipObj.appendTo(this.specialistItemObj.nativeElement);
+    if (this.specialistItemObj) {
+      this.tooltipObj.appendTo(this.specialistItemObj.nativeElement);
+    }
   }
 
-  getColor(args: { [key: string]: string }) {
+  public getColor(args: Record<string, string>): string {
     return args.Color;
   }
 
-  onSpecializationChange(args?: any) {
-    let filteredData: { [key: string]: Object }[];
+  public onSpecializationChange(args?: Record<string, any>): void {
+    let filteredData: Record<string, any>[];
     if (args && args.value) {
       this.selectedDepartmentId = args ? args.itemData.DepartmentId : this.selectedDepartmentId;
       filteredData = this.doctorsData.filter((item: any) => item.DepartmentId === this.selectedDepartmentId);
@@ -65,26 +65,26 @@ export class DoctorsComponent implements OnInit {
     this.filteredDoctors = filteredData;
   }
 
-  onSpecialistClick(args: any) {
+  public onSpecialistClick(args: Record<string, any>): void {
     this.tooltipObj.close();
-    const specialistId: string = args.currentTarget.querySelector('.specialist-item')['id'].split('_')[1];
-    const filteredData: Object[] = this.doctorsData.filter((item: any) => item.Id === parseInt(specialistId as string, 10));
-    this.dataService.setActiveDoctorData(<{ [key: string]: Object }>filteredData[0]);
+    const specialistId: string = args.currentTarget.querySelector('.specialist-item').id.split('_')[1];
+    const filteredData: Record<string, any>[] = this.doctorsData.filter((item: any) => item.Id === parseInt(specialistId as string, 10));
+    this.dataService.setActiveDoctorData(filteredData[0]);
     this.router.navigateByUrl('/doctor-details/' + specialistId);
   }
 
-  onAddDoctor() {
+  public onAddDoctor(): void {
     this.addEditDoctorObj.onAddDoctor();
   }
 
-  updateDoctors() {
+  public updateDoctors(): void {
     this.doctorsData = this.dataService.getDoctorsData();
     if (this.selectedDepartmentId) {
       this.filteredDoctors = this.doctorsData.filter((item: any) => item.DepartmentId === this.selectedDepartmentId);
     }
   }
 
-  getEducation(text: Object) {
-    return (<string>text).toUpperCase();
+  public getEducation(text: string): string {
+    return text.toUpperCase();
   }
 }

@@ -12,25 +12,25 @@ import { createElement, remove, removeClass } from '@syncfusion/ej2-base';
   providedIn: 'root'
 })
 export class DataService {
-  public patientsData: { [key: string]: Object }[];
-  public doctorsData: { [key: string]: Object }[];
+  public patientsData: Record<string, any>[];
+  public doctorsData: Record<string, any>[];
   public calendarSettings: CalendarSettings;
   public selectedDate: Date;
   public eventFields: EventFieldsMapping;
-  public activeDoctorData: { [key: string]: Object };
-  public activePatientData: { [key: string]: Object };
-  public specialistData: { [key: string]: Object }[];
-  public activityData: { [key: string]: Object }[];
-  public hospitalData: { [key: string]: Object }[];
-  public bloodGroupData: Object[] = bloodGroupData;
-  public waitingList: { [key: string]: Object }[] = waitingList;
-  public shift1BlockEvents: { [key: string]: Object }[] = shift1BlockData;
-  public shift2BlockEvents: { [key: string]: Object }[] = shift2BlockData;
-  public shift3BlockEvents: { [key: string]: Object }[] = shift3BlockData;
+  public activeDoctorData: Record<string, any>;
+  public activePatientData: Record<string, any>;
+  public specialistData: Record<string, any>[];
+  public activityData: Record<string, any>[];
+  public hospitalData: Record<string, any>[];
+  public bloodGroupData: Record<string, any>[] = bloodGroupData;
+  public waitingList: Record<string, any>[] = waitingList;
+  public shift1BlockEvents: Record<string, any>[] = shift1BlockData;
+  public shift2BlockEvents: Record<string, any>[] = shift2BlockData;
+  public shift3BlockEvents: Record<string, any>[] = shift3BlockData;
 
   constructor() {
-    this.patientsData = patientsData as { [key: string]: Object }[];
-    this.doctorsData = doctorsData as { [key: string]: Object }[];
+    this.patientsData = patientsData as Record<string, any>[];
+    this.doctorsData = doctorsData as Record<string, any>[];
     this.calendarSettings = {
       bookingColor: 'Doctors',
       calendar: {
@@ -44,112 +44,110 @@ export class DataService {
     this.selectedDate = new Date(2020, 7, 5);
     this.activeDoctorData = this.doctorsData[0];
     this.activePatientData = this.patientsData[0];
-    this.specialistData = specializationData as { [key: string]: Object }[];
-    this.activityData = <{ [key: string]: Object }[]>activityData;
-    this.hospitalData = <{ [key: string]: Object }[]>hospitalData;
+    this.specialistData = specializationData as Record<string, any>[];
+    this.activityData = activityData;
+    this.hospitalData = hospitalData;
   }
 
-  onUpdateData(field: string, value: any, className: string, activeData: any) {
+  public onUpdateData(field: string, value: any, className: string, activeData: any): void {
     if (className.indexOf('doctor') !== -1) {
-      for (let i = 0; i < this.doctorsData.length; i++) {
-        if (this.doctorsData[i].Id === activeData.Id) {
-          this.doctorsData[i][field] = value;
+      for (const doctorData of this.doctorsData) {
+        if (doctorData.Id === activeData.Id) {
+          doctorData[field] = value;
         }
       }
     } else {
-      for (let i = 0; i < this.patientsData.length; i++) {
-        if (this.patientsData[i].Id === activeData.Id) {
-          this.patientsData[i][field] = value;
+      for (const patientData of this.patientsData) {
+        if (patientData.Id === activeData.Id) {
+          patientData[field] = value;
         }
       }
     }
   }
 
-  getCalendarSettings() {
+  public getCalendarSettings(): CalendarSettings {
     return this.calendarSettings;
   }
 
-  setCalendarSettings(args: CalendarSettings) {
+  public setCalendarSettings(args: CalendarSettings): void {
     this.calendarSettings = args;
   }
 
-  setActiveDoctorData(data: { [key: string]: Object }) {
+  public setActiveDoctorData(data: Record<string, any>): void {
     this.activeDoctorData = data;
   }
 
-  getActiveDoctorData() {
+  public getActiveDoctorData(): Record<string, any> {
     return this.activeDoctorData;
   }
 
-  setActivePatientData(data: { [key: string]: Object }) {
+  public setActivePatientData(data: Record<string, any>): void {
     this.activePatientData = data;
   }
 
-  getActivePatientData() {
+  public getActivePatientData(): Record<string, any> {
     return this.activePatientData;
   }
 
-  setDoctorsData(data: { [key: string]: Object }[]) {
+  public setDoctorsData(data: Record<string, any>[]): void {
     this.doctorsData = data;
   }
 
-  getDoctorsData() {
+  public getDoctorsData(): Record<string, any>[] {
     return this.doctorsData;
   }
 
-  addHospitalData(data: { [key: string]: Object }[]) {
+  public addHospitalData(data: Record<string, any>[]): void {
     this.hospitalData = data;
   }
 
-  getHospitalData() {
+  public getHospitalData(): Record<string, any>[] {
     return this.hospitalData;
   }
 
-  setPatientsData(data: { [key: string]: Object }[]) {
+  public setPatientsData(data: Record<string, any>[]): void {
     this.patientsData = data;
   }
 
-  getPatientsData() {
+  public getPatientsData(): Record<string, any>[] {
     return this.patientsData;
   }
 
-  addActivityData(data: { [key: string]: Object }) {
+  public addActivityData(data: Record<string, any>): void {
     this.activityData.unshift(data);
   }
 
-  getActivityData() {
+  public getActivityData(): Record<string, any>[] {
     return this.activityData;
   }
 
-  setWaitingList(data: { [key: string]: Object }[]) {
+  public setWaitingList(data: Record<string, any>[]): void {
     this.waitingList = data;
   }
 
-  getWaitingList() {
+  public getWaitingList(): Record<string, any>[] {
     return this.waitingList;
   }
 
-  renderFormValidator(formElement: HTMLFormElement, rules: { [key: string]: Object }, parentElement: HTMLElement) {
+  public renderFormValidator(formElement: HTMLFormElement, rules: Record<string, any>, parentElement: HTMLElement): void {
     const model: FormValidatorModel = {
-      customPlacement: (inputElement: HTMLElement, error: HTMLElement) => {
-        this.errorPlacement(inputElement, error);
-      },
-      rules: rules as { [name: string]: { [rule: string]: Object } },
-      validationComplete: (args: { status: string, inputName: string, element: HTMLElement, message: string }) => {
+      customPlacement: (inputElement: HTMLElement, error: HTMLElement) => { this.errorPlacement(inputElement, error); },
+      rules: rules as { [name: string]: { [rule: string]: Record<string, any> } },
+      validationComplete: (args: Record<string, any>) => {
         this.validationComplete(args, parentElement);
       }
     };
     const obj: FormValidator = new FormValidator(formElement, model);
   }
 
-  validationComplete(args: { status: string, inputName: string, element: HTMLElement, message: string }, parentElement: HTMLElement) {
+  public validationComplete(args: Record<string, any>, parentElement: HTMLElement): void {
     const elem: HTMLElement = parentElement.querySelector('#' + args.inputName + '_Error') as HTMLElement;
     if (elem) {
       elem.style.display = (args.status === 'failure') ? '' : 'none';
     }
   }
 
-  errorPlacement(inputElement: HTMLElement, error: HTMLElement): void {
+  public errorPlacement(inputElement: HTMLElement, error: HTMLElement): void {
     const id: string = error.getAttribute('for');
     const elem: Element = inputElement.parentElement.querySelector('#' + id + '_Error');
     if (!elem) {
@@ -164,7 +162,7 @@ export class DataService {
     }
   }
 
-  destroyErrorElement(formElement: HTMLFormElement, inputElements: HTMLInputElement[]): void {
+  public destroyErrorElement(formElement: HTMLFormElement, inputElements: HTMLInputElement[]): void {
     if (formElement) {
       const elements: Element[] = [].slice.call(formElement.querySelectorAll('.field-error'));
       for (const elem of elements) {
@@ -178,7 +176,7 @@ export class DataService {
     }
   }
 
-  updateActiveItem(text: string) {
+  public updateActiveItem(text: string): void {
     const elements: NodeListOf<Element> = document.querySelectorAll('.active-item');
     elements.forEach(element => {
       if (element.classList.contains('active-item')) {

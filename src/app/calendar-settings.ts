@@ -1,6 +1,6 @@
 export class CalendarSettings {
     bookingColor: string;
-    calendar: { [key: string]: Object } = { start: '', end: '' };
+    calendar: Record<string, any> = { start: '', end: '' };
     currentView: string;
     interval: number;
     firstDayOfWeek: number;

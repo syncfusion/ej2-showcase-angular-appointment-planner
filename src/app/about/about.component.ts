@@ -7,8 +7,10 @@ import { DataService } from '../data.service';
   styleUrls: ['./about.component.scss']
 })
 export class AboutComponent implements OnInit {
+
   constructor(private dataService: DataService) { }
-  ngOnInit() {
+
+  public ngOnInit(): void {
     this.dataService.updateActiveItem('about');
   }
 }
