@@ -10,8 +10,8 @@ import { SidebarComponent } from '@syncfusion/ej2-angular-navigations';
 export class MainComponent implements AfterViewInit {
   @ViewChild('sideBar')
   public sideBar: SidebarComponent;
-  public showBackdrop: Boolean = false;
-  public closeOnDocumentClick: Boolean = false;
+  public showBackdrop = false;
+  public closeOnDocumentClick = false;
 
   constructor() {
     document.body.classList.add('main-page');
@@ -21,18 +21,18 @@ export class MainComponent implements AfterViewInit {
     }
   }
 
-  ngAfterViewInit() {
+  public ngAfterViewInit(): void {
     if (Browser.isDevice) {
       document.querySelector('.planner-header').classList.add('device-header');
       document.querySelector('.planner-wrapper').classList.add('device-wrapper');
     }
   }
 
-  btnClick() {
+  public btnClick(): void {
     this.sideBar.show();
   }
 
-  onItemClick(args: any) {
+  public onItemClick(args: any): void {
     if (Browser.isDevice) {
       this.sideBar.hide();
     }

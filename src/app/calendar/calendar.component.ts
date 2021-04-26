@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Component, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import {
   remove, addClass, closest, Browser, L10n, Internationalization, extend, isNullOrUndefined, createElement
@@ -24,9 +25,9 @@ import { DataService } from '../data.service';
 
 L10n.load({
   'en-US': {
-    'schedule': {
-      'newEvent': 'Add Appointment',
-      'editEvent': 'Edit Appointment'
+    schedule: {
+      newEvent: 'Add Appointment',
+      editEvent: 'Edit Appointment'
     }
   }
 });
@@ -43,11 +44,6 @@ L10n.load({
 })
 export class CalendarComponent implements OnInit {
 
-  constructor(public dataService: DataService) {
-    (QuickPopups.prototype as any).applyFormValidation = () => { };
-    (FieldValidator.prototype as any).errorPlacement = this.dataService.errorPlacement;
-  }
-
   @ViewChild('addEditPatientObj') addEditPatientObj: AddEditPatientComponent;
   @ViewChild('addEditDoctorObj') addEditDoctorObj: AddEditDoctorComponent;
   @ViewChild('scheduleObj') scheduleObj: ScheduleComponent;
@@ -56,7 +52,8 @@ export class CalendarComponent implements OnInit {
   @ViewChild('dropdownObj') dropdownObj: DropDownList;
   @ViewChild('waitingObj') waitingObj: DialogComponent;
   @ViewChild('calendarToast') toastObj: ToastComponent;
-  public position: Object = { X: 'Right', Y: 'Bottom' };
+
+  public position: Record<string, any> = { X: 'Right', Y: 'Bottom' };
   public toastContent: string;
   public toastWidth = '580px';
   public calendarSettings: CalendarSettings;
@@ -64,49 +61,51 @@ export class CalendarComponent implements OnInit {
   public draggedItemId = '';
   public patientValue: number;
   public group: GroupModel = { enableCompactView: false, resources: ['Departments', 'Doctors'] };
-  public field: Object = { dataSource: [], id: 'Id', text: 'Name' };
-  public dropFields: Object = { text: 'Name', value: 'Id' };
+  public field: Record<string, any> = { dataSource: [], id: 'Id', text: 'Name' };
+  public dropFields: Record<string, any> = { text: 'Name', value: 'Id' };
   public allowDragAndDrop = true;
   public instance: Internationalization = new Internationalization();
   public initialLoad = true;
   public currentDate: Date;
   public selectedDate: Date;
   public eventSettings: EventSettingsModel;
-  public resourceDataSource: Object[];
-  public specialistCategory: { [key: string]: Object }[];
-  public firstDayOfWeek: Number = 1;
+  public resourceDataSource: Record<string, any>[];
+  public specialistCategory: Record<string, any>[];
+  public firstDayOfWeek = 1;
   public startHour: string;
   public endHour: string;
   public timeScale: TimeScaleModel = { enable: true, interval: 60 };
   public currentView: string;
-  public doctorsData: { [key: string]: Object }[];
-  public hospitalData: { [key: string]: Object }[];
-  public patientsData: { [key: string]: Object }[];
-  public activeDoctorData: Object[];
-  public specialistData: { [key: string]: Object }[];
+  public doctorsData: Record<string, any>[];
+  public hospitalData: Record<string, any>[];
+  public patientsData: Record<string, any>[];
+  public activeDoctorData: Record<string, any>[];
+  public specialistData: Record<string, any>[];
   public data: any = [];
-  public eventData: Object[];
+  public eventData: Record<string, any>[];
   public workDays: Array<number> = [0, 1, 2, 3, 4, 5, 6];
   public workHours: WorkHoursModel = { start: '08:00', end: '21:00' };
-  public animationSettings: Object = { effect: 'None' };
-  public waitingList: { [key: string]: Object }[];
-  public activeWaitingItem: Object[] = [];
-  public selectedWaitingItem: Object[] = [];
+  public animationSettings: Record<string, any> = { effect: 'None' };
+  public waitingList: Record<string, any>[];
+  public activeWaitingItem: Record<string, any>[] = [];
+  public selectedWaitingItem: Record<string, any>[] = [];
   public comboBox: ComboBox;
-  public fields: Object = { text: 'Name', value: 'Id' };
+  public fields: Record<string, any> = { text: 'Name', value: 'Id' };
   public itemTemplate: string = '<div class="specialist-item"><img class="value" src="./assets/images/${Text}.png" alt="doctor"/>' +
     '<div class="doctor-details"><div class="name">Dr.${Name}</div><div class="designation">${Designation}</div></div></div>';
   public footerTemplate = `<div class="add-doctor"><div class="e-icon-add e-icons"></div>
     <div class="add-doctor-text">Add New Doctor</div></div>`;
 
-  public minValidation: (args: { [key: string]: string }) => boolean = (args: { [key: string]: string; }) => {
-    return args['value'].length >= 5;
-  }
-  public nameValidation: (args: { [key: string]: string }) => boolean = (args: { [key: string]: string; }) => {
-    return this.patientsData.filter((item: Object) => item['Name'] === args['value']).length > 0;
+  constructor(public dataService: DataService) {
+    (QuickPopups.prototype as any).applyFormValidation = () => { };
+    (FieldValidator.prototype as any).errorPlacement = this.dataService.errorPlacement;
   }
 
-  ngOnInit() {
+  public minValidation: (args: { [key: string]: string }) => boolean = (args: { [key: string]: string }) => args.value.length >= 5;
+  public nameValidation: (args: { [key: string]: string }) => boolean = (args: { [key: string]: string }) =>
+    this.patientsData.filter((item: Record<string, any>) => item.Name === args.value).length > 0;
+
+  public ngOnInit(): void {
     this.eventData = this.hospitalData = this.dataService.getHospitalData();
     this.calendarSettings = this.dataService.getCalendarSettings();
     this.eventSettings = {
@@ -139,38 +138,42 @@ export class CalendarComponent implements OnInit {
     this.activeDoctorData = [];
     this.specialistData = this.doctorsData = this.dataService.getDoctorsData();
     this.resourceDataSource = this.dataService.getDoctorsData();
-    this.field['dataSource'] = this.waitingList = this.dataService.getWaitingList();
+    this.field.dataSource = this.waitingList = this.dataService.getWaitingList();
     this.activeWaitingItem = this.waitingList;
-    this.startHour = <string>this.calendarSettings.calendar['start'];
-    this.endHour = <string>this.calendarSettings.calendar['end'];
+    this.startHour = this.calendarSettings.calendar.start as string;
+    this.endHour = this.calendarSettings.calendar.end as string;
     this.timeScale.interval = this.calendarSettings.interval;
     this.currentView = this.calendarSettings.currentView;
     this.firstDayOfWeek = this.calendarSettings.firstDayOfWeek;
     this.selectedDate = this.dataService.selectedDate;
     this.currentDate = this.selectedDate;
-    this.specialistObj.hide();
-    if (Browser.isDevice) {
+    if (this.specialistObj) {
+      this.specialistObj.hide();
+    }
+    if (Browser.isDevice && this.dropdownObj) {
       this.toastWidth = '300px';
       addClass([this.dropdownObj.element], 'e-specialist-hide');
     }
   }
 
-  onActionBegin(args: ActionEventArgs): void {
+  public onActionBegin(args: ActionEventArgs): void {
     if (args.requestType === 'eventCreate' || args.requestType === 'eventChange') {
       if (this.isTreeItemDropped) {
-        const treeViewdata: { [key: string]: Object }[] = this.treeObj.fields.dataSource as { [key: string]: Object }[];
+        const treeViewData: Record<string, any>[] =
+          this.treeObj.fields.dataSource as Record<string, any>[];
         this.refreshWaitingItems(parseInt(this.draggedItemId, 10));
-        this.treeObj.fields.dataSource = treeViewdata.filter((item: { [key: string]: Object }) =>
+        this.treeObj.fields.dataSource = treeViewData.filter((item: Record<string, any>) =>
           item.Id !== parseInt(this.draggedItemId, 10));
         const elements: NodeListOf<HTMLElement> = document.querySelectorAll('.e-drag-item.treeview-external-drag');
         elements.forEach((node: HTMLElement) => remove(node));
       }
-      const data: { [key: string]: Object } = (args.requestType === 'eventCreate' ? args.data[0] : args.data) as { [key: string]: Object };
+      const data: Record<string, any> = (args.requestType === 'eventCreate' ? (args.data as Record<string, any>[])[0] :
+        args.data) as Record<string, any>;
       if (this.patientValue) {
-        data['PatientId'] = this.patientValue;
-        data['Name'] = this.patientsData.filter((item: { [key: string]: Object }) => item.Id === this.patientValue)[0]['Name'];
+        data.PatientId = this.patientValue;
+        data.Name = this.patientsData.filter((item: Record<string, any>) => item.Id === this.patientValue)[0].Name;
       }
-      let eventCollection: Object[] = this.scheduleObj.eventBase.filterEvents(data.StartTime as Date, data.EndTime as Date);
+      let eventCollection: Record<string, any>[] = this.scheduleObj.eventBase.filterEvents(data.StartTime as Date, data.EndTime as Date);
       const predicate: Predicate = new Predicate('Id', 'notequal', data.Id as number)
         .and(new Predicate('DepartmentId', 'equal', data.DepartmentId as number))
         .and(new Predicate('DoctorId', 'equal', data.DoctorId as number));
@@ -185,7 +188,7 @@ export class CalendarComponent implements OnInit {
         this.toastObj.show();
       }
       if (this.activeDoctorData.length > 0) {
-        this.updateWaitingList(this.activeDoctorData[0]['DepartmentId']);
+        this.updateWaitingList(this.activeDoctorData[0].DepartmentId);
       } else {
         this.updateWaitingList();
       }
@@ -194,7 +197,7 @@ export class CalendarComponent implements OnInit {
           this.hospitalData.push(data);
         }
       }
-      const activityData: { [key: string]: Object } = {
+      const activityData: Record<string, any> = {
         Name: args.requestType === 'eventCreate' ? 'Added New Appointment' : 'Updated Appointment',
         Message: `${data.Name} for ${data.Symptoms}`,
         Time: '5 mins ago',
@@ -231,10 +234,10 @@ export class CalendarComponent implements OnInit {
     }
   }
 
-  onActionComplete(args: ActionEventArgs): void {
+  public onActionComplete(args: ActionEventArgs): void {
     if (args.requestType === 'toolBarItemRendered') {
       if (Browser.isDevice) {
-        const doctorIconContainer: HTMLElement = <HTMLElement>(this.scheduleObj.element.querySelector('.app-doctor-icon'));
+        const doctorIconContainer: HTMLElement = this.scheduleObj.element.querySelector('.app-doctor-icon') as HTMLElement;
         const doctorIcon: HTMLElement = doctorIconContainer.querySelector('.doctor-icon');
         const doctorImage: HTMLElement = createElement('img', { className: 'active-doctor', attrs: { src: './assets/Icons/Doctors.svg' } });
         doctorIcon.appendChild(doctorImage);
@@ -242,14 +245,16 @@ export class CalendarComponent implements OnInit {
         doctorIconContainer.onclick = () => this.specialistObj.show();
       }
     }
+    if (document.body.style.cursor === 'not-allowed') {
+      document.body.style.cursor = '';
+    }
     if (args.requestType === 'eventCreated' || args.requestType === 'eventChanged' || args.requestType === 'eventRemoved') {
       this.dataService.addHospitalData(this.hospitalData);
     }
   }
 
-  onPopupOpen(args: PopupOpenEventArgs) {
+  public onPopupOpen(args: PopupOpenEventArgs): void {
     if (args.type === 'Editor') {
-      this.scheduleObj.eventSettings.fields.subject = { name: 'Name', validation: { required: [true, 'Enter valid Patient Name'] } };
       // additional field customization
       if (!args.element.querySelector('.custom-field-row')) {
         const row: HTMLElement = createElement('div', { className: 'custom-field-row' });
@@ -280,15 +285,14 @@ export class CalendarComponent implements OnInit {
         const button: Button = new Button({ iconCss: 'e-icons e-add-icon', cssClass: 'e-small e-round', isPrimary: true });
         button.appendTo(buttonEle);
       }
-      this.comboBox.value = args.data['PatientId'] || null;
+      this.comboBox.value = args.data.PatientId || null;
     }
     if (args.type === 'QuickInfo') {
       if (args.target.classList.contains('e-work-cells') || args.target.classList.contains('e-header-cells')) {
-        // this.scheduleObj.quickPopup.quickPopupHide(true);
         this.scheduleObj.closeQuickInfoPopup();
         args.cancel = true;
       } else if (args.target.classList.contains('e-appointment')) {
-        (<HTMLElement>args.element).style.boxShadow = `1px 2px 5px 0 ${(<HTMLElement>args.target).style.backgroundColor}`;
+        (args.element as HTMLElement).style.boxShadow = `1px 2px 5px 0 ${(args.target as HTMLElement).style.backgroundColor}`;
       }
     }
     if (args.type === 'EventContainer') {
@@ -297,9 +301,9 @@ export class CalendarComponent implements OnInit {
     }
   }
 
-  onEventRendered(args: any) {
+  public onEventRendered(args: Record<string, any>): void {
     if (args.element.classList.contains('e-appointment')) {
-      const data: { [key: string]: Object } = args.data as { [key: string]: Object };
+      const data: Record<string, any> = args.data as Record<string, any>;
       const eventStart = data.StartTime as Date;
       const eventEnd = data.EndTime as Date;
       let eventCollection = this.scheduleObj.blockProcessed;
@@ -312,58 +316,58 @@ export class CalendarComponent implements OnInit {
     }
   }
 
-  onDataBound() {
+  public onDataBound(): void {
     if (this.initialLoad) {
       this.updateWaitingList();
       this.initialLoad = !this.initialLoad;
     }
   }
 
-  onAddPatient() {
+  public onAddPatient(): void {
     this.addEditPatientObj.onAddPatient();
   }
 
-  getEventDetails(data: Object) {
-    return (this.instance.formatDate(new Date(data['StartTime']), { type: 'date', skeleton: 'long' }) +
-      '(' + this.getString(new Date(data['StartTime']), 'hm') + '-' + this.getString(new Date(data['EndTime']), 'hm') + ')');
+  public getEventDetails(data: Record<string, any>): string {
+    return (this.instance.formatDate(new Date(data.StartTime), { type: 'date', skeleton: 'long' }) +
+      '(' + this.getString(new Date(data.StartTime), 'hm') + '-' + this.getString(new Date(data.EndTime), 'hm') + ')');
   }
 
-  getPatientName(data: Object) {
-    return this.patientsData.filter((item: { [key: string]: Object }) => item['Id'] === data['PatientId'])[0]['Name'].toString();
+  public getPatientName(data: Record<string, any>): string {
+    return this.patientsData.filter((item: Record<string, any>) => item.Id === data.PatientId)[0].Name.toString();
   }
 
-  getDoctorName(data: Object) {
-    return this.doctorsData.filter((item: { [key: string]: Object }) => item['Id'] === data['DoctorId'])[0]['Name'].toString();
+  public getDoctorName(data: Record<string, any>): string {
+    return this.doctorsData.filter((item: Record<string, any>) => item.Id === data.DoctorId)[0].Name.toString();
   }
 
-  getDepartmentName(id: number) {
-    return (this.specialistCategory.filter(item => id === item.DepartmentId)[0]['Text'] as string).toUpperCase();
+  public getDepartmentName(id: number): string {
+    return (this.specialistCategory.filter(item => id === item.DepartmentId)[0].Text as string).toUpperCase();
   }
 
-  getTreatmentDetail(data: Object) {
-    return data['Treatment'] || 'CHECKUP';
+  public getTreatmentDetail(data: Record<string, any>): string {
+    return data.Treatment || 'CHECKUP';
   }
 
   // Toolbar item actions
-  onMultiSelectOpen(args: any) {
-    (<HTMLElement>(args.popup.element.querySelector('.add-doctor'))).onclick = this.onAddClick.bind(this);
+  public onMultiSelectOpen(args: any): void {
+    args.popup.element.querySelector('.add-doctor').onclick = this.onAddClick.bind(this);
   }
 
-  onDoctorSelect(args: any): void {
+  public onDoctorSelect(args: Record<string, any>): void {
     if (args.value) {
       this.refreshDataSource(args.itemData.DepartmentId, args.itemData.Id);
-      this.field['dataSource'] = this.activeWaitingItem;
-      this.treeObj.fields.dataSource = this.activeWaitingItem as { [key: string]: Object }[];
+      this.field.dataSource = this.activeWaitingItem;
+      this.treeObj.fields.dataSource = this.activeWaitingItem as Record<string, any>[];
     } else {
       this.setDefaultData();
     }
   }
 
-  refreshDataSource(deptId: string, doctorId: string) {
-    const filteredItems: Object[] = this.doctorsData.filter(item => parseInt(doctorId, 10) === item.Id);
+  public refreshDataSource(deptId: string, doctorId: string): void {
+    const filteredItems: Record<string, any>[] = this.doctorsData.filter(item => parseInt(doctorId, 10) === item.Id);
     this.activeDoctorData = filteredItems;
-    this.workDays = filteredItems[0]['AvailableDays'];
-    this.workHours = { start: filteredItems[0]['StartHour'], end: filteredItems[0]['EndHour'] };
+    this.workDays = filteredItems[0].AvailableDays;
+    this.workHours = { start: filteredItems[0].StartHour, end: filteredItems[0].EndHour };
     this.scheduleObj.workHours = this.workHours;
     if (filteredItems.length > 0) {
       this.updateBreakHours(this.scheduleObj.selectedDate);
@@ -377,11 +381,11 @@ export class CalendarComponent implements OnInit {
     this.updateWaitingList(parseInt(deptId, 10));
   }
 
-  onAddClick() {
+  public onAddClick(): void {
     this.addEditDoctorObj.onAddDoctor();
   }
 
-  onItemDrag(event: any): void {
+  public onItemDrag(event: any): void {
     if (this.scheduleObj.isAdaptive) {
       const classElement: HTMLElement = this.scheduleObj.element.querySelector('.e-device-hover');
       if (classElement) {
@@ -401,7 +405,7 @@ export class CalendarComponent implements OnInit {
         node.style.display = 'block';
         status = document.querySelector('body').offsetWidth <= node.offsetLeft + node.offsetWidth;
       });
-      const targetEle: Element = <Element>closest(event.target, '.droppable');
+      const targetEle: Element = closest(event.target, '.droppable');
       if (!targetEle || status) {
         tooltipElement.forEach((node: HTMLElement) => node.style.display = 'none');
         event.cancel = true;
@@ -412,8 +416,8 @@ export class CalendarComponent implements OnInit {
     }
   }
 
-  onTreeDragStop(event: DragAndDropEventArgs): void {
-    const treeElement: Element = <Element>closest(event.target, '.e-treeview');
+  public onTreeDragStop(event: DragAndDropEventArgs): void {
+    const treeElement: Element = closest(event.target, '.e-treeview');
     const classElement: HTMLElement = this.scheduleObj.element.querySelector('.e-device-hover');
     if (classElement) {
       classElement.classList.remove('e-device-hover');
@@ -425,21 +429,21 @@ export class CalendarComponent implements OnInit {
       event.cancel = true;
       const scheduleElement: Element = closest(event.target, '.e-content-wrap');
       if (scheduleElement) {
-        const treeviewData: { [key: string]: Object }[] = this.treeObj.fields.dataSource as { [key: string]: Object }[];
+        const treeviewData: Record<string, any>[] = this.treeObj.fields.dataSource as Record<string, any>[];
         if (event.target.classList.contains('e-work-cells')) {
-          const filteredData: { [key: string]: Object }[] = treeviewData.filter((item: { [key: string]: Object }) =>
+          const filteredData: Record<string, any>[] = treeviewData.filter((item: Record<string, any>) =>
             item.Id === parseInt(event.draggedNodeData.id as string, 10));
           const cellData: CellClickEventArgs = this.scheduleObj.getCellDetails(event.target);
           let doctorId: number;
           if (this.activeDoctorData.length > 0) {
-            doctorId = this.activeDoctorData[0]['Id'];
+            doctorId = this.activeDoctorData[0].Id;
           } else {
-            const doctor: Object[] = this.doctorsData.filter((item: { [key: string]: Object }) =>
+            const doctor: Record<string, any>[] = this.doctorsData.filter((item: Record<string, any>) =>
               item.DepartmentId === filteredData[0].DepartmentId);
-            doctorId = doctor && doctor.length > 0 ? doctor[0]['Id'] as number : this.doctorsData[0]['Id'] as number;
+            doctorId = doctor && doctor.length > 0 ? doctor[0].Id as number : this.doctorsData[0].Id as number;
           }
           const milliSeconds: number = ((filteredData[0].EndTime as Date).getTime() - (filteredData[0].StartTime as Date).getTime());
-          const eventData: { [key: string]: Object } = {
+          const eventData: Record<string, any> = {
             Name: filteredData[0].Name,
             StartTime: cellData.startTime,
             EndTime: new Date(new Date(cellData.startTime).setMilliseconds(milliSeconds)),
@@ -449,8 +453,8 @@ export class CalendarComponent implements OnInit {
             DepartmentId: filteredData[0].DepartmentId,
             DoctorId: doctorId
           };
-          let eventCollection: Object[] = this.scheduleObj.eventBase.filterEvents(<Date>eventData['StartTime'], <Date>eventData['EndTime']);
-          eventCollection = eventCollection.filter((item: Object) => item['DoctorId'] === eventData.DoctorId);
+          let eventCollection: Record<string, any>[] = this.scheduleObj.eventBase.filterEvents(eventData.StartTime, eventData.EndTime);
+          eventCollection = eventCollection.filter((item: Record<string, any>) => item.DoctorId === eventData.DoctorId);
           if (eventCollection.length > 0) {
             event.cancel = true;
             this.toastContent = 'An appointment already exists on the same time range, so please reschedule on different time slots.';
@@ -465,16 +469,17 @@ export class CalendarComponent implements OnInit {
     }
   }
 
-  getEventTime(data: any) {
+  public getEventTime(data: Record<string, any>): string {
     return (this.getString(new Date(data.StartTime), 'MMMd') + ',' + this.getString(new Date(data.StartTime), 'hm') +
       '-' + this.getString(new Date(data.EndTime), 'hm'));
   }
 
-  getString(value: Date, type: string) {
+  public getString(value: Date, type: string): string {
     return this.instance.formatDate(new Date(value), { type: 'dateTime', skeleton: type });
   }
 
-  createNewEvent(args: ClickEventArgs) {
+  public createNewEvent(e: MouseEvent): void {
+    const args = e as CellClickEventArgs & MouseEvent;
     let data: CellClickEventArgs;
     const isSameTime: boolean =
       this.scheduleObj.activeCellsData.startTime.getTime() === this.scheduleObj.activeCellsData.endTime.getTime();
@@ -487,26 +492,26 @@ export class CalendarComponent implements OnInit {
       const startTime: Date = new Date(this.scheduleObj.selectedDate.getTime());
       startTime.setHours(new Date().getHours(), Math.round(startTime.getMinutes() / msInterval) * msInterval, 0);
       const endTime: Date = new Date(new Date(startTime.getTime()).setMilliseconds(startTime.getMilliseconds() + msInterval));
-      data = { startTime: startTime, endTime: endTime, isAllDay: false };
+      data = { startTime, endTime, isAllDay: false };
     }
     this.scheduleObj.openEditor(extend(data, { cancel: false, event: args.event }), 'Add');
   }
 
-  getDoctorImage(data: any) {
+  public getDoctorImage(data: Record<string, any>): string {
     return isNullOrUndefined(data.Text) ? './assets/Icons/Doctors.svg' : `./assets/images/${data.Text}.png`;
   }
 
-  onSpecialistSelect(args: any) {
+  public onSpecialistSelect(args: Record<string, any>): void {
     const target: HTMLElement = closest(args.target, '.specialist-item') as HTMLElement;
     const deptId: string = target.getAttribute('data-deptid');
     const doctorId: string = target.getAttribute('data-doctorid');
     this.refreshDataSource(deptId, doctorId);
     const doctorImage: HTMLElement = this.scheduleObj.element.querySelector('.doctor-icon .active-doctor');
-    doctorImage.setAttribute('src', './assets/images/' + (<{ [key: string]: Object }>this.activeDoctorData[0]).Text + '.png');
+    doctorImage.setAttribute('src', './assets/images/' + this.activeDoctorData[0].Text + '.png');
     this.specialistObj.hide();
   }
 
-  onBackIconClick(args: any) {
+  public onBackIconClick(args: Record<string, any>): void {
     if (closest(args.currentTarget.parentElement, '.waiting-list-dialog')) {
       this.waitingObj.hide();
     } else {
@@ -514,11 +519,11 @@ export class CalendarComponent implements OnInit {
     }
   }
 
-  onWaitingListSelect() {
+  public onWaitingListSelect(): void {
     this.waitingObj.show();
   }
 
-  onWaitingListClosed(args: any) {
+  public onWaitingListClosed(args: Record<string, any>): void {
     const checkboxElements: HTMLElement[] = args.element.querySelectorAll('.e-checkbox');
     checkboxElements.forEach(element => {
       const checkbox: CheckBox = (element as EJ2Instance).ej2_instances[0] as CheckBox;
@@ -528,14 +533,14 @@ export class CalendarComponent implements OnInit {
     });
   }
 
-  onItemChecked(args: ChangeEventArgs) {
-    const waitItemId: string = closest(<HTMLElement>args.event.currentTarget, '.e-checkbox-wrapper')['id'];
-    this.selectedWaitingItem.push(this.waitingList.filter((item: { [key: string]: Object }) => item.Id === parseInt(waitItemId, 10))[0]);
+  public onItemChecked(args: ChangeEventArgs): void {
+    const waitItemId: string = closest(args.event.currentTarget as HTMLElement, '.e-checkbox-wrapper').id;
+    this.selectedWaitingItem.push(this.waitingList.filter((item: Record<string, any>) => item.Id === parseInt(waitItemId, 10))[0]);
   }
 
-  onItemDelete() {
+  public onItemDelete(): void {
     if (this.selectedWaitingItem.length > 0) {
-      this.selectedWaitingItem.forEach((activeItem: { [key: string]: Object }) => this.refreshWaitingItems(activeItem['Id'] as number));
+      this.selectedWaitingItem.forEach((activeItem: Record<string, any>) => this.refreshWaitingItems(activeItem.Id as number));
       this.selectedWaitingItem = [];
       this.waitingObj.hide();
     } else {
@@ -544,23 +549,23 @@ export class CalendarComponent implements OnInit {
     }
   }
 
-  onItemAdd() {
+  public onItemAdd(): void {
     if (this.selectedWaitingItem.length > 0) {
-      this.selectedWaitingItem.forEach((activeItem: { [key: string]: Object }) => {
-        const eventFilter: Object[] = this.eventData.filter((event: { [key: string]: Object }) => event.Id === activeItem.Id);
+      this.selectedWaitingItem.forEach((activeItem: Record<string, any>) => {
+        const eventFilter: Record<string, any>[] = this.eventData.filter((event: Record<string, any>) => event.Id === activeItem.Id);
         if (eventFilter.length === 0) {
-          const doctorData: Object[] = this.activeDoctorData.length > 0 ? this.activeDoctorData.filter((data: { [key: string]: Object }) =>
-            data.DepartmentId === activeItem.DepartmentId) : [];
+          const doctorData: Record<string, any>[] = this.activeDoctorData.length > 0 ?
+            this.activeDoctorData.filter((data: Record<string, any>) => data.DepartmentId === activeItem.DepartmentId) : [];
           const isActiveDepartment: boolean = doctorData.length > 0;
           if (isActiveDepartment) {
-            activeItem['DoctorId'] = doctorData[0]['Id'];
+            activeItem.DoctorId = doctorData[0].Id;
           } else {
-            const filteredData: Object[] = this.doctorsData.filter((data: { [key: string]: Object }) =>
+            const filteredData: Record<string, any>[] = this.doctorsData.filter((data: Record<string, any>) =>
               data.DepartmentId === activeItem.DepartmentId);
-            activeItem['DoctorId'] = filteredData[0]['Id'];
+            activeItem.DoctorId = filteredData[0].Id;
           }
           this.eventData.push(activeItem);
-          this.refreshWaitingItems(activeItem['Id'] as number);
+          this.refreshWaitingItems(activeItem.Id as number);
           if (this.activeDoctorData.length > 0) {
             this.hospitalData.push(activeItem);
           }
@@ -576,58 +581,57 @@ export class CalendarComponent implements OnInit {
       this.toastObj.show();
     }
     if (this.activeDoctorData.length > 0) {
-      this.updateWaitingList(this.activeDoctorData[0]['DepartmentId']);
+      this.updateWaitingList(this.activeDoctorData[0].DepartmentId);
     } else {
       this.updateWaitingList();
     }
   }
 
-  getDateHeaderText: Function = (value: Date) => {
-    return this.instance.formatDate(value, { skeleton: 'MMMEd' }).toUpperCase();
-  }
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  public getDateHeaderText: Function = (value: Date): string => this.instance.formatDate(value, { skeleton: 'MMMEd' }).toUpperCase();
 
-  getBackGroundColor(data: { [key: string]: Object }) {
+  public getBackGroundColor(data: Record<string, any>): Record<string, string> {
     let color: string;
     if (this.eventSettings.resourceColorField === 'Doctors') {
-      color = this.doctorsData.filter((item: { [key: string]: Object }) => item.Id === data.DoctorId)[0]['Color'] as string;
+      color = this.doctorsData.filter((item: Record<string, any>) => item.Id === data.DoctorId)[0].Color as string;
     } else {
-      color = this.specialistCategory.filter((item: { [key: string]: Object }) =>
-        item.DepartmentId === data.DepartmentId)[0]['Color'] as string;
+      color = this.specialistCategory.filter((item: Record<string, any>) =>
+        item.DepartmentId === data.DepartmentId)[0].Color as string;
     }
     return { 'background-color': color, color: '#FFFFFF' };
   }
 
-  onNavigation(args: NavigatingEventArgs) {
+  public onNavigation(args: NavigatingEventArgs): void {
     this.currentDate = args.currentDate || this.selectedDate;
     if (this.activeDoctorData.length > 0) {
       this.updateBreakHours(this.currentDate);
       this.eventData = this.generateEvents(this.activeDoctorData[0]);
       this.scheduleObj.eventSettings.dataSource = this.eventData;
-      this.updateWaitingList(this.activeDoctorData[0]['DepartmentId']);
+      this.updateWaitingList(this.activeDoctorData[0].DepartmentId);
     } else {
       this.updateWaitingList();
     }
   }
 
-  refreshWaitingItems(id: number) {
+  public refreshWaitingItems(id: number): void {
     this.waitingList = this.waitingList.filter((item: any) => item.Id !== id);
     this.dataService.setWaitingList(this.waitingList);
     this.activeWaitingItem = this.waitingList;
   }
 
-  updateWaitingList(deptId?: number) {
-    let filteredData: Object[] = this.filterWaitingEvents();
+  public updateWaitingList(deptId?: number): void {
+    let filteredData: Record<string, any>[] = this.filterWaitingEvents();
     if (deptId) {
-      filteredData = filteredData.filter((item: { [key: string]: Object }) => item['DepartmentId'] === deptId);
+      filteredData = filteredData.filter((item: Record<string, any>) => item.DepartmentId === deptId);
     }
     this.activeWaitingItem = filteredData;
-    this.field['dataSource'] = this.activeWaitingItem;
-    this.treeObj.fields.dataSource = this.activeWaitingItem as { [key: string]: Object }[];
+    this.field.dataSource = this.activeWaitingItem;
+    this.treeObj.fields.dataSource = this.activeWaitingItem as Record<string, any>[];
     this.treeObj.refresh();
   }
 
-  updateBreakHours(currentDate: Date) {
-    const currentViewDates: Object[] = [];
+  public updateBreakHours(currentDate: Date): void {
+    const currentViewDates: Date[] = [];
     const firstDayOfWeek: Date = getWeekFirstDate(currentDate, this.firstDayOfWeek as number);
     let startDate: Date = firstDayOfWeek;
     const endDate: Date = addDays(new Date(startDate.getTime()), 7);
@@ -636,7 +640,7 @@ export class CalendarComponent implements OnInit {
       startDate = addDays(new Date(startDate.getTime()), 1);
     } while (startDate.getTime() !== endDate.getTime());
     currentViewDates.forEach((item: Date) => {
-      this.activeDoctorData[0]['WorkDays'].forEach((dayItem: { [key: string]: Date }) => {
+      this.activeDoctorData[0].WorkDays.forEach((dayItem: { [key: string]: Date }) => {
         if (dayItem.BreakStartHour.getDay() === item.getDay()) {
           dayItem.BreakStartHour = this.resetDateValue(dayItem.BreakStartHour, item);
           dayItem.BreakEndHour = this.resetDateValue(dayItem.BreakEndHour, item);
@@ -647,62 +651,62 @@ export class CalendarComponent implements OnInit {
     });
   }
 
-  resetDateValue(date: Date, item: Date) {
+  public resetDateValue(date: Date, item: Date): Date {
     return new Date(new Date(date).setFullYear(item.getFullYear(), item.getMonth(), item.getDate()));
   }
 
-  generateEvents(activeData: Object): Object[] {
-    const filteredEvents: Object[] = [];
-    const datas: Object[] = this.hospitalData.filter((item: any) =>
-      item['DoctorId'] === activeData['Id'] || (Array.isArray(item['DoctorId']) && item['DoctorId'].indexOf(activeData['Id']) !== -1));
-    datas.forEach((element: Object) => filteredEvents.push(element));
-    activeData['WorkDays'].forEach((element: { [key: string]: Object }) => {
+  public generateEvents(activeData: Record<string, any>): Record<string, any>[] {
+    const filteredEvents: Record<string, any>[] = [];
+    const datas: Record<string, any>[] = this.hospitalData.filter((item: any) =>
+      item.DoctorId === activeData.Id || (Array.isArray(item.DoctorId) && item.DoctorId.indexOf(activeData.Id) !== -1));
+    datas.forEach((element: Record<string, any>) => filteredEvents.push(element));
+    activeData.WorkDays.forEach((element: Record<string, any>) => {
       if (element.State !== 'RemoveBreak') {
-        const newBreakEvent: { [key: string]: Object } = {
-          Id: Math.max.apply(Math, filteredEvents.map((data: { [key: string]: Object }) => data.Id)) + 1,
+        const newBreakEvent: Record<string, any> = {
+          Id: Math.max.apply(Math, filteredEvents.map((data: Record<string, any>) => data.Id)) + 1,
           Name: 'Break Time',
           StartTime: element.BreakStartHour,
           EndTime: element.BreakEndHour,
           IsBlock: true,
-          DoctorId: activeData['Id']
+          DoctorId: activeData.Id
         };
         filteredEvents.push(newBreakEvent);
       }
       if (element.Enable) {
-        const shiftValue: string = activeData['DutyTiming'];
-        const obj: Object[] = [];
+        const shiftValue: string = activeData.DutyTiming;
+        const obj: Record<string, any>[] = [];
         if (shiftValue === 'Shift1') {
           const shiftTiming = {
-            startTime: new Date(new Date(<Date>element.WorkStartHour).setHours(17)),
-            endTime: new Date(new Date(<Date>element.WorkEndHour).setHours(21))
+            startTime: new Date(new Date(element.WorkStartHour).setHours(17)),
+            endTime: new Date(new Date(element.WorkEndHour).setHours(21))
           };
           obj.push(shiftTiming);
         } else if (shiftValue === 'Shift2') {
           const shiftTiming1 = {
-            startTime: new Date(new Date(<Date>element.WorkStartHour).setHours(8)),
-            endTime: new Date(new Date(<Date>element.WorkEndHour).setHours(10))
+            startTime: new Date(new Date(element.WorkStartHour).setHours(8)),
+            endTime: new Date(new Date(element.WorkEndHour).setHours(10))
           };
           const shiftTiming2 = {
-            startTime: new Date(new Date(<Date>element.WorkStartHour).setHours(19)),
-            endTime: new Date(new Date(<Date>element.WorkEndHour).setHours(21))
+            startTime: new Date(new Date(element.WorkStartHour).setHours(19)),
+            endTime: new Date(new Date(element.WorkEndHour).setHours(21))
           };
           obj.push(shiftTiming1);
           obj.push(shiftTiming2);
         } else {
           const shiftTiming = {
-            startTime: new Date(new Date(<Date>element.WorkStartHour).setHours(8)),
-            endTime: new Date(new Date(<Date>element.WorkEndHour).setHours(12))
+            startTime: new Date(new Date(element.WorkStartHour).setHours(8)),
+            endTime: new Date(new Date(element.WorkEndHour).setHours(12))
           };
           obj.push(shiftTiming);
         }
         obj.forEach(item => {
-          const newBreakEvent: Object = {
-            Id: Math.max.apply(Math, filteredEvents.map((data: { [key: string]: Object }) => data.Id)) + 1,
+          const newBreakEvent: Record<string, any> = {
+            Id: Math.max.apply(Math, filteredEvents.map((data: Record<string, any>) => data.Id)) + 1,
             Name: 'Off Work',
-            StartTime: item['startTime'],
-            EndTime: item['endTime'],
+            StartTime: item.startTime,
+            EndTime: item.endTime,
             IsBlock: true,
-            DoctorId: activeData['Id']
+            DoctorId: activeData.Id
           };
           filteredEvents.push(newBreakEvent);
         });
@@ -711,19 +715,19 @@ export class CalendarComponent implements OnInit {
     return filteredEvents;
   }
 
-  filterWaitingEvents(): Object[] {
+  public filterWaitingEvents(): Record<string, any>[] {
     const firstDayOfWeek: Date = getWeekFirstDate(this.currentDate, this.firstDayOfWeek as number);
     return this.scheduleObj.eventBase.filterEvents(firstDayOfWeek, addDays(new Date(firstDayOfWeek.getTime()), 6), this.waitingList);
   }
 
-  clearSelection() {
+  public clearSelection(): void {
     this.setDefaultData();
     const doctorImage: HTMLElement = this.scheduleObj.element.querySelector('.doctor-icon .active-doctor');
     doctorImage.setAttribute('src', './assets/Icons/Doctors.svg');
     this.specialistObj.hide();
   }
 
-  setDefaultData() {
+  public setDefaultData(): void {
     this.scheduleObj.resources[0].dataSource = this.specialistCategory;
     this.scheduleObj.resources[1].dataSource = this.resourceDataSource;
     this.scheduleObj.resources[0].query = new Query();
@@ -732,8 +736,8 @@ export class CalendarComponent implements OnInit {
     this.scheduleObj.eventSettings.dataSource = this.eventData;
     this.scheduleObj.refreshEvents();
     this.updateWaitingList();
-    this.startHour = <string>this.calendarSettings.calendar['start'];
-    this.endHour = <string>this.calendarSettings.calendar['end'];
+    this.startHour = this.calendarSettings.calendar.start as string;
+    this.endHour = this.calendarSettings.calendar.end as string;
     this.workDays = [0, 1, 2, 3, 4, 5, 6];
     this.workHours = { start: '08:00', end: '21:00' };
     this.scheduleObj.workHours = this.workHours;

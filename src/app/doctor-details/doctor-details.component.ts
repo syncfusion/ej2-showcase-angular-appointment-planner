@@ -14,26 +14,24 @@ import { DataService } from '../data.service';
   encapsulation: ViewEncapsulation.None
 })
 export class DoctorDetailsComponent implements OnInit {
-  @ViewChild('addEditDoctorObj')
-  public addEditDoctorObj: AddEditDoctorComponent;
-  @ViewChild('breakHourObj')
-  public breakHourObj: DialogComponent;
-  @ViewChild('deleteConfirmationDialogObj')
-  public deleteConfirmationDialogObj: DialogComponent;
-  public activeData: { [key: string]: Object };
-  public doctorData: { [key: string]: Object }[];
+  @ViewChild('addEditDoctorObj') addEditDoctorObj: AddEditDoctorComponent;
+  @ViewChild('breakHourObj') breakHourObj: DialogComponent;
+  @ViewChild('deleteConfirmationDialogObj') deleteConfirmationDialogObj: DialogComponent;
+
+  public activeData: Record<string, any>;
+  public doctorData: Record<string, any>[];
   public intl: Internationalization = new Internationalization();
-  public specializationData: Object[];
-  public animationSettings: Object = { effect: 'None' };
-  public breakDays: Object;
+  public specializationData: Record<string, any>[];
+  public animationSettings: Record<string, any> = { effect: 'None' };
+  public breakDays: Record<string, any>[];
   public doctorId: number;
 
-  constructor(public dataService: DataService, public router: Router, private route: ActivatedRoute,) {
+  constructor(public dataService: DataService, public router: Router, private route: ActivatedRoute) {
     this.doctorData = this.dataService.getDoctorsData();
     this.specializationData = this.dataService.specialistData;
   }
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.dataService.updateActiveItem('doctors');
     this.route.params.subscribe((params: any) => this.doctorId = parseInt(params.id, 10));
     this.doctorData = this.dataService.getDoctorsData();
@@ -45,17 +43,17 @@ export class DoctorDetailsComponent implements OnInit {
     this.breakDays = JSON.parse(JSON.stringify(this.activeData.WorkDays));
   }
 
-  onBackIconClick() {
+  public onBackIconClick(): void {
     this.router.navigateByUrl('/doctors');
   }
 
-  onDoctorDelete() {
+  public onDoctorDelete(): void {
     this.deleteConfirmationDialogObj.show();
   }
 
-  onDeleteClick() {
-    const filteredData: { [key: string]: Object }[] = this.doctorData.filter(
-      (item: any) => item.Id !== parseInt(this.activeData['Id'] as string, 10));
+  public onDeleteClick(): void {
+    const filteredData: Record<string, any>[] = this.doctorData.filter((item: Record<string, any>) =>
+      item.Id !== parseInt(this.activeData.Id as string, 10));
     this.doctorData = filteredData;
     this.activeData = this.doctorData[0];
     this.dataService.setActiveDoctorData(this.activeData);
@@ -63,55 +61,55 @@ export class DoctorDetailsComponent implements OnInit {
     this.deleteConfirmationDialogObj.hide();
   }
 
-  onDeleteCancelClick() {
+  public onDeleteCancelClick(): void {
     this.deleteConfirmationDialogObj.hide();
   }
 
-  onDoctorEdit() {
+  public onDoctorEdit(): void {
     this.addEditDoctorObj.showDetails();
   }
 
-  onAddBreak() {
+  public onAddBreak(): void {
     this.breakHourObj.show();
   }
 
-  getDayName(day: string) {
+  public getDayName(day: string): string {
     return day.split('')[0].toUpperCase();
   }
 
-  getWorkDayName(day: string) {
+  public getWorkDayName(day: string): string {
     return day.charAt(0).toUpperCase() + day.slice(1);
   }
 
-  onCancelClick() {
-    this.breakDays = this.dataService.getActiveDoctorData()['WorkDays'];
+  public onCancelClick(): void {
+    this.breakDays = this.dataService.getActiveDoctorData().WorkDays as Record<string, any>[];
     this.breakHourObj.hide();
   }
 
-  onSaveClick() {
-    const formelement: HTMLInputElement[] = [].slice.call(document.querySelectorAll('.break-hour-dialog .e-field'));
-    const workDays: { [key: string]: Object }[] = JSON.parse(JSON.stringify(this.breakDays));
-    for (const curElement of formelement) {
+  public onSaveClick(): void {
+    const formElement: HTMLInputElement[] = [].slice.call(document.querySelectorAll('.break-hour-dialog .e-field'));
+    const workDays: Record<string, any>[] = JSON.parse(JSON.stringify(this.breakDays));
+    for (const curElement of formElement) {
       const dayName: string = curElement.parentElement.getAttribute('id').split('_')[0];
       const valueName: string = curElement.parentElement.getAttribute('id').split('_')[1];
       const instance: TimePicker = (curElement.parentElement as EJ2Instance).ej2_instances[0] as TimePicker;
-      for (let i = 0; i < workDays.length; i++) {
-        if (workDays[i].Day === dayName) {
+      for (const workDay of workDays) {
+        if (workDay.Day === dayName) {
           if (valueName === 'start') {
-            workDays[i].BreakStartHour = instance.value;
-            workDays[i].WorkStartHour = new Date(<Date>workDays[i].WorkStartHour);
+            workDay.BreakStartHour = instance.value;
+            workDay.WorkStartHour = new Date(workDay.WorkStartHour as Date);
           } else {
-            workDays[i].BreakEndHour = instance.value;
-            workDays[i].WorkEndHour = new Date(<Date>workDays[i].WorkEndHour);
+            workDay.BreakEndHour = instance.value;
+            workDay.WorkEndHour = new Date(workDay.WorkEndHour as Date);
           }
         }
-        workDays[i].Enable = !(workDays[i].State === 'TimeOff');
+        workDay.Enable = !(workDay.State === 'TimeOff');
       }
     }
     const availableDays: Array<number> = [];
     workDays.forEach(workDay => {
       if (workDay.Enable) {
-        availableDays.push(<number>workDay['Index']);
+        availableDays.push(workDay.Index);
       }
     });
     this.activeData.AvailableDays = availableDays;
@@ -120,15 +118,15 @@ export class DoctorDetailsComponent implements OnInit {
     this.breakHourObj.hide();
   }
 
-  getStatus(state: string) {
+  public getStatus(state: string): boolean {
     return state === 'RemoveBreak' ? false : true;
   }
 
-  onChangeStatus(args: any) {
+  public onChangeStatus(args: Record<string, any>): void {
     args.preventDefault();
     const activeState: string = args.target.getAttribute('data-state');
     const activeDay: string = args.target.getAttribute('id').split('_')[0];
-    let newState: String = '';
+    let newState = '';
     switch (activeState) {
       case 'TimeOff':
         newState = 'RemoveBreak';
@@ -140,41 +138,41 @@ export class DoctorDetailsComponent implements OnInit {
         newState = 'TimeOff';
         break;
     }
-    for (let i = 0; i < (<{ [key: string]: Object }[]>this.breakDays).length; i++) {
-      if (this.breakDays[i].Day === activeDay) {
-        this.breakDays[i].State = newState;
+    for (const breakDay of this.breakDays) {
+      if (breakDay.Day === activeDay) {
+        breakDay.State = newState;
       }
     }
   }
 
-  getBreakDetails(data: any) {
+  public getBreakDetails(data: Record<string, any>): string {
     if (data.State === 'TimeOff') {
       return 'TIME OFF';
     } else if (data.State === 'RemoveBreak') {
       return '---';
     } else {
-      // tslint:disable-next-line:max-line-length
+      // eslint-disable-next-line max-len
       return `${this.intl.formatDate(data.BreakStartHour, { skeleton: 'hm' })} - ${this.intl.formatDate(data.BreakEndHour, { skeleton: 'hm' })}`;
     }
   }
 
-  getAvailability(data: { [key: string]: Object }) {
-    const workDays: { [key: string]: Object }[] = <{ [key: string]: Object }[]>data.WorkDays;
-    const filteredData: { [key: string]: Object }[] = workDays.filter((item: any) => item.Enable !== false);
-    const result = filteredData.map(item => (<string>item.Day).slice(0, 3).toLocaleUpperCase()).join(',');
-    // tslint:disable-next-line:max-line-length
-    return `${result} - ${this.intl.formatDate(new Date(<Date>filteredData[0].WorkStartHour), { skeleton: 'hm' })} - ${this.intl.formatDate(new Date(<Date>filteredData[0].WorkEndHour), { skeleton: 'hm' })}`;
+  public getAvailability(data: Record<string, any>): string {
+    const workDays: Record<string, any>[] = data.WorkDays as Record<string, any>[];
+    const filteredData: Record<string, any>[] = workDays.filter((item: any) => item.Enable !== false);
+    const result = filteredData.map(item => item.Day.slice(0, 3).toLocaleUpperCase()).join(',');
+    // eslint-disable-next-line max-len
+    return `${result} - ${this.intl.formatDate(new Date(filteredData[0].WorkStartHour), { skeleton: 'hm' })} - ${this.intl.formatDate(new Date(filteredData[0].WorkEndHour), { skeleton: 'hm' })}`;
   }
 
-  getSpecializationText(text: Object) {
-    return <string>(this.specializationData.filter((item: { [key: string]: Object }) => item.Id === text)[0]['Text']);
+  public getSpecializationText(text: Record<string, any>): string {
+    return this.specializationData.filter((item: Record<string, any>) => item.Id === text)[0].Text as string;
   }
 
-  getEducation(text: Object) {
-    return (<string>text).toUpperCase();
+  public getEducation(text: string): string {
+    return text.toUpperCase();
   }
 
-  refreshDetails() {
+  public refreshDetails(): void {
     this.activeData = this.dataService.getActiveDoctorData();
   }
 }

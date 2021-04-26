@@ -9,10 +9,10 @@ import { ListView } from '@syncfusion/ej2-lists';
   encapsulation: ViewEncapsulation.None
 })
 export class DoctorAvailabilityComponent implements OnInit {
-  @ViewChild('availabilityObj')
-  public availabilityObj: ListView;
-  public dataSource: Object;
-  public specializationData: Object[];
+  @ViewChild('availabilityObj') availabilityObj: ListView;
+
+  public dataSource: Record<string, any>;
+  public specializationData: Record<string, any>[];
   public tooltipObj: Tooltip;
 
   constructor(private dataService: DataService) {
@@ -20,7 +20,7 @@ export class DoctorAvailabilityComponent implements OnInit {
     this.specializationData = this.dataService.specialistData;
   }
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.tooltipObj = new Tooltip({
       height: '30px',
       width: '76px',
@@ -33,10 +33,12 @@ export class DoctorAvailabilityComponent implements OnInit {
           args.target.classList[1].charAt(0).toUpperCase() + args.target.classList[1].slice(1);
       }
     });
-    this.tooltipObj.appendTo(this.availabilityObj.element);
+    if (this.availabilityObj) {
+      this.tooltipObj.appendTo(this.availabilityObj.element);
+    }
   }
 
-  getSpecializationText(text: string) {
-    return this.specializationData.filter((item: { [key: string]: Object }) => item.Id === text)[0]['Text'].toUpperCase();
+  public getSpecializationText(text: string): string {
+    return this.specializationData.filter((item: Record<string, any>) => item.Id === text)[0].Text.toUpperCase();
   }
 }

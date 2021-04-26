@@ -8,31 +8,31 @@ import { DataService } from '../data.service';
   encapsulation: ViewEncapsulation.None
 })
 export class RecentActivityComponent implements OnInit, OnDestroy {
-  public dataSource: Object;
+  public dataSource: Record<string, any>[];
   public interval: any;
 
   constructor(private dataService: DataService) {
     this.dataSource = this.dataService.getActivityData();
   }
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.updateTimeString();
     this.interval = setInterval(() => { this.updateTimeString(); }, 60000);
   }
 
-  updateTimeString() {
-    (<any>this.dataSource).map((item: { [key: string]: Object; }) => {
-      item['Time'] = this.timeSince(<Date>item.ActivityTime);
-    });
-  }
-
-  ngOnDestroy() {
+  public ngOnDestroy(): void {
     if (this.interval) {
       clearInterval(this.interval);
     }
   }
 
-  timeSince(activityTime: Date): string {
+  private updateTimeString(): void {
+    this.dataSource.map((item: Record<string, any>) => {
+      item.Time = this.timeSince(item.ActivityTime as Date);
+    });
+  }
+
+  private timeSince(activityTime: Date): string {
     const seconds: number = Math.floor((new Date().getTime() - activityTime.getTime()) / 1000);
     let interval: number = Math.floor(seconds / 31536000);
     if (interval > 1) {

@@ -12,20 +12,20 @@ import { Browser } from '@syncfusion/ej2-base';
   encapsulation: ViewEncapsulation.None
 })
 export class PreferenceComponent implements OnInit {
-  public timeSlots: Object[];
-  public startHours: Object[];
-  public endHours: Object[];
-  public views: Object[];
-  public colorCategory: Object[];
-  public dayOfWeeks: Object[];
-  public fields: Object = { text: 'Text', value: 'Value' };
+  public timeSlots: Record<string, any>[];
+  public startHours: Record<string, any>[];
+  public endHours: Record<string, any>[];
+  public views: Record<string, any>[];
+  public colorCategory: Record<string, any>[];
+  public dayOfWeeks: Record<string, any>[];
+  public fields: Record<string, any> = { text: 'Text', value: 'Value' };
   public selectedView: string;
   public selectedStartHour: string;
   public selectedEndHour: string;
   public selectedCategory: string;
   public timeInterval: number;
   public calendarSettings: CalendarSettings;
-  public width: String = '335px';
+  public width = '335px';
   public selectedDayOfWeek: number;
 
   constructor(public dataService: DataService) {
@@ -40,21 +40,21 @@ export class PreferenceComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.dataService.updateActiveItem('preference');
     this.calendarSettings = this.dataService.getCalendarSettings();
     this.timeInterval = this.calendarSettings.interval;
     this.selectedView = this.calendarSettings.currentView;
-    this.selectedStartHour = <string>this.calendarSettings.calendar['start'];
-    this.selectedEndHour = <string>this.calendarSettings.calendar['end'];
+    this.selectedStartHour = this.calendarSettings.calendar.start as string;
+    this.selectedEndHour = this.calendarSettings.calendar.end as string;
     this.selectedCategory = this.calendarSettings.bookingColor;
     this.selectedDayOfWeek = this.calendarSettings.firstDayOfWeek;
   }
 
-  onValueChange(args: ChangeEventArgs) {
+  public onValueChange(args: ChangeEventArgs) {
     switch (args.element.getAttribute('id')) {
       case 'CurrentView':
-        this.calendarSettings.currentView = <string>args.value;
+        this.calendarSettings.currentView = args.value as string;
         break;
       case 'CalendarStart':
         this.calendarSettings.calendar.start = args.value;
@@ -63,13 +63,13 @@ export class PreferenceComponent implements OnInit {
         this.calendarSettings.calendar.end = args.value;
         break;
       case 'Duration':
-        this.calendarSettings.interval = <number>args.value;
+        this.calendarSettings.interval = args.value as number;
         break;
       case 'BookingColor':
-        this.calendarSettings.bookingColor = <string>args.value;
+        this.calendarSettings.bookingColor = args.value as string;
         break;
       case 'FirstDayOfWeek':
-        this.calendarSettings.firstDayOfWeek = <number>args.value;
+        this.calendarSettings.firstDayOfWeek = args.value as number;
         break;
     }
     this.dataService.setCalendarSettings(this.calendarSettings);

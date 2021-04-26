@@ -1,6 +1,7 @@
-export let viewsData: Array<string> = ['Day', 'Week', 'Month'];
+/* eslint-disable @typescript-eslint/naming-convention */
+export const viewsData: Array<string> = ['Day', 'Week', 'Month'];
 
-export let doctorsData: { [key: string]: Object }[] = [
+export const doctorsData: Record<string, any>[] = [
     {
         Name: 'Nembo Lukeni',
         Gender: 'Male',
@@ -640,7 +641,7 @@ export let doctorsData: { [key: string]: Object }[] = [
     }
 ];
 
-export let patientsData: { [key: string]: Object }[] = [
+export const patientsData: Record<string, any>[] = [
     {
         Id: 1,
         Name: 'Laura',
@@ -741,7 +742,7 @@ export let patientsData: { [key: string]: Object }[] = [
     }
 ];
 
-export let waitingList: { [key: string]: Object }[] = [
+export const waitingList: Record<string, any>[] = [
     {
         Id: 1,
         Name: 'Laura',
@@ -835,7 +836,7 @@ export let waitingList: { [key: string]: Object }[] = [
     },
 ];
 
-export let hospitalData: Object[] = [
+export const hospitalData: Record<string, any>[] = [
     {
         Id: 1000,
         Name: 'Milka',
@@ -1168,7 +1169,7 @@ export let hospitalData: Object[] = [
         Symptoms: 'Feeling of lightheadedness or nearly fainting'
     }];
 
-export let specializationData: Object[] = [
+export const specializationData: Record<string, any>[] = [
     { DepartmentId: 1, Id: 'generalmedicine', Text: 'General Medicine', Color: '#F538B2' },
     { DepartmentId: 2, Id: 'neurology', Text: 'Neurology', Color: '#33C7E8' },
     { DepartmentId: 3, Id: 'dermatology', Text: 'Dermatology', Color: '#916DE4' },
@@ -1177,7 +1178,7 @@ export let specializationData: Object[] = [
     { DepartmentId: 6, Id: 'cardiology', Text: 'Cardiology', Color: '#F29438' }
 ];
 
-export let experienceData: Object[] = [
+export const experienceData: Record<string, any>[] = [
     { Id: '1+ years', Text: '1+ years' },
     { Id: '2+ years', Text: '2+ years' },
     { Id: '5+ years', Text: '5+ years' },
@@ -1186,13 +1187,13 @@ export let experienceData: Object[] = [
     { Id: '20+ years', Text: '20+ years' }
 ];
 
-export let dutyTimingsData: Object[] = [
+export const dutyTimingsData: Record<string, any>[] = [
     { Id: 'Shift1', Text: '08:00 AM - 05:00 PM' },
     { Id: 'Shift2', Text: '10:00 AM - 07:00 PM' },
     { Id: 'Shift3', Text: '12:00 AM - 09:00 PM' }
 ];
 
-export let activityData: Object[] = [
+export const activityData: Record<string, any>[] = [
     {
         Name: 'Added New Doctor',
         Message: 'Dr.Johnson James, Cardiologist',
@@ -1225,7 +1226,7 @@ export let activityData: Object[] = [
 
 // Preference module data
 
-export let timeSlots: Object[] = [
+export const timeSlots: Record<string, any>[] = [
     { Value: 10, Text: '10 mins' },
     { Value: 20, Text: '20 mins' },
     { Value: 30, Text: '30 mins' },
@@ -1233,7 +1234,7 @@ export let timeSlots: Object[] = [
     { Value: 120, Text: '120 mins' }
 ];
 
-export let startHours: Object[] = [
+export const startHours: Record<string, any>[] = [
     { Value: '08:00', Text: '8:00 AM' },
     { Value: '09:00', Text: '9:00 AM' },
     { Value: '10:00', Text: '10:00 AM' },
@@ -1241,7 +1242,7 @@ export let startHours: Object[] = [
     { Value: '12:00', Text: '12:00 AM' }
 ];
 
-export let endHours: Object[] = [
+export const endHours: Record<string, any>[] = [
     { Value: '16:00', Text: '4:00 PM' },
     { Value: '17:00', Text: '5:00 PM' },
     { Value: '18:00', Text: '6:00 PM' },
@@ -1250,18 +1251,18 @@ export let endHours: Object[] = [
     { Value: '21:00', Text: '9:00 PM' }
 ];
 
-export let views: Object[] = [
+export const views: Record<string, any>[] = [
     { Value: 'Day', Text: 'Daily' },
     { Value: 'Week', Text: 'Weekly' },
     { Value: 'Month', Text: 'Monthly' }
 ];
 
-export let colorCategory: Object[] = [
+export const colorCategory: Record<string, any>[] = [
     { Value: 'Departments', Text: 'Department Colors' },
     { Value: 'Doctors', Text: 'Doctors Colors' }
 ];
 
-export let bloodGroupData: Object[] = [
+export const bloodGroupData: Record<string, any>[] = [
     { Value: 'AB+', Text: 'AB+' },
     { Value: 'A+', Text: 'A+' },
     { Value: 'B+', Text: 'B+' },
@@ -1272,7 +1273,7 @@ export let bloodGroupData: Object[] = [
     { Value: 'O-', Text: 'O-' }
 ];
 
-export let dayOfWeekList: Object[] = [
+export const dayOfWeekList: Record<string, any>[] = [
     { Value: 0, Text: 'Sunday' },
     { Value: 1, Text: 'Monday' },
     { Value: 2, Text: 'Tuesday' },
@@ -1283,7 +1284,7 @@ export let dayOfWeekList: Object[] = [
 ];
 
 // shift wise block data
-export let shift1BlockData = [
+export const shift1BlockData = [
     {
         Id: 50,
         Name: 'Off Work',
@@ -1296,7 +1297,7 @@ export let shift1BlockData = [
     }
 ];
 
-export let shift2BlockData = [
+export const shift2BlockData = [
     {
         Id: 51,
         Name: 'Off Work',
@@ -1318,7 +1319,7 @@ export let shift2BlockData = [
     },
 ];
 
-export let shift3BlockData = [
+export const shift3BlockData = [
     {
         Id: 53,
         Name: 'Off Work',

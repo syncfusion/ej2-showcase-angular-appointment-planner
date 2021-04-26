@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Component, ViewChild, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { isNullOrUndefined } from '@syncfusion/ej2-base';
 import { DialogComponent, BeforeOpenEventArgs } from '@syncfusion/ej2-angular-popups';
@@ -17,17 +18,17 @@ export class AddEditPatientComponent {
   @Output() refreshEvent = new EventEmitter<string>();
   @ViewChild('newPatientObj')
   public newPatientObj: DialogComponent;
-  public animationSettings: Object = { effect: 'None' };
+  public animationSettings: Record<string, any> = { effect: 'None' };
   public title = 'New Patient';
   public selectedGender = 'Male';
   public dobValue: Date = new Date(1996, 0, 31);
   public dialogState: string;
-  public bloodGroupData: Object[];
-  public fields: Object = { text: 'Text', value: 'Value' };
-  public patientsData: { [key: string]: Object }[];
-  public activePatientData: { [key: string]: Object; };
-  public hospitalData: { [key: string]: Object }[];
-  public doctorsData: { [key: string]: Object }[];
+  public bloodGroupData: Record<string, any>[];
+  public fields: Record<string, any> = { text: 'Text', value: 'Value' };
+  public patientsData: Record<string, any>[];
+  public activePatientData: Record<string, any>;
+  public hospitalData: Record<string, any>[];
+  public doctorsData: Record<string, any>[];
 
   constructor(private dataService: DataService) {
     this.bloodGroupData = this.dataService.bloodGroupData;
@@ -37,26 +38,26 @@ export class AddEditPatientComponent {
     this.activePatientData = this.dataService.getActivePatientData();
   }
 
-  onAddPatient() {
+  public onAddPatient(): void {
     this.dialogState = 'new';
     this.title = 'New Patient';
     this.newPatientObj.show();
   }
 
-  onCancelClick() {
+  public onCancelClick(): void {
     this.resetFormFields();
     this.newPatientObj.hide();
   }
 
-  onSaveClick() {
+  public onSaveClick(): void {
     const formElementContainer: HTMLElement = document.querySelector('.new-patient-dialog #new-patient-form');
     if (formElementContainer && formElementContainer.classList.contains('e-formvalidator') &&
       !((formElementContainer as EJ2Instance).ej2_instances[0] as FormValidator).validate()) {
       return;
     }
-    const obj: { [key: string]: Object; } = this.dialogState === 'new' ? {} : this.activePatientData;
-    const formelement: HTMLInputElement[] = [].slice.call(document.querySelectorAll('.new-patient-dialog .e-field'));
-    for (const curElement of formelement) {
+    const obj: Record<string, any> = this.dialogState === 'new' ? {} : this.activePatientData;
+    const formElement: HTMLInputElement[] = [].slice.call(document.querySelectorAll('.new-patient-dialog .e-field'));
+    for (const curElement of formElement) {
       let columnName: string = curElement.querySelector('input').name;
       const isDropElement: boolean = curElement.classList.contains('e-ddl');
       const isDatePickElement: boolean = curElement.classList.contains('e-date-wrapper');
@@ -77,16 +78,21 @@ export class AddEditPatientComponent {
     }
     this.patientsData = this.dataService.getPatientsData();
     if (this.dialogState === 'new') {
-      obj['Id'] = Math.max.apply(Math, this.patientsData.map((data: { [key: string]: Object }) => data.Id)) + 1;
-      obj['NewPatientClass'] = 'new-patient';
+      obj.Id = Math.max.apply(Math, this.patientsData.map((data: Record<string, any>) => data.Id)) + 1;
+      obj.NewPatientClass = 'new-patient';
       this.patientsData.push(obj);
     } else {
       this.activePatientData = obj;
+      this.patientsData.forEach((patientData: Record<string, any>) => {
+        if (patientData.Id === obj.Id) {
+          Object.assign(patientData, obj);
+        }
+      });
       this.dataService.setActivePatientData(this.activePatientData);
     }
-    const activityObj: { [key: string]: Object } = {
+    const activityObj: Record<string, any> = {
       Name: this.dialogState === 'new' ? 'Added New Patient' : 'Updated Patient',
-      Message: `${obj['Name']} for ${obj['Symptoms']}`,
+      Message: `${obj.Name} for ${obj.Symptoms}`,
       Time: '10 mins ago',
       Type: 'patient',
       ActivityTime: new Date()
@@ -98,10 +104,10 @@ export class AddEditPatientComponent {
     this.newPatientObj.hide();
   }
 
-  resetFormFields(): void {
-    const formelement: HTMLInputElement[] = [].slice.call(document.querySelectorAll('.new-patient-dialog .e-field'));
-    this.dataService.destroyErrorElement(document.querySelector('#new-patient-form'), formelement);
-    for (const curElement of formelement) {
+  public resetFormFields(): void {
+    const formElement: HTMLInputElement[] = [].slice.call(document.querySelectorAll('.new-patient-dialog .e-field'));
+    this.dataService.destroyErrorElement(document.querySelector('#new-patient-form'), formElement);
+    for (const curElement of formElement) {
       let columnName: string = curElement.querySelector('input').name;
       const isDropElement: boolean = curElement.classList.contains('e-ddl');
       const isDatePickElement: boolean = curElement.classList.contains('e-date-wrapper');
@@ -109,7 +115,7 @@ export class AddEditPatientComponent {
         if (columnName === '' && isDropElement) {
           columnName = curElement.querySelector('select').name;
           const instance: DropDownList = (curElement.parentElement as EJ2Instance).ej2_instances[0] as DropDownList;
-          instance.value = instance.dataSource[0];
+          instance.value = (instance as any).dataSource[0];
         } else if (columnName === 'DOB' && isDatePickElement) {
           const instance: DatePicker = (curElement.parentElement as EJ2Instance).ej2_instances[0] as DatePicker;
           instance.value = new Date();
@@ -122,18 +128,18 @@ export class AddEditPatientComponent {
     }
   }
 
-  onGenderChange(args: any) {
+  public onGenderChange(args: Record<string, any>): void {
     this.selectedGender = args.target.value;
   }
 
-  showDetails() {
+  public showDetails(): void {
     this.dialogState = 'edit';
     this.title = 'Edit Patient';
     this.newPatientObj.show();
     this.activePatientData = this.dataService.getActivePatientData();
-    const obj: { [key: string]: Object; } = this.activePatientData;
-    const formelement: HTMLInputElement[] = [].slice.call(document.querySelectorAll('.new-patient-dialog .e-field'));
-    for (const curElement of formelement) {
+    const obj: Record<string, any> = this.activePatientData;
+    const formElement: HTMLInputElement[] = [].slice.call(document.querySelectorAll('.new-patient-dialog .e-field'));
+    for (const curElement of formElement) {
       let columnName: string = curElement.querySelector('input').name;
       const isCustomElement: boolean = curElement.classList.contains('e-ddl');
       const isDatePickElement: boolean = curElement.classList.contains('e-date-wrapper');
@@ -141,11 +147,11 @@ export class AddEditPatientComponent {
         if (columnName === '' && isCustomElement) {
           columnName = curElement.querySelector('select').name;
           const instance: DropDownList = (curElement.parentElement as EJ2Instance).ej2_instances[0] as DropDownList;
-          instance.value = <string>obj[columnName];
+          instance.value = obj[columnName] as string;
           instance.dataBind();
         } else if (columnName === 'DOB' && isDatePickElement) {
           const instance: DatePicker = (curElement.parentElement as EJ2Instance).ej2_instances[0] as DatePicker;
-          instance.value = <Date>obj[columnName] || null;
+          instance.value = obj[columnName] as Date || null;
         } else if (columnName === 'Gender') {
           if (obj[columnName] === 'Male') {
             curElement.querySelectorAll('input')[0].checked = true;
@@ -153,13 +159,13 @@ export class AddEditPatientComponent {
             curElement.querySelectorAll('input')[1].checked = true;
           }
         } else {
-          curElement.querySelector('input').value = <string>obj[columnName];
+          curElement.querySelector('input').value = obj[columnName] as string;
         }
       }
     }
   }
 
-  onBeforeOpen(args: BeforeOpenEventArgs) {
+  public onBeforeOpen(args: BeforeOpenEventArgs): void {
     const formElement: HTMLFormElement = args.element.querySelector('#new-patient-form');
     if (formElement && formElement.ej2_instances) {
       return;
@@ -172,11 +178,11 @@ export class AddEditPatientComponent {
         return false;
       }
     };
-    const rules: { [key: string]: Object } = {};
-    rules['Name'] = { required: [true, 'Enter valid name'] };
-    rules['DOB'] = { required: true, date: [true, 'Select valid DOB'] };
-    rules['Mobile'] = { required: [customFn, 'Enter valid mobile number'] };
-    rules['Email'] = { required: [true, 'Enter valid email'], email: [true, 'Email address is invalid'] };
+    const rules: Record<string, any> = {};
+    rules.Name = { required: [true, 'Enter valid name'] };
+    rules.DOB = { required: true, date: [true, 'Select valid DOB'] };
+    rules.Mobile = { required: [customFn, 'Enter valid mobile number'] };
+    rules.Email = { required: [true, 'Enter valid email'], email: [true, 'Email address is invalid'] };
     this.dataService.renderFormValidator(formElement, rules, this.newPatientObj.element);
   }
 }
