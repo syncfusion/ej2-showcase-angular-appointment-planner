@@ -72,7 +72,8 @@ import { MainComponent } from './main/main.component';
     ReactiveFormsModule,
     ToastModule
   ],
-  providers: [{ provide: APP_BASE_HREF, useValue: '/' }, Location, { provide: LocationStrategy, useClass: HashLocationStrategy }],
+  providers: [CalendarComponent, { provide: APP_BASE_HREF, useValue: '/' }, Location,
+    { provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

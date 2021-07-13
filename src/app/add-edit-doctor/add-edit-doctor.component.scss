@@ -41,6 +41,15 @@
           flex-direction: column;
           flex: 1;
 
+          .e-btn-group input:checked+label.e-btn {
+            background-color: #e6e6e6;
+            border-color: #adadad;
+            box-shadow: inset 0 3px 5px #00000020;
+            color: #333;
+            outline: 0 solid #fff;
+            outline-offset: 0;
+          }
+
           label:not(.e-btn) {
             font-weight: bold;
             color: #333;

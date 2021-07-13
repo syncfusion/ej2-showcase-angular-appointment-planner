@@ -66,8 +66,8 @@
                 <div><span>{{getPatientName(data)}}</span></div>
               </div>
               <div class="doctor-name-wrap">
-                <label>Doctor Name</label>:
-                <div><span>Dr.{{getDoctorName(data)}}</span></div>
+                <label>{{data.DoctorId ? "Doctor Name" : "Department Name"}}</label>:
+                <div><span>{{getDoctorName(data)}}</span></div>
               </div>
               <div class="notes-wrap">
                 <label>Notes</label>:
