@@ -112,8 +112,13 @@ export class DoctorDetailsComponent implements OnInit {
         availableDays.push(workDay.Index);
       }
     });
-    this.activeData.AvailableDays = availableDays;
+    this.activeData.AvailableDays = availableDays.length === 0 ? [this.activeData.AvailableDays[0]] : availableDays;
+    if(availableDays.length === 0) {
+      workDays[this.activeData.AvailableDays[0]].Enable = true;
+      workDays[this.activeData.AvailableDays[0]].State = 'AddBreak';
+    }
     this.activeData.WorkDays = workDays;
+    this.breakDays = workDays;
     this.dataService.onUpdateData('WorkDays', workDays, 'doctor', this.activeData);
     this.breakHourObj.hide();
   }

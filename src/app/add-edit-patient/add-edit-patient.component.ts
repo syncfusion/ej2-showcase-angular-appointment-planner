@@ -5,8 +5,9 @@ import { DialogComponent, BeforeOpenEventArgs } from '@syncfusion/ej2-angular-po
 import { DropDownList } from '@syncfusion/ej2-angular-dropdowns';
 import { EJ2Instance } from '@syncfusion/ej2-angular-schedule';
 import { DatePicker } from '@syncfusion/ej2-angular-calendars';
-import { FormValidator, MaskedTextBoxComponent } from '@syncfusion/ej2-angular-inputs';
+import { FormValidator, MaskedTextBoxComponent, MaskedTextBox } from '@syncfusion/ej2-angular-inputs';
 import { DataService } from '../data.service';
+import { CalendarComponent } from '../calendar/calendar.component';
 
 @Component({
   selector: 'app-add-edit-patient',
@@ -30,7 +31,7 @@ export class AddEditPatientComponent {
   public hospitalData: Record<string, any>[];
   public doctorsData: Record<string, any>[];
 
-  constructor(private dataService: DataService) {
+  constructor(private dataService: DataService, private calendarComponent: CalendarComponent) {
     this.bloodGroupData = this.dataService.bloodGroupData;
     this.patientsData = this.dataService.getPatientsData();
     this.hospitalData = this.dataService.getHospitalData();
@@ -70,7 +71,7 @@ export class AddEditPatientComponent {
           const instance: DatePicker = (curElement.parentElement as EJ2Instance).ej2_instances[0] as DatePicker;
           obj[columnName] = instance.value;
         } else if (columnName === 'Gender') {
-          obj[columnName] = this.selectedGender;
+          obj[columnName] = curElement.querySelector('input').checked ? 'Male' : 'Female';
         } else {
           obj[columnName] = curElement.querySelector('input').value;
         }
@@ -100,6 +101,10 @@ export class AddEditPatientComponent {
     this.dataService.addActivityData(activityObj);
     this.dataService.setPatientsData(this.patientsData);
     this.refreshEvent.emit();
+    if(!isNullOrUndefined(this.calendarComponent) && !isNullOrUndefined(this.calendarComponent.comboBox)) {
+      this.calendarComponent.comboBox.dataSource = [];
+      this.calendarComponent.comboBox.dataSource = this.patientsData;
+    }
     this.resetFormFields();
     this.newPatientObj.hide();
   }
@@ -121,6 +126,8 @@ export class AddEditPatientComponent {
           instance.value = new Date();
         } else if (columnName === 'Gender') {
           curElement.querySelectorAll('input')[0].checked = true;
+        } else if(columnName === 'Mobile') {
+          ((curElement.parentElement as EJ2Instance).ej2_instances[0] as MaskedTextBox).value = '';
         } else {
           curElement.querySelector('input').value = '';
         }
@@ -158,6 +165,9 @@ export class AddEditPatientComponent {
           } else {
             curElement.querySelectorAll('input')[1].checked = true;
           }
+        } else if (columnName === 'Mobile') {
+          ((curElement.parentElement as EJ2Instance).ej2_instances[0] as MaskedTextBox).value =
+            obj[columnName].replace(/[ -.*+?^${}()|[\]\\]/g, '');
         } else {
           curElement.querySelector('input').value = obj[columnName] as string;
         }
@@ -172,11 +182,7 @@ export class AddEditPatientComponent {
     }
     const customFn: (args: { [key: string]: HTMLElement }) => boolean = (e: { [key: string]: HTMLElement }) => {
       const argsLength = ((e.element as EJ2Instance).ej2_instances[0] as MaskedTextBoxComponent).value.length;
-      if (argsLength !== 0) {
-        return argsLength >= 10;
-      } else {
-        return false;
-      }
+      return (argsLength !== 0) ? argsLength >= 10 : false;
     };
     const rules: Record<string, any> = {};
     rules.Name = { required: [true, 'Enter valid name'] };

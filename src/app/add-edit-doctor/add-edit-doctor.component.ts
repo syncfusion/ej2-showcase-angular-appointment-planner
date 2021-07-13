@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, ViewChild, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
 import { isNullOrUndefined } from '@syncfusion/ej2-base';
-import { FormValidator, MaskedTextBoxComponent } from '@syncfusion/ej2-angular-inputs';
+import { FormValidator, MaskedTextBoxComponent, MaskedTextBox } from '@syncfusion/ej2-angular-inputs';
 import { EJ2Instance } from '@syncfusion/ej2-angular-schedule';
 import { DialogComponent, BeforeOpenEventArgs } from '@syncfusion/ej2-angular-popups';
 import { DropDownList, DropDownListComponent } from '@syncfusion/ej2-angular-dropdowns';
 import { specializationData, experienceData, dutyTimingsData } from '../datasource';
 import { DataService } from '../data.service';
+import { CalendarComponent } from '../calendar/calendar.component';
 
 @Component({
   selector: 'app-add-edit-doctor',
@@ -30,7 +31,7 @@ export class AddEditDoctorComponent {
   public experienceData: Record<string, any>[] = experienceData;
   public dutyTimingsData: Record<string, any>[] = dutyTimingsData;
 
-  constructor(private dataService: DataService) {
+  constructor(private dataService: DataService, private calendarComponent: CalendarComponent) {
     this.doctorsData = this.dataService.getDoctorsData();
     this.activeDoctorData = this.dataService.getActiveDoctorData();
   }
@@ -66,7 +67,7 @@ export class AddEditDoctorComponent {
             obj.DepartmentId = (instance.getDataByValue(instance.value) as Record<string, any>).DepartmentId;
           }
         } else if (columnName === 'Gender') {
-          obj[columnName] = this.selectedGender;
+          obj[columnName] = curElement.querySelector('input').checked ? 'Male' : 'Female';
         } else {
           obj[columnName] = curElement.querySelector('input').value;
         }
@@ -77,6 +78,7 @@ export class AddEditDoctorComponent {
       obj.Text = 'default';
       obj.Availability = 'available';
       obj.NewDoctorClass = 'new-doctor';
+      obj.Color = '#7575ff';
       const initialData: Record<string, any> = JSON.parse(JSON.stringify(this.doctorsData[0]));
       obj.AvailableDays = initialData.AvailableDays;
       obj.WorkDays = initialData.WorkDays;
@@ -96,6 +98,10 @@ export class AddEditDoctorComponent {
     };
     this.dataService.addActivityData(activityObj);
     this.refreshDoctors.emit();
+    if(!isNullOrUndefined(this.calendarComponent) && !isNullOrUndefined(this.calendarComponent.dropdownObj)) {
+      this.calendarComponent.dropdownObj.dataSource = [];
+      this.calendarComponent.dropdownObj.dataSource = this.doctorsData;
+    }
     this.resetFormFields();
     this.newDoctorObj.hide();
   }
@@ -146,6 +152,8 @@ export class AddEditDoctorComponent {
           instance.value = (instance as any).dataSource[0];
         } else if (columnName === 'Gender') {
           curElement.querySelectorAll('input')[0].checked = true;
+        } else if(columnName === 'Mobile') {
+          ((curElement.parentElement as EJ2Instance).ej2_instances[0] as MaskedTextBox).value = '';
         } else {
           curElement.querySelector('input').value = '';
         }
@@ -179,6 +187,9 @@ export class AddEditDoctorComponent {
           } else {
             curElement.querySelectorAll('input')[1].checked = true;
           }
+        } else if (columnName === 'Mobile') {
+          ((curElement.parentElement as EJ2Instance).ej2_instances[0] as MaskedTextBox).value =
+            obj[columnName].replace(/[ -.*+?^${}()|[\]\\]/g, '');
         } else {
           curElement.querySelector('input').value = obj[columnName] as string;
         }

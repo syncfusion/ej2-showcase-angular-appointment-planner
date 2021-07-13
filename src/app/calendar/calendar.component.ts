@@ -168,7 +168,7 @@ export class CalendarComponent implements OnInit {
         elements.forEach((node: HTMLElement) => remove(node));
       }
       const data: Record<string, any> = (args.requestType === 'eventCreate' ? (args.data as Record<string, any>[])[0] :
-        args.data) as Record<string, any>;
+        (args.changedRecords as Record<string, any>[])[0]);
       if (this.patientValue) {
         data.PatientId = this.patientValue;
         data.Name = this.patientsData.filter((item: Record<string, any>) => item.Id === this.patientValue)[0].Name;
@@ -176,7 +176,8 @@ export class CalendarComponent implements OnInit {
       let eventCollection: Record<string, any>[] = this.scheduleObj.eventBase.filterEvents(data.StartTime as Date, data.EndTime as Date);
       const predicate: Predicate = new Predicate('Id', 'notequal', data.Id as number)
         .and(new Predicate('DepartmentId', 'equal', data.DepartmentId as number))
-        .and(new Predicate('DoctorId', 'equal', data.DoctorId as number));
+        .and(new Predicate('DoctorId', 'equal', data.DoctorId as number))
+        .and(new Predicate('Id', 'notequal', data.RecurrenceID as number));
       eventCollection = new DataManager({ json: eventCollection }).executeLocal(new Query().where(predicate));
       if (eventCollection.length > 0) {
         args.cancel = true;
@@ -593,7 +594,7 @@ export class CalendarComponent implements OnInit {
   public getBackGroundColor(data: Record<string, any>): Record<string, string> {
     let color: string;
     if (this.eventSettings.resourceColorField === 'Doctors') {
-      color = this.doctorsData.filter((item: Record<string, any>) => item.Id === data.DoctorId)[0].Color as string;
+      color = this.doctorsData.filter((item: Record<string, any>) => item.Id === data.DoctorId)[0].Color as string || '#7575ff';
     } else {
       color = this.specialistCategory.filter((item: Record<string, any>) =>
         item.DepartmentId === data.DepartmentId)[0].Color as string;
