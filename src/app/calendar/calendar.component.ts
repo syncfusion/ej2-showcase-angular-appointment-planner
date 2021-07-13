@@ -5,14 +5,14 @@ import {
 } from '@syncfusion/ej2-base';
 import { Query, Predicate, DataManager } from '@syncfusion/ej2-data';
 import { ToastComponent } from '@syncfusion/ej2-angular-notifications';
-import { ClickEventArgs, Button, CheckBox } from '@syncfusion/ej2-angular-buttons';
+import { Button, CheckBox } from '@syncfusion/ej2-angular-buttons';
 import { DialogComponent } from '@syncfusion/ej2-angular-popups';
 import { ChangeEventArgs } from '@syncfusion/ej2-angular-inputs';
 import { ItemModel, TreeViewComponent, DragAndDropEventArgs } from '@syncfusion/ej2-angular-navigations';
 import {
   DayService, WeekService, WorkWeekService, MonthService, AgendaService, TimelineViewsService,
   TimelineMonthService, ResizeService, DragAndDropService, EventSettingsModel, ActionEventArgs,
-  ToolbarActionArgs, ScheduleComponent, CellClickEventArgs, TimeScaleModel, GroupModel,
+  ScheduleComponent, CellClickEventArgs, TimeScaleModel, GroupModel,
   PopupOpenEventArgs, EJ2Instance, getWeekFirstDate, addDays, NavigatingEventArgs, WorkHoursModel
 } from '@syncfusion/ej2-angular-schedule';
 import { QuickPopups } from '@syncfusion/ej2-schedule/src/schedule/popups/quick-popups';
@@ -338,7 +338,11 @@ export class CalendarComponent implements OnInit {
   }
 
   public getDoctorName(data: Record<string, any>): string {
-    return this.doctorsData.filter((item: Record<string, any>) => item.Id === data.DoctorId)[0].Name.toString();
+    if (!isNullOrUndefined(data.DoctorId)) {
+      return 'Dr. ' + this.doctorsData.filter((item: Record<string, any>) => item.Id === data.DoctorId)[0].Name.toString();
+    } else {
+      return this.specialistCategory.filter((item: Record<string, any>) => item.DepartmentId === data.DepartmentId)[0].Text.toString();
+    }
   }
 
   public getDepartmentName(id: number): string {
@@ -593,7 +597,7 @@ export class CalendarComponent implements OnInit {
 
   public getBackGroundColor(data: Record<string, any>): Record<string, string> {
     let color: string;
-    if (this.eventSettings.resourceColorField === 'Doctors') {
+    if (this.eventSettings.resourceColorField === 'Doctors' && !isNullOrUndefined(data.DoctorId)) {
       color = this.doctorsData.filter((item: Record<string, any>) => item.Id === data.DoctorId)[0].Color as string || '#7575ff';
     } else {
       color = this.specialistCategory.filter((item: Record<string, any>) =>
