@@ -89,7 +89,7 @@
         <button ejs-button (click)='createNewEvent($event)' class="e-primary">Add Appointment</button>
       </div>
       <div class="title-container">
-        <h1 class="title-text">Waiting List</h1>
+        <h2 class="title-text">Waiting List</h2>
       </div>
       <ejs-treeview #treeObj [fields]='field' cssClass='treeview-external-drag' [allowDragAndDrop]='allowDragAndDrop'
         (nodeDragStop)="onTreeDragStop($event)" (nodeDragging)="onItemDrag($event)">
