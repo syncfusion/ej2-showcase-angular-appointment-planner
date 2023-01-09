@@ -9,11 +9,11 @@ import { ListView } from '@syncfusion/ej2-lists';
   encapsulation: ViewEncapsulation.None
 })
 export class DoctorAvailabilityComponent implements OnInit {
-  @ViewChild('availabilityObj') availabilityObj: ListView;
+  @ViewChild('availabilityObj') availabilityObj!: ListView;
 
   public dataSource: Record<string, any>;
   public specializationData: Record<string, any>[];
-  public tooltipObj: Tooltip;
+  public tooltipObj!: Tooltip;
 
   constructor(private dataService: DataService) {
     this.dataSource = this.dataService.getDoctorsData();
@@ -29,7 +29,7 @@ export class DoctorAvailabilityComponent implements OnInit {
       showTipPointer: false,
       target: '.availability',
       beforeOpen: (args: TooltipEventArgs) => {
-        args.element.querySelector('.e-tip-content').textContent =
+        args.element.querySelector('.e-tip-content')!.textContent =
           args.target.classList[1].charAt(0).toUpperCase() + args.target.classList[1].slice(1);
       }
     });
@@ -39,6 +39,6 @@ export class DoctorAvailabilityComponent implements OnInit {
   }
 
   public getSpecializationText(text: string): string {
-    return this.specializationData.filter((item: Record<string, any>) => item.Id === text)[0].Text.toUpperCase();
+    return this.specializationData.filter((item: Record<string, any>) => item['Id'] === text)[0]['Text'].toUpperCase();
   }
 }

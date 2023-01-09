@@ -131,12 +131,12 @@
     </ng-template>
     <ng-template #content>
       <div *ngFor="let specialist of specialistData">
-        <div class="specialist-item" [attr.data-deptid]=specialist.DepartmentId [attr.data-doctorid]=specialist.Id
+        <div class="specialist-item" [attr.data-deptid]="specialist['DepartmentId']" [attr.data-doctorid]="specialist['Id']"
           (click)='onSpecialistSelect($event)'>
-          <img class="value" src="./assets/images/{{specialist.Text}}.png" alt="doctor" />
+          <img class="value" src="./assets/images/{{specialist['Text']}}.png" alt="doctor" />
           <div class="doctor-details">
-            <div class="name">Dr.{{specialist.Name}}</div>
-            <div class="designation">{{specialist.Designation}}</div>
+            <div class="name">Dr.{{specialist['Name']}}</div>
+            <div class="designation">{{specialist['Designation']}}</div>
           </div>
         </div>
       </div>
@@ -172,14 +172,14 @@
     <ng-template #content>
       <div class='external-drag-items' *ngFor="let data of activeWaitingItem">
         <div id='waiting-item-check'>
-          <ejs-checkbox #checkbox id={{data.Id}} [checked]="false" (change)="onItemChecked($event)">
+          <ejs-checkbox #checkbox id="{{data['Id']}}" [checked]="false" (change)="onItemChecked($event)">
           </ejs-checkbox>
         </div>
         <div id="waiting">
           <div id="waitdetails">
-            <div id="waitlist">{{data.Name}}</div>
+            <div id="waitlist">{{data['Name']}}</div>
             <div id='event-time'>{{getEventTime(data)}}</div>
-            <div id="waitcategory">{{getDepartmentName(data.DepartmentId)}} -
+            <div id="waitcategory">{{getDepartmentName(data['DepartmentId'])}} -
               {{getTreatmentDetail(data)}}</div>
           </div>
           <div id="item-icon-container">

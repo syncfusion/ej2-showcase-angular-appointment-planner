@@ -15,10 +15,10 @@ import { DataService } from '../data.service';
   encapsulation: ViewEncapsulation.None
 })
 export class PatientsComponent implements OnInit {
-  @ViewChild('gridObj') gridObj: GridComponent;
-  @ViewChild('addEditPatientObj') addEditPatientObj: AddEditPatientComponent;
+  @ViewChild('gridObj') gridObj!: GridComponent;
+  @ViewChild('addEditPatientObj') addEditPatientObj!: AddEditPatientComponent;
   @ViewChild('deleteConfirmationDialogObj')
-  public deleteConfirmationDialogObj: DialogComponent;
+  public deleteConfirmationDialogObj!: DialogComponent;
   public patientsData: Record<string, any>[];
   public filteredPatients: Record<string, any>[];
   public activePatientData: Record<string, any>;
@@ -26,7 +26,7 @@ export class PatientsComponent implements OnInit {
   public doctorsData: Record<string, any>[];
   public intl: Internationalization = new Internationalization();
   public editSettings: EditSettingsModel;
-  public gridDialog: Dialog;
+  public gridDialog!: Dialog;
   public animationSettings: Record<string, any> = { effect: 'None' };
 
   constructor(public dataService: DataService) {
@@ -47,7 +47,7 @@ export class PatientsComponent implements OnInit {
   }
 
   public onPatientClick(args: MouseEvent): void {
-    const rowIndex: string = (args.currentTarget as HTMLElement).parentElement.getAttribute('index');
+    const rowIndex: string = (args.currentTarget as HTMLElement).parentElement!.getAttribute('index')!;
     setTimeout(() => {
       this.gridObj.selectRow(parseInt(rowIndex, 10));
       this.gridObj.startEdit();
@@ -68,9 +68,9 @@ export class PatientsComponent implements OnInit {
         } else {
           value = isNullOrUndefined(this.activePatientData[field]) ? '' : this.activePatientData[field].toString();
         }
-        (args.dialog as Dialog).element.querySelector('#' + field).innerHTML = value;
+        (args.dialog as Dialog).element.querySelector('#' + field)!.innerHTML = value;
       });
-      this.gridDialog.element.querySelector('.history-row').appendChild(this.getHistoryDetails());
+      this.gridDialog.element.querySelector('.history-row')!.appendChild(this.getHistoryDetails());
       const editButtonElement: HTMLElement = createElement('button', {
         className: 'edit-patient',
         id: 'edit',
@@ -85,8 +85,8 @@ export class PatientsComponent implements OnInit {
         attrs: { type: 'button', title: 'Delete', content: 'DELETE' }
       });
       deleteButtonElement.onclick = this.onDeletePatient.bind(this);
-      this.gridDialog.element.querySelector('.e-footer-content').appendChild(deleteButtonElement);
-      this.gridDialog.element.querySelector('.e-footer-content').appendChild(editButtonElement);
+      this.gridDialog.element.querySelector('.e-footer-content')!.appendChild(deleteButtonElement);
+      this.gridDialog.element.querySelector('.e-footer-content')!.appendChild(editButtonElement);
       const editButton: Button = new Button({ isPrimary: true });
       editButton.appendTo('#edit');
       const deleteButton: Button = new Button();
@@ -99,7 +99,7 @@ export class PatientsComponent implements OnInit {
   }
 
   public onDeleteClick(): void {
-    this.patientsData = this.patientsData.filter((item: Record<string, any>) => item.Id !== this.activePatientData.Id);
+    this.patientsData = this.patientsData.filter((item: Record<string, any>) => item['Id'] !== this.activePatientData['Id']);
     this.filteredPatients = this.patientsData;
     this.dataService.setPatientsData(this.patientsData);
     this.gridObj.closeEdit();
@@ -121,13 +121,13 @@ export class PatientsComponent implements OnInit {
 
   public getHistoryDetails(): HTMLElement {
     const filteredData: Record<string, any>[] = this.hospitalData.filter((item: Record<string, any>) =>
-      item.PatientId === this.activePatientData.Id);
+      item['PatientId'] === this.activePatientData['Id']);
     const historyElement: HTMLElement = createElement('div', { id: 'history-wrapper' });
     if (filteredData.length > 0) {
       filteredData.map((item: Record<string, any>) => {
         const element: Element = createElement('div', { className: 'history-content' });
         // eslint-disable-next-line max-len
-        element.textContent = `${this.intl.formatDate(item.StartTime, { skeleton: 'MMMd' })} - ${this.intl.formatDate(item.StartTime, { skeleton: 'hm' })} - ${this.intl.formatDate(item.EndTime, { skeleton: 'hm' })} Appointment with Dr.${this.getDoctorName(item.DoctorId)}`;
+        element.textContent = `${this.intl.formatDate(item['StartTime'], { skeleton: 'MMMd' })} - ${this.intl.formatDate(item['StartTime'], { skeleton: 'hm' })} - ${this.intl.formatDate(item['EndTime'], { skeleton: 'hm' })} Appointment with Dr.${this.getDoctorName(item['DoctorId'])}`;
         historyElement.appendChild(element);
       });
     } else {
@@ -139,15 +139,15 @@ export class PatientsComponent implements OnInit {
   }
 
   public getDoctorName(id: number): string {
-    const activeDoctor: Record<string, any>[] = this.doctorsData.filter((item: Record<string, any>) => item.Id === id);
-    return activeDoctor[0].Name;
+    const activeDoctor: Record<string, any>[] = this.doctorsData.filter((item: Record<string, any>) => item['Id'] === id);
+    return activeDoctor[0]['Name'];
   }
 
   public patientSearch(args: KeyboardEvent): void {
     const searchString: string = (args.target as HTMLInputElement).value;
     if (searchString !== '') {
       new DataManager(this.patientsData).executeQuery(new Query().
-        search(searchString, ['Id', 'Name', 'Gender', 'BloodGroup', 'Mobile'], null, true, true)).then((e: ReturnOption) => {
+        search(searchString, ['Id', 'Name', 'Gender', 'BloodGroup', 'Mobile'], null!, true, true)).then((e: ReturnOption) => {
           if ((e.result as any).length > 0) {
             this.filteredPatients = e.result as Record<string, any>[];
           } else {

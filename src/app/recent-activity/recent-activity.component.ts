@@ -28,7 +28,7 @@ export class RecentActivityComponent implements OnInit, OnDestroy {
 
   private updateTimeString(): void {
     this.dataSource.map((item: Record<string, any>) => {
-      item.Time = this.timeSince(item.ActivityTime as Date);
+      item['Time'] = this.timeSince(item['ActivityTime'] as Date);
     });
   }
 

@@ -16,7 +16,7 @@ export class DataService {
   public doctorsData: Record<string, any>[];
   public calendarSettings: CalendarSettings;
   public selectedDate: Date;
-  public eventFields: EventFieldsMapping;
+  public eventFields!: EventFieldsMapping;
   public activeDoctorData: Record<string, any>;
   public activePatientData: Record<string, any>;
   public specialistData: Record<string, any>[];
@@ -52,13 +52,13 @@ export class DataService {
   public onUpdateData(field: string, value: any, className: string, activeData: any): void {
     if (className.indexOf('doctor') !== -1) {
       for (const doctorData of this.doctorsData) {
-        if (doctorData.Id === activeData.Id) {
+        if (doctorData['Id'] === activeData.Id) {
           doctorData[field] = value;
         }
       }
     } else {
       for (const patientData of this.patientsData) {
-        if (patientData.Id === activeData.Id) {
+        if (patientData['Id'] === activeData.Id) {
           patientData[field] = value;
         }
       }
@@ -141,15 +141,15 @@ export class DataService {
   }
 
   public validationComplete(args: Record<string, any>, parentElement: HTMLElement): void {
-    const elem: HTMLElement = parentElement.querySelector('#' + args.inputName + '_Error') as HTMLElement;
+    const elem: HTMLElement = parentElement.querySelector('#' + args['inputName'] + '_Error') as HTMLElement;
     if (elem) {
-      elem.style.display = (args.status === 'failure') ? '' : 'none';
+      elem.style.display = (args['status'] === 'failure') ? '' : 'none';
     }
   }
 
   public errorPlacement(inputElement: HTMLElement, error: HTMLElement): void {
-    const id: string = error.getAttribute('for');
-    const elem: Element = inputElement.parentElement.querySelector('#' + id + '_Error');
+    const id: string = error.getAttribute('for')!;
+    const elem: Element = inputElement.parentElement!.querySelector('#' + id + '_Error')!;
     if (!elem) {
       const div: HTMLElement = createElement('div', {
         className: 'field-error',
@@ -158,7 +158,7 @@ export class DataService {
       const content: Element = createElement('div', { className: 'error-content' });
       content.appendChild(error);
       div.appendChild(content);
-      inputElement.parentElement.parentElement.appendChild(div);
+      inputElement.parentElement!.parentElement!.appendChild(div);
     }
   }
 
@@ -169,8 +169,8 @@ export class DataService {
         remove(elem);
       }
       for (const element of inputElements) {
-        if (element.querySelector('input').classList.contains('e-error')) {
-          removeClass([element.querySelector('input')], 'e-error');
+        if (element.querySelector('input')!.classList.contains('e-error')) {
+          removeClass([element.querySelector('input')!], 'e-error');
         }
       }
     }
@@ -183,6 +183,6 @@ export class DataService {
         element.classList.remove('active-item');
       }
     });
-    document.querySelector('.sidebar-item.' + text).classList.add('active-item');
+    document.querySelector('.sidebar-item.' + text)!.classList.add('active-item');
   }
 }
