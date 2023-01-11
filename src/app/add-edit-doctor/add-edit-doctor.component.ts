@@ -64,7 +64,7 @@ export class AddEditDoctorComponent {
           const instance: DropDownList = (curElement.parentElement as EJ2Instance).ej2_instances[0] as DropDownList;
           obj[columnName] = instance.value;
           if (columnName === 'Specialization') {
-            obj.DepartmentId = (instance.getDataByValue(instance.value) as Record<string, any>).DepartmentId;
+            obj['DepartmentId'] = (instance.getDataByValue(instance.value) as Record<string, any>)['DepartmentId'];
           }
         } else if (columnName === 'Gender') {
           obj[columnName] = curElement.querySelector('input').checked ? 'Male' : 'Female';
@@ -74,14 +74,14 @@ export class AddEditDoctorComponent {
       }
     }
     if (this.dialogState === 'new') {
-      obj.Id = Math.max.apply(Math, this.doctorsData.map((data: Record<string, any>) => data.Id)) + 1;
-      obj.Text = 'default';
-      obj.Availability = 'available';
-      obj.NewDoctorClass = 'new-doctor';
-      obj.Color = '#7575ff';
+      obj['Id'] = Math.max.apply(Math, this.doctorsData.map((data: Record<string, any>) => data['Id'])) + 1;
+      obj['Text'] = 'default';
+      obj['Availability'] = 'available';
+      obj['NewDoctorClass'] = 'new-doctor';
+      obj['Color'] = '#7575ff';
       const initialData: Record<string, any> = JSON.parse(JSON.stringify(this.doctorsData[0]));
-      obj.AvailableDays = initialData.AvailableDays;
-      obj.WorkDays = initialData.WorkDays;
+      obj['AvailableDays'] = initialData['AvailableDays'];
+      obj['WorkDays'] = initialData['WorkDays'];
       obj = this.updateWorkHours(obj);
       this.doctorsData.push(obj);
       this.dataService.setDoctorsData(this.doctorsData);
@@ -91,7 +91,7 @@ export class AddEditDoctorComponent {
     }
     const activityObj: Record<string, any> = {
       Name: this.dialogState === 'new' ? 'Added New Doctor' : 'Updated Doctor',
-      Message: `Dr.${obj.Name}, ${obj.Specialization.charAt(0).toUpperCase() + obj.Specialization.slice(1)}`,
+      Message: `Dr.${obj['Name']}, ${obj['Specialization'].charAt(0).toUpperCase() + obj['Specialization'].slice(1)}`,
       Time: '10 mins ago',
       Type: 'doctor',
       ActivityTime: new Date()
@@ -107,7 +107,7 @@ export class AddEditDoctorComponent {
   }
 
   public updateWorkHours(data: Record<string, any>): Record<string, any> {
-    const dutyString: string = this.dutyTimingsData.filter((item: Record<string, any>) => item.Id === data.DutyTiming)[0].Text;
+    const dutyString: string = this.dutyTimingsData.filter((item: Record<string, any>) => item['Id'] === data['DutyTiming'])[0]['Text'];
     let startHour: string;
     let endHour: string;
     let startValue: number;
@@ -128,14 +128,14 @@ export class AddEditDoctorComponent {
       startHour = '12:00';
       endHour = '21:00';
     }
-    data.WorkDays.forEach((item: Record<string, any>) => {
-      item.WorkStartHour = new Date(new Date(item.WorkStartHour).setHours(startValue));
-      item.WorkEndHour = new Date(new Date(item.WorkEndHour).setHours(endValue));
-      item.BreakStartHour = new Date(item.BreakStartHour);
-      item.BreakEndHour = new Date(item.BreakEndHour);
+    data['WorkDays'].forEach((item: Record<string, any>) => {
+      item['WorkStartHour'] = new Date(new Date(item['WorkStartHour']).setHours(startValue));
+      item['WorkEndHour'] = new Date(new Date(item['WorkEndHour']).setHours(endValue));
+      item['BreakStartHour'] = new Date(item['BreakStartHour']);
+      item['BreakEndHour'] = new Date(item['BreakEndHour']);
     });
-    data.StartHour = startHour;
-    data.EndHour = endHour;
+    data['StartHour'] = startHour;
+    data['EndHour'] = endHour;
     return data;
   }
 
@@ -162,7 +162,7 @@ export class AddEditDoctorComponent {
   }
 
   public onGenderChange(args: Record<string, any>): void {
-    this.selectedGender = args.target.value;
+    this.selectedGender = args['target'].value;
   }
 
   public showDetails(): void {
@@ -199,18 +199,18 @@ export class AddEditDoctorComponent {
 
   public onBeforeOpen(args: BeforeOpenEventArgs): void {
     const formElement: HTMLFormElement = args.element.querySelector('#new-doctor-form');
-    if (formElement && formElement.ej2_instances) {
+    if (formElement && formElement['ej2_instances']) {
       return;
     }
     const customFn: (args: { [key: string]: HTMLElement }) => boolean = (e: { [key: string]: HTMLElement }) => {
-      const argsLength = ((e.element as EJ2Instance).ej2_instances[0] as MaskedTextBoxComponent).value.length;
+      const argsLength = ((e['element'] as EJ2Instance).ej2_instances[0] as MaskedTextBoxComponent).value.length;
       return (argsLength !== 0) ? argsLength >= 10 : false;
     };
     const rules: Record<string, any> = {};
-    rules.Name = { required: [true, 'Enter valid name'] };
-    rules.Mobile = { required: [customFn, 'Enter valid mobile number'] };
-    rules.Email = { required: [true, 'Enter valid email'], email: [true, 'Email address is invalid'] };
-    rules.Education = { required: [true, 'Enter valid education'] };
+    rules['Name'] = { required: [true, 'Enter valid name'] };
+    rules['Mobile'] = { required: [customFn, 'Enter valid mobile number'] };
+    rules['Email'] = { required: [true, 'Enter valid email'], email: [true, 'Email address is invalid'] };
+    rules['Education'] = { required: [true, 'Enter valid education'] };
     this.dataService.renderFormValidator(formElement, rules, this.newDoctorObj.element);
   }
 }

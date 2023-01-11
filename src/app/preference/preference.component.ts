@@ -45,8 +45,8 @@ export class PreferenceComponent implements OnInit {
     this.calendarSettings = this.dataService.getCalendarSettings();
     this.timeInterval = this.calendarSettings.interval;
     this.selectedView = this.calendarSettings.currentView;
-    this.selectedStartHour = this.calendarSettings.calendar.start as string;
-    this.selectedEndHour = this.calendarSettings.calendar.end as string;
+    this.selectedStartHour = this.calendarSettings.calendar['start'] as string;
+    this.selectedEndHour = this.calendarSettings.calendar['end'] as string;
     this.selectedCategory = this.calendarSettings.bookingColor;
     this.selectedDayOfWeek = this.calendarSettings.firstDayOfWeek;
   }
@@ -57,10 +57,10 @@ export class PreferenceComponent implements OnInit {
         this.calendarSettings.currentView = args.value as string;
         break;
       case 'CalendarStart':
-        this.calendarSettings.calendar.start = args.value;
+        this.calendarSettings.calendar['start'] = args.value;
         break;
       case 'CalendarEnd':
-        this.calendarSettings.calendar.end = args.value;
+        this.calendarSettings.calendar['end'] = args.value;
         break;
       case 'Duration':
         this.calendarSettings.interval = args.value as number;

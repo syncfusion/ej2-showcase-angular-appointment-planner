@@ -50,13 +50,13 @@ export class DoctorsComponent implements OnInit {
   }
 
   public getColor(args: Record<string, string>): string {
-    return args.Color;
+    return args['Color'];
   }
 
   public onSpecializationChange(args?: Record<string, any>): void {
     let filteredData: Record<string, any>[];
-    if (args && args.value) {
-      this.selectedDepartmentId = args ? args.itemData.DepartmentId : this.selectedDepartmentId;
+    if (args && args['value']) {
+      this.selectedDepartmentId = args ? args['itemData'].DepartmentId : this.selectedDepartmentId;
       filteredData = this.doctorsData.filter((item: any) => item.DepartmentId === this.selectedDepartmentId);
     } else {
       this.selectedDepartmentId = null;
@@ -67,7 +67,7 @@ export class DoctorsComponent implements OnInit {
 
   public onSpecialistClick(args: Record<string, any>): void {
     this.tooltipObj.close();
-    const specialistId: string = args.currentTarget.querySelector('.specialist-item').id.split('_')[1];
+    const specialistId: string = args['currentTarget'].querySelector('.specialist-item').id.split('_')[1];
     const filteredData: Record<string, any>[] = this.doctorsData.filter((item: any) => item.Id === parseInt(specialistId as string, 10));
     this.dataService.setActiveDoctorData(filteredData[0]);
     this.router.navigateByUrl('/doctor-details/' + specialistId);

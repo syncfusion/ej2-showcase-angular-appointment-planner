@@ -39,6 +39,6 @@ export class DoctorAvailabilityComponent implements OnInit {
   }
 
   public getSpecializationText(text: string): string {
-    return this.specializationData.filter((item: Record<string, any>) => item.Id === text)[0].Text.toUpperCase();
+    return this.specializationData.filter((item: Record<string, any>) => item['Id'] === text)[0]['Text'].toUpperCase();
   }
 }

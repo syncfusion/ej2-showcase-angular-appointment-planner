@@ -47,9 +47,9 @@ export class DashboardComponent implements OnInit {
     document.querySelector('.week-event-count').textContent = currentViewEvents.length.toString();
     document.querySelector('.day-event-count').textContent = currentDayEvents.length.toString();
     // Chart Control Code
-    const diabetologyData: Record<string, any>[] = currentViewEvents.filter((item: Record<string, any>) => item.DepartmentId === 5);
-    const orthopaedicsData: Record<string, any>[] = currentViewEvents.filter((item: Record<string, any>) => item.DepartmentId === 4);
-    const cardiologyData: Record<string, any>[] = currentViewEvents.filter((item: Record<string, any>) => item.DepartmentId === 6);
+    const diabetologyData: Record<string, any>[] = currentViewEvents.filter((item: Record<string, any>) => item['DepartmentId'] === 5);
+    const orthopaedicsData: Record<string, any>[] = currentViewEvents.filter((item: Record<string, any>) => item['DepartmentId'] === 4);
+    const cardiologyData: Record<string, any>[] = currentViewEvents.filter((item: Record<string, any>) => item['DepartmentId'] === 6);
     let date: Date = firstDayOfWeek;
     for (let i = 0; i < 7; i++) {
       this.chartData.push(this.getChartData(diabetologyData, date));
@@ -88,15 +88,15 @@ export class DashboardComponent implements OnInit {
     // Grid Data Preparation
     for (const eventData of currentDayEvents) {
       if (eventData) {
-        const filteredPatients: Record<string, any>[] = this.patientsData.filter(item => item.Id === eventData.PatientId);
-        const filteredDoctors: Record<string, any>[] = this.doctorsData.filter(item => item.Id === eventData.DoctorId);
+        const filteredPatients: Record<string, any>[] = this.patientsData.filter(item => item['Id'] === eventData['PatientId']);
+        const filteredDoctors: Record<string, any>[] = this.doctorsData.filter(item => item['Id'] === eventData['DoctorId']);
         if (filteredPatients.length > 0 && filteredDoctors.length > 0) {
           const newData: Record<string, any> = {
-            Time: this.getDate(eventData.StartTime),
-            Name: filteredPatients[0].Name,
-            DoctorName: filteredDoctors[0].Name,
-            Symptoms: eventData.Symptoms,
-            DoctorId: filteredDoctors[0].Id
+            Time: this.getDate(eventData['StartTime']),
+            Name: filteredPatients[0]['Name'],
+            DoctorName: filteredDoctors[0]['Name'],
+            Symptoms: eventData['Symptoms'],
+            DoctorId: filteredDoctors[0]['Id']
           };
           this.gridData.push(newData);
         }
@@ -106,7 +106,7 @@ export class DashboardComponent implements OnInit {
 
   public getChartData(data: Record<string, any>[], startDate: Date): Record<string, any> {
     const filteredData: Record<string, any>[] = data.filter((item: { [key: string]: Date }) =>
-      resetTime(startDate).getTime() === resetTime(new Date(item.StartTime)).getTime());
+      resetTime(startDate).getTime() === resetTime(new Date(item['StartTime'])).getTime());
     return { Date: startDate, EventCount: filteredData.length };
   }
 

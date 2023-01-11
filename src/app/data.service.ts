@@ -52,13 +52,13 @@ export class DataService {
   public onUpdateData(field: string, value: any, className: string, activeData: any): void {
     if (className.indexOf('doctor') !== -1) {
       for (const doctorData of this.doctorsData) {
-        if (doctorData.Id === activeData.Id) {
+        if (doctorData['Id'] === activeData.Id) {
           doctorData[field] = value;
         }
       }
     } else {
       for (const patientData of this.patientsData) {
-        if (patientData.Id === activeData.Id) {
+        if (patientData['Id'] === activeData.Id) {
           patientData[field] = value;
         }
       }
@@ -141,9 +141,9 @@ export class DataService {
   }
 
   public validationComplete(args: Record<string, any>, parentElement: HTMLElement): void {
-    const elem: HTMLElement = parentElement.querySelector('#' + args.inputName + '_Error') as HTMLElement;
+    const elem: HTMLElement = parentElement.querySelector('#' + args['inputName'] + '_Error') as HTMLElement;
     if (elem) {
-      elem.style.display = (args.status === 'failure') ? '' : 'none';
+      elem.style.display = (args['status'] === 'failure') ? '' : 'none';
     }
   }
 

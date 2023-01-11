@@ -99,7 +99,7 @@ export class PatientsComponent implements OnInit {
   }
 
   public onDeleteClick(): void {
-    this.patientsData = this.patientsData.filter((item: Record<string, any>) => item.Id !== this.activePatientData.Id);
+    this.patientsData = this.patientsData.filter((item: Record<string, any>) => item['Id'] !== this.activePatientData['Id']);
     this.filteredPatients = this.patientsData;
     this.dataService.setPatientsData(this.patientsData);
     this.gridObj.closeEdit();
@@ -121,13 +121,13 @@ export class PatientsComponent implements OnInit {
 
   public getHistoryDetails(): HTMLElement {
     const filteredData: Record<string, any>[] = this.hospitalData.filter((item: Record<string, any>) =>
-      item.PatientId === this.activePatientData.Id);
+      item['PatientId'] === this.activePatientData['Id']);
     const historyElement: HTMLElement = createElement('div', { id: 'history-wrapper' });
     if (filteredData.length > 0) {
       filteredData.map((item: Record<string, any>) => {
         const element: Element = createElement('div', { className: 'history-content' });
         // eslint-disable-next-line max-len
-        element.textContent = `${this.intl.formatDate(item.StartTime, { skeleton: 'MMMd' })} - ${this.intl.formatDate(item.StartTime, { skeleton: 'hm' })} - ${this.intl.formatDate(item.EndTime, { skeleton: 'hm' })} Appointment with Dr.${this.getDoctorName(item.DoctorId)}`;
+        element.textContent = `${this.intl.formatDate(item['StartTime'], { skeleton: 'MMMd' })} - ${this.intl.formatDate(item['StartTime'], { skeleton: 'hm' })} - ${this.intl.formatDate(item['EndTime'], { skeleton: 'hm' })} Appointment with Dr.${this.getDoctorName(item['DoctorId'])}`;
         historyElement.appendChild(element);
       });
     } else {
@@ -139,8 +139,8 @@ export class PatientsComponent implements OnInit {
   }
 
   public getDoctorName(id: number): string {
-    const activeDoctor: Record<string, any>[] = this.doctorsData.filter((item: Record<string, any>) => item.Id === id);
-    return activeDoctor[0].Name;
+    const activeDoctor: Record<string, any>[] = this.doctorsData.filter((item: Record<string, any>) => item['Id'] === id);
+    return activeDoctor[0]['Name'];
   }
 
   public patientSearch(args: KeyboardEvent): void {

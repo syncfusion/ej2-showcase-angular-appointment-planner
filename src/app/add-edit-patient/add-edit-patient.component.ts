@@ -79,13 +79,13 @@ export class AddEditPatientComponent {
     }
     this.patientsData = this.dataService.getPatientsData();
     if (this.dialogState === 'new') {
-      obj.Id = Math.max.apply(Math, this.patientsData.map((data: Record<string, any>) => data.Id)) + 1;
-      obj.NewPatientClass = 'new-patient';
+      obj['Id'] = Math.max.apply(Math, this.patientsData.map((data: Record<string, any>) => data['Id'])) + 1;
+      obj['NewPatientClass'] = 'new-patient';
       this.patientsData.push(obj);
     } else {
       this.activePatientData = obj;
       this.patientsData.forEach((patientData: Record<string, any>) => {
-        if (patientData.Id === obj.Id) {
+        if (patientData['Id'] === obj['Id']) {
           Object.assign(patientData, obj);
         }
       });
@@ -93,7 +93,7 @@ export class AddEditPatientComponent {
     }
     const activityObj: Record<string, any> = {
       Name: this.dialogState === 'new' ? 'Added New Patient' : 'Updated Patient',
-      Message: `${obj.Name} for ${obj.Symptoms}`,
+      Message: `${obj['Name']} for ${obj['Symptoms']}`,
       Time: '10 mins ago',
       Type: 'patient',
       ActivityTime: new Date()
@@ -136,7 +136,7 @@ export class AddEditPatientComponent {
   }
 
   public onGenderChange(args: Record<string, any>): void {
-    this.selectedGender = args.target.value;
+    this.selectedGender = args['target'].value;
   }
 
   public showDetails(): void {
@@ -177,18 +177,18 @@ export class AddEditPatientComponent {
 
   public onBeforeOpen(args: BeforeOpenEventArgs): void {
     const formElement: HTMLFormElement = args.element.querySelector('#new-patient-form');
-    if (formElement && formElement.ej2_instances) {
+    if (formElement && formElement['ej2_instances']) {
       return;
     }
     const customFn: (args: { [key: string]: HTMLElement }) => boolean = (e: { [key: string]: HTMLElement }) => {
-      const argsLength = ((e.element as EJ2Instance).ej2_instances[0] as MaskedTextBoxComponent).value.length;
+      const argsLength = ((e['element'] as EJ2Instance).ej2_instances[0] as MaskedTextBoxComponent).value.length;
       return (argsLength !== 0) ? argsLength >= 10 : false;
     };
     const rules: Record<string, any> = {};
-    rules.Name = { required: [true, 'Enter valid name'] };
-    rules.DOB = { required: true, date: [true, 'Select valid DOB'] };
-    rules.Mobile = { required: [customFn, 'Enter valid mobile number'] };
-    rules.Email = { required: [true, 'Enter valid email'], email: [true, 'Email address is invalid'] };
+    rules['Name'] = { required: [true, 'Enter valid name'] };
+    rules['DOB'] = { required: true, date: [true, 'Select valid DOB'] };
+    rules['Mobile'] = { required: [customFn, 'Enter valid mobile number'] };
+    rules['Email'] = { required: [true, 'Enter valid email'], email: [true, 'Email address is invalid'] };
     this.dataService.renderFormValidator(formElement, rules, this.newPatientObj.element);
   }
 }
