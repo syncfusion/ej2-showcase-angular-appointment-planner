@@ -15,10 +15,10 @@ import { DataService } from '../data.service';
   encapsulation: ViewEncapsulation.None
 })
 export class PatientsComponent implements OnInit {
-  @ViewChild('gridObj') gridObj!: GridComponent;
-  @ViewChild('addEditPatientObj') addEditPatientObj!: AddEditPatientComponent;
+  @ViewChild('gridObj') gridObj: GridComponent;
+  @ViewChild('addEditPatientObj') addEditPatientObj: AddEditPatientComponent;
   @ViewChild('deleteConfirmationDialogObj')
-  public deleteConfirmationDialogObj!: DialogComponent;
+  public deleteConfirmationDialogObj: DialogComponent;
   public patientsData: Record<string, any>[];
   public filteredPatients: Record<string, any>[];
   public activePatientData: Record<string, any>;
@@ -26,7 +26,7 @@ export class PatientsComponent implements OnInit {
   public doctorsData: Record<string, any>[];
   public intl: Internationalization = new Internationalization();
   public editSettings: EditSettingsModel;
-  public gridDialog!: Dialog;
+  public gridDialog: Dialog;
   public animationSettings: Record<string, any> = { effect: 'None' };
 
   constructor(public dataService: DataService) {
@@ -47,7 +47,7 @@ export class PatientsComponent implements OnInit {
   }
 
   public onPatientClick(args: MouseEvent): void {
-    const rowIndex: string = (args.currentTarget as HTMLElement).parentElement!.getAttribute('index')!;
+    const rowIndex: string = (args.currentTarget as HTMLElement).parentElement.getAttribute('index');
     setTimeout(() => {
       this.gridObj.selectRow(parseInt(rowIndex, 10));
       this.gridObj.startEdit();
@@ -68,9 +68,9 @@ export class PatientsComponent implements OnInit {
         } else {
           value = isNullOrUndefined(this.activePatientData[field]) ? '' : this.activePatientData[field].toString();
         }
-        (args.dialog as Dialog).element.querySelector('#' + field)!.innerHTML = value;
+        (args.dialog as Dialog).element.querySelector('#' + field).innerHTML = value;
       });
-      this.gridDialog.element.querySelector('.history-row')!.appendChild(this.getHistoryDetails());
+      this.gridDialog.element.querySelector('.history-row').appendChild(this.getHistoryDetails());
       const editButtonElement: HTMLElement = createElement('button', {
         className: 'edit-patient',
         id: 'edit',
@@ -85,8 +85,8 @@ export class PatientsComponent implements OnInit {
         attrs: { type: 'button', title: 'Delete', content: 'DELETE' }
       });
       deleteButtonElement.onclick = this.onDeletePatient.bind(this);
-      this.gridDialog.element.querySelector('.e-footer-content')!.appendChild(deleteButtonElement);
-      this.gridDialog.element.querySelector('.e-footer-content')!.appendChild(editButtonElement);
+      this.gridDialog.element.querySelector('.e-footer-content').appendChild(deleteButtonElement);
+      this.gridDialog.element.querySelector('.e-footer-content').appendChild(editButtonElement);
       const editButton: Button = new Button({ isPrimary: true });
       editButton.appendTo('#edit');
       const deleteButton: Button = new Button();
@@ -147,7 +147,7 @@ export class PatientsComponent implements OnInit {
     const searchString: string = (args.target as HTMLInputElement).value;
     if (searchString !== '') {
       new DataManager(this.patientsData).executeQuery(new Query().
-        search(searchString, ['Id', 'Name', 'Gender', 'BloodGroup', 'Mobile'], null!, true, true)).then((e: ReturnOption) => {
+        search(searchString, ['Id', 'Name', 'Gender', 'BloodGroup', 'Mobile'], null, true, true)).then((e: ReturnOption) => {
           if ((e.result as any).length > 0) {
             this.filteredPatients = e.result as Record<string, any>[];
           } else {

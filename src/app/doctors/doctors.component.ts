@@ -12,8 +12,8 @@ import { Tooltip, TooltipEventArgs } from '@syncfusion/ej2-angular-popups';
   encapsulation: ViewEncapsulation.None
 })
 export class DoctorsComponent implements OnInit {
-  @ViewChild('addEditDoctorObj') addEditDoctorObj!: AddEditDoctorComponent;
-  @ViewChild('specializationObj') specializationObj!: DropDownListComponent;
+  @ViewChild('addEditDoctorObj') addEditDoctorObj: AddEditDoctorComponent;
+  @ViewChild('specializationObj') specializationObj: DropDownListComponent;
   @ViewChild('specialistItemObj') specialistItemObj: any;
 
   public doctorsData: Record<string, any>[];
@@ -21,8 +21,8 @@ export class DoctorsComponent implements OnInit {
   public filteredDoctors: Record<string, any>[];
   public specializationData: Record<string, any>[];
   public fields: Record<string, any> = { text: 'Text', value: 'Id' };
-  public selectedDepartmentId!: string;
-  public tooltipObj!: Tooltip;
+  public selectedDepartmentId: string;
+  public tooltipObj: Tooltip;
 
   constructor(public dataService: DataService, private router: Router) {
     this.doctorsData = this.filteredDoctors = this.dataService.getDoctorsData();
@@ -40,7 +40,7 @@ export class DoctorsComponent implements OnInit {
       showTipPointer: false,
       target: '.availability',
       beforeOpen: (args: TooltipEventArgs) => {
-        args.element.querySelector('.e-tip-content')!.textContent =
+        args.element.querySelector('.e-tip-content').textContent =
           args.target.classList[1].charAt(0).toUpperCase() + args.target.classList[1].slice(1);
       }
     });
@@ -59,7 +59,7 @@ export class DoctorsComponent implements OnInit {
       this.selectedDepartmentId = args ? args['itemData'].DepartmentId : this.selectedDepartmentId;
       filteredData = this.doctorsData.filter((item: any) => item.DepartmentId === this.selectedDepartmentId);
     } else {
-      this.selectedDepartmentId = null!;
+      this.selectedDepartmentId = null;
       filteredData = this.doctorsData;
     }
     this.filteredDoctors = filteredData;

@@ -1,7 +1,7 @@
 export class CalendarSettings {
-    bookingColor!: string;
+    bookingColor: string;
     calendar: Record<string, any> = { start: '', end: '' };
-    currentView!: string;
-    interval!: number;
-    firstDayOfWeek!: number;
+    currentView: string;
+    interval: number;
+    firstDayOfWeek: number;
 }

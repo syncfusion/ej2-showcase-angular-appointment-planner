@@ -1,27 +1,27 @@
-# Planner
+# Essential JS 2 for Angular - Appointment Planner
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.2.
+This Appointment planner demo application showcases the usage of several Essential JS 2 components in a real world application scenario. This demo explores an appointment scheduling application for doctors in a clinic to manage their appointments with patients.
 
-## Development server
+## Deployment
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### Install
 
-## Code scaffolding
+To install all dependent packages, use the below command
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```sh
+npm install
+```
 
-## Build
+### Run
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+To run the sample, use the below command
 
-## Running unit tests
+```sh
+ng serve
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Demo
 
-## Running end-to-end tests
+### <a href="https://ej2.syncfusion.com/showcase/angular/appointmentplanner/" target="_blank">https://ej2.syncfusion.com/showcase/angular/appointmentplanner/</a>
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Check all the showcase samples from <a href="https://ej2.syncfusion.com/home/angular.html" target="_blank">here</a>.

@@ -14,17 +14,17 @@ import { DataService } from '../data.service';
   encapsulation: ViewEncapsulation.None
 })
 export class DoctorDetailsComponent implements OnInit {
-  @ViewChild('addEditDoctorObj') addEditDoctorObj!: AddEditDoctorComponent;
-  @ViewChild('breakHourObj') breakHourObj!: DialogComponent;
-  @ViewChild('deleteConfirmationDialogObj') deleteConfirmationDialogObj!: DialogComponent;
+  @ViewChild('addEditDoctorObj') addEditDoctorObj: AddEditDoctorComponent;
+  @ViewChild('breakHourObj') breakHourObj: DialogComponent;
+  @ViewChild('deleteConfirmationDialogObj') deleteConfirmationDialogObj: DialogComponent;
 
-  public activeData!: Record<string, any>;
+  public activeData: Record<string, any>;
   public doctorData: Record<string, any>[];
   public intl: Internationalization = new Internationalization();
   public specializationData: Record<string, any>[];
   public animationSettings: Record<string, any> = { effect: 'None' };
-  public breakDays!: Record<string, any>[];
-  public doctorId!: number;
+  public breakDays: Record<string, any>[];
+  public doctorId: number;
 
   constructor(public dataService: DataService, public router: Router, private route: ActivatedRoute) {
     this.doctorData = this.dataService.getDoctorsData();
@@ -90,8 +90,8 @@ export class DoctorDetailsComponent implements OnInit {
     const formElement: HTMLInputElement[] = [].slice.call(document.querySelectorAll('.break-hour-dialog .e-field'));
     const workDays: Record<string, any>[] = JSON.parse(JSON.stringify(this.breakDays));
     for (const curElement of formElement) {
-      const dayName: string = curElement.parentElement!.getAttribute('id')!.split('_')[0];
-      const valueName: string = curElement.parentElement!.getAttribute('id')!.split('_')[1];
+      const dayName: string = curElement.parentElement.getAttribute('id').split('_')[0];
+      const valueName: string = curElement.parentElement.getAttribute('id').split('_')[1];
       const instance: TimePicker = (curElement.parentElement as EJ2Instance).ej2_instances[0] as TimePicker;
       for (const workDay of workDays) {
         if (workDay['Day'] === dayName) {

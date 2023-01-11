@@ -15,18 +15,18 @@ import { DataService } from '../data.service';
   encapsulation: ViewEncapsulation.None
 })
 export class DashboardComponent implements OnInit {
-  public hospitalData!: Record<string, any>[];
-  public doctorsData!: Record<string, any>[];
-  public patientsData!: Record<string, any>[];
+  public hospitalData: Record<string, any>[];
+  public doctorsData: Record<string, any>[];
+  public patientsData: Record<string, any>[];
   public gridData: Record<string, any>[] = [];
-  public primaryXAxis!: Record<string, any>;
+  public primaryXAxis: Record<string, any>;
   public chartData: Record<string, any>[] = [];
-  public title!: string;
-  public primaryYAxis!: Record<string, any>;
-  public marker!: Record<string, any>;
-  public legendSettings!: Record<string, any>;
-  public titleStyle!: Record<string, any>;
-  public chartArea!: Record<string, any>;
+  public title: string;
+  public primaryYAxis: Record<string, any>;
+  public marker: Record<string, any>;
+  public legendSettings: Record<string, any>;
+  public titleStyle: Record<string, any>;
+  public chartArea: Record<string, any>;
   public chartData1: Record<string, any>[] = [];
   public chartData2: Record<string, any>[] = [];
   public initialChartLoad = true;
@@ -44,8 +44,8 @@ export class DashboardComponent implements OnInit {
       addDays(new Date(startDate.getTime()), 1)) as Record<string, any>[];
     const currentViewEvents: Record<string, any>[] = this.getFilteredData(firstDayOfWeek,
       addDays(new Date(firstDayOfWeek.getTime()), 6));
-    document.querySelector('.week-event-count')!.textContent = currentViewEvents.length.toString();
-    document.querySelector('.day-event-count')!.textContent = currentDayEvents.length.toString();
+    document.querySelector('.week-event-count').textContent = currentViewEvents.length.toString();
+    document.querySelector('.day-event-count').textContent = currentDayEvents.length.toString();
     // Chart Control Code
     const diabetologyData: Record<string, any>[] = currentViewEvents.filter((item: Record<string, any>) => item['DepartmentId'] === 5);
     const orthopaedicsData: Record<string, any>[] = currentViewEvents.filter((item: Record<string, any>) => item['DepartmentId'] === 4);

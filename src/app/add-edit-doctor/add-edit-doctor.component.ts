@@ -17,12 +17,12 @@ import { CalendarComponent } from '../calendar/calendar.component';
 })
 export class AddEditDoctorComponent {
   @Output() refreshDoctors = new EventEmitter<string>();
-  @ViewChild('newDoctorObj') newDoctorObj!: DialogComponent;
-  @ViewChild('specializationObj') specializationObj!: DropDownListComponent;
+  @ViewChild('newDoctorObj') newDoctorObj: DialogComponent;
+  @ViewChild('specializationObj') specializationObj: DropDownListComponent;
 
   public doctorsData: Record<string, any>[];
   public activeDoctorData: Record<string, any>;
-  public dialogState!: string;
+  public dialogState: string;
   public animationSettings: Record<string, any> = { effect: 'None' };
   public title = 'New Doctor';
   public selectedGender = 'Male';
@@ -48,7 +48,7 @@ export class AddEditDoctorComponent {
   }
 
   public onSaveClick(): void {
-    const formElementContainer: HTMLElement = document.querySelector('.new-doctor-dialog #new-doctor-form')!;
+    const formElementContainer: HTMLElement = document.querySelector('.new-doctor-dialog #new-doctor-form');
     if (formElementContainer && formElementContainer.classList.contains('e-formvalidator') &&
       !((formElementContainer as EJ2Instance).ej2_instances[0] as FormValidator).validate()) {
       return;
@@ -56,20 +56,20 @@ export class AddEditDoctorComponent {
     let obj: Record<string, any> = this.dialogState === 'new' ? {} : this.activeDoctorData;
     const formElement: HTMLInputElement[] = [].slice.call(document.querySelectorAll('.new-doctor-dialog .e-field'));
     for (const curElement of formElement) {
-      let columnName: string = curElement.querySelector('input')!.name;
+      let columnName: string = curElement.querySelector('input').name;
       const isCustomElement: boolean = curElement.classList.contains('e-ddl');
       if (!isNullOrUndefined(columnName) || isCustomElement) {
         if (columnName === '' && isCustomElement) {
-          columnName = curElement.querySelector('select')!.name;
+          columnName = curElement.querySelector('select').name;
           const instance: DropDownList = (curElement.parentElement as EJ2Instance).ej2_instances[0] as DropDownList;
           obj[columnName] = instance.value;
           if (columnName === 'Specialization') {
             obj['DepartmentId'] = (instance.getDataByValue(instance.value) as Record<string, any>)['DepartmentId'];
           }
         } else if (columnName === 'Gender') {
-          obj[columnName] = curElement.querySelector('input')!.checked ? 'Male' : 'Female';
+          obj[columnName] = curElement.querySelector('input').checked ? 'Male' : 'Female';
         } else {
-          obj[columnName] = curElement.querySelector('input')!.value;
+          obj[columnName] = curElement.querySelector('input').value;
         }
       }
     }
@@ -141,13 +141,13 @@ export class AddEditDoctorComponent {
 
   public resetFormFields(): void {
     const formElement: HTMLInputElement[] = [].slice.call(document.querySelectorAll('.new-doctor-dialog .e-field'));
-    this.dataService.destroyErrorElement(document.querySelector('#new-doctor-form')!, formElement);
+    this.dataService.destroyErrorElement(document.querySelector('#new-doctor-form'), formElement);
     for (const curElement of formElement) {
-      let columnName: string = curElement.querySelector('input')!.name;
+      let columnName: string = curElement.querySelector('input').name;
       const isCustomElement: boolean = curElement.classList.contains('e-ddl');
       if (!isNullOrUndefined(columnName) || isCustomElement) {
         if (columnName === '' && isCustomElement) {
-          columnName = curElement.querySelector('select')!.name;
+          columnName = curElement.querySelector('select').name;
           const instance: DropDownList = (curElement.parentElement as EJ2Instance).ej2_instances[0] as DropDownList;
           instance.value = (instance as any).dataSource[0];
         } else if (columnName === 'Gender') {
@@ -155,7 +155,7 @@ export class AddEditDoctorComponent {
         } else if(columnName === 'Mobile') {
           ((curElement.parentElement as EJ2Instance).ej2_instances[0] as MaskedTextBox).value = '';
         } else {
-          curElement.querySelector('input')!.value = '';
+          curElement.querySelector('input').value = '';
         }
       }
     }
@@ -173,11 +173,11 @@ export class AddEditDoctorComponent {
     const obj: Record<string, any> = this.activeDoctorData;
     const formElement: HTMLInputElement[] = [].slice.call(document.querySelectorAll('.new-doctor-dialog .e-field'));
     for (const curElement of formElement) {
-      let columnName: string = curElement.querySelector('input')!.name;
+      let columnName: string = curElement.querySelector('input').name;
       const isCustomElement: boolean = curElement.classList.contains('e-ddl');
       if (!isNullOrUndefined(columnName) || isCustomElement) {
         if (columnName === '' && isCustomElement) {
-          columnName = curElement.querySelector('select')!.name;
+          columnName = curElement.querySelector('select').name;
           const instance: DropDownList = (curElement.parentElement as EJ2Instance).ej2_instances[0] as DropDownList;
           instance.value = obj[columnName] as string;
           instance.dataBind();
@@ -191,14 +191,14 @@ export class AddEditDoctorComponent {
           ((curElement.parentElement as EJ2Instance).ej2_instances[0] as MaskedTextBox).value =
             obj[columnName].replace(/[ -.*+?^${}()|[\]\\]/g, '');
         } else {
-          curElement.querySelector('input')!.value = obj[columnName] as string;
+          curElement.querySelector('input').value = obj[columnName] as string;
         }
       }
     }
   }
 
   public onBeforeOpen(args: BeforeOpenEventArgs): void {
-    const formElement: HTMLFormElement = args.element.querySelector('#new-doctor-form')!;
+    const formElement: HTMLFormElement = args.element.querySelector('#new-doctor-form');
     if (formElement && formElement['ej2_instances']) {
       return;
     }

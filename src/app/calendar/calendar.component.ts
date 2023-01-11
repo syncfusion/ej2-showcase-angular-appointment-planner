@@ -44,52 +44,52 @@ L10n.load({
 })
 export class CalendarComponent implements OnInit {
 
-  @ViewChild('addEditPatientObj') addEditPatientObj!: AddEditPatientComponent;
-  @ViewChild('addEditDoctorObj') addEditDoctorObj!: AddEditDoctorComponent;
-  @ViewChild('scheduleObj') scheduleObj!: ScheduleComponent;
-  @ViewChild('treeObj') treeObj!: TreeViewComponent;
-  @ViewChild('specialistObj') specialistObj!: DialogComponent;
-  @ViewChild('dropdownObj') dropdownObj!: DropDownList;
-  @ViewChild('waitingObj') waitingObj!: DialogComponent;
-  @ViewChild('calendarToast') toastObj!: ToastComponent;
+  @ViewChild('addEditPatientObj') addEditPatientObj: AddEditPatientComponent;
+  @ViewChild('addEditDoctorObj') addEditDoctorObj: AddEditDoctorComponent;
+  @ViewChild('scheduleObj') scheduleObj: ScheduleComponent;
+  @ViewChild('treeObj') treeObj: TreeViewComponent;
+  @ViewChild('specialistObj') specialistObj: DialogComponent;
+  @ViewChild('dropdownObj') dropdownObj: DropDownList;
+  @ViewChild('waitingObj') waitingObj: DialogComponent;
+  @ViewChild('calendarToast') toastObj: ToastComponent;
 
   public position: Record<string, any> = { X: 'Right', Y: 'Bottom' };
-  public toastContent!: string;
+  public toastContent: string;
   public toastWidth = '580px';
-  public calendarSettings!: CalendarSettings;
+  public calendarSettings: CalendarSettings;
   public isTreeItemDropped = false;
   public draggedItemId = '';
-  public patientValue!: number;
+  public patientValue: number;
   public group: GroupModel = { enableCompactView: false, resources: ['Departments', 'Doctors'] };
   public field: Record<string, any> = { dataSource: [], id: 'Id', text: 'Name' };
   public dropFields: Record<string, any> = { text: 'Name', value: 'Id' };
   public allowDragAndDrop = true;
   public instance: Internationalization = new Internationalization();
   public initialLoad = true;
-  public currentDate!: Date;
-  public selectedDate!: Date;
-  public eventSettings!: EventSettingsModel;
-  public resourceDataSource!: Record<string, any>[];
-  public specialistCategory!: Record<string, any>[];
+  public currentDate: Date;
+  public selectedDate: Date;
+  public eventSettings: EventSettingsModel;
+  public resourceDataSource: Record<string, any>[];
+  public specialistCategory: Record<string, any>[];
   public firstDayOfWeek = 1;
-  public startHour!: string;
-  public endHour!: string;
+  public startHour: string;
+  public endHour: string;
   public timeScale: TimeScaleModel = { enable: true, interval: 60 };
-  public currentView!: string;
-  public doctorsData!: Record<string, any>[];
-  public hospitalData!: Record<string, any>[];
-  public patientsData!: Record<string, any>[];
-  public activeDoctorData!: Record<string, any>[];
-  public specialistData!: Record<string, any>[];
+  public currentView: string;
+  public doctorsData: Record<string, any>[];
+  public hospitalData: Record<string, any>[];
+  public patientsData: Record<string, any>[];
+  public activeDoctorData: Record<string, any>[];
+  public specialistData: Record<string, any>[];
   public data: any = [];
-  public eventData!: Record<string, any>[];
+  public eventData: Record<string, any>[];
   public workDays: Array<number> = [0, 1, 2, 3, 4, 5, 6];
   public workHours: WorkHoursModel = { start: '08:00', end: '21:00' };
   public animationSettings: Record<string, any> = { effect: 'None' };
-  public waitingList!: Record<string, any>[];
+  public waitingList: Record<string, any>[];
   public activeWaitingItem: Record<string, any>[] = [];
   public selectedWaitingItem: Record<string, any>[] = [];
-  public comboBox!: ComboBox;
+  public comboBox: ComboBox;
   public fields: Record<string, any> = { text: 'Name', value: 'Id' };
   public itemTemplate: string = '<div class="specialist-item"><img class="value" src="./assets/images/${Text}.png" alt="doctor"/>' +
     '<div class="doctor-details"><div class="name">Dr.${Name}</div><div class="designation">${Designation}</div></div></div>';
@@ -217,7 +217,7 @@ export class CalendarComponent implements OnInit {
           prefixIcon: 'doctor-icon',
           showAlwaysInPopup: true
         };
-        args.items!.unshift(doctorIcon);
+        args.items.unshift(doctorIcon);
         const waitingListItem: ItemModel = {
           align: 'Right',
           cssClass: 'app-waiting-list',
@@ -225,12 +225,12 @@ export class CalendarComponent implements OnInit {
           text: 'Waiting list',
           click: this.onWaitingListSelect.bind(this)
         };
-        args.items!.push(waitingListItem);
-        args.items!.splice(5, 1);
+        args.items.push(waitingListItem);
+        args.items.splice(5, 1);
       } else {
         const specialistItem: ItemModel = { align: 'Center', cssClass: 'app-doctors' };
-        args.items!.unshift(specialistItem);
-        args.items!.splice(4, 2);
+        args.items.unshift(specialistItem);
+        args.items.splice(4, 2);
       }
     }
   }
@@ -239,7 +239,7 @@ export class CalendarComponent implements OnInit {
     if (args.requestType === 'toolBarItemRendered') {
       if (Browser.isDevice) {
         const doctorIconContainer: HTMLElement = this.scheduleObj.element.querySelector('.app-doctor-icon') as HTMLElement;
-        const doctorIcon: HTMLElement = doctorIconContainer.querySelector('.doctor-icon')!;
+        const doctorIcon: HTMLElement = doctorIconContainer.querySelector('.doctor-icon');
         const doctorImage: HTMLElement = createElement('img', { className: 'active-doctor', attrs: { src: './assets/Icons/Doctors.svg' } });
         doctorIcon.appendChild(doctorImage);
         doctorIconContainer.style.display = 'block';
@@ -259,8 +259,8 @@ export class CalendarComponent implements OnInit {
       // additional field customization
       if (!args.element.querySelector('.custom-field-row')) {
         const row: HTMLElement = createElement('div', { className: 'custom-field-row' });
-        const formElement: HTMLElement = args.element.querySelector('.e-schedule-form')!;
-        formElement.firstChild!.insertBefore(row, args.element.querySelector('.e-title-location-row'));
+        const formElement: HTMLElement = args.element.querySelector('.e-schedule-form');
+        formElement.firstChild.insertBefore(row, args.element.querySelector('.e-title-location-row'));
         const container: HTMLElement = createElement('div', { className: 'custom-field-container' });
         const comboBoxElement: HTMLInputElement = createElement('input', { attrs: { id: 'PatientName' } }) as HTMLInputElement;
         container.appendChild(comboBoxElement);
@@ -273,7 +273,7 @@ export class CalendarComponent implements OnInit {
           placeholder: 'PATIENT NAME',
           change: (e: any) => this.patientValue = e.value,
           select: () => {
-            if (!isNullOrUndefined(document.querySelector('.custom-field-row .field-error')!)) {
+            if (!isNullOrUndefined(document.querySelector('.custom-field-row .field-error'))) {
               (document.querySelector('.custom-field-row .field-error') as HTMLElement).style.display = 'none';
             }
           }
@@ -286,13 +286,13 @@ export class CalendarComponent implements OnInit {
         const button: Button = new Button({ iconCss: 'e-icons e-add-icon', cssClass: 'e-small e-round', isPrimary: true });
         button.appendTo(buttonEle);
       }
-      this.comboBox.value = args.data!['PatientId'] || null;
+      this.comboBox.value = args.data['PatientId'] || null;
     }
     if (args.type === 'QuickInfo') {
-      if (args.target!.classList.contains('e-work-cells') || args.target!.classList.contains('e-header-cells')) {
+      if (args.target.classList.contains('e-work-cells') || args.target.classList.contains('e-header-cells')) {
         this.scheduleObj.closeQuickInfoPopup();
         args.cancel = true;
-      } else if (args.target!.classList.contains('e-appointment')) {
+      } else if (args.target.classList.contains('e-appointment')) {
         (args.element as HTMLElement).style.boxShadow = `1px 2px 5px 0 ${(args.target as HTMLElement).style.backgroundColor}`;
       }
     }
@@ -368,7 +368,7 @@ export class CalendarComponent implements OnInit {
     }
   }
 
-  public refreshDataSource(deptId: string , doctorId: string): void {
+  public refreshDataSource(deptId: string, doctorId: string): void {
     const filteredItems: Record<string, any>[] = this.doctorsData.filter(item => parseInt(doctorId, 10) === item['Id']);
     this.activeDoctorData = filteredItems;
     this.workDays = filteredItems[0]['AvailableDays'];
@@ -392,7 +392,7 @@ export class CalendarComponent implements OnInit {
 
   public onItemDrag(event: any): void {
     if (this.scheduleObj.isAdaptive) {
-      const classElement: HTMLElement = this.scheduleObj.element.querySelector('.e-device-hover')!;
+      const classElement: HTMLElement = this.scheduleObj.element.querySelector('.e-device-hover');
       if (classElement) {
         classElement.classList.remove('e-device-hover');
       }
@@ -405,10 +405,10 @@ export class CalendarComponent implements OnInit {
     }
     if (event.name === 'nodeDragging') {
       const tooltipElement: NodeListOf<HTMLElement> = document.querySelectorAll('.e-drag-item.e-treeview');
-      let status: boolean = false;
+      let status: boolean;
       tooltipElement.forEach((node: HTMLElement) => {
         node.style.display = 'block';
-        status = document.querySelector('body')!.offsetWidth <= node.offsetLeft + node.offsetWidth;
+        status = document.querySelector('body').offsetWidth <= node.offsetLeft + node.offsetWidth;
       });
       const targetEle: Element = closest(event.target, '.droppable');
       if (!targetEle || status) {
@@ -423,11 +423,11 @@ export class CalendarComponent implements OnInit {
 
   public onTreeDragStop(event: DragAndDropEventArgs): void {
     const treeElement: Element = closest(event.target, '.e-treeview');
-    const classElement: HTMLElement = this.scheduleObj.element.querySelector('.e-device-hover')!;
+    const classElement: HTMLElement = this.scheduleObj.element.querySelector('.e-device-hover');
     if (classElement) {
       classElement.classList.remove('e-device-hover');
     }
-    const tooltipElement: HTMLElement = document.querySelector('.e-drag-item.e-treeview')!;
+    const tooltipElement: HTMLElement = document.querySelector('.e-drag-item.e-treeview');
     if (tooltipElement) { tooltipElement.style.display = 'block'; }
     if (!treeElement) {
       if (tooltipElement) { tooltipElement.style.display = 'none'; }
@@ -491,8 +491,8 @@ export class CalendarComponent implements OnInit {
     if (this.scheduleObj.activeCellsData && !isSameTime) {
       data = this.scheduleObj.activeCellsData;
     } else {
-      const interval: number = this.scheduleObj?.activeViewOptions?.timeScale?.interval!;
-      const slotCount: number = this.scheduleObj?.activeViewOptions?.timeScale?.slotCount!;
+      const interval: number = this.scheduleObj.activeViewOptions.timeScale.interval;
+      const slotCount: number = this.scheduleObj.activeViewOptions.timeScale.slotCount;
       const msInterval: number = (interval * 60000) / slotCount;
       const startTime: Date = new Date(this.scheduleObj.selectedDate.getTime());
       startTime.setHours(new Date().getHours(), Math.round(startTime.getMinutes() / msInterval) * msInterval, 0);
@@ -508,10 +508,10 @@ export class CalendarComponent implements OnInit {
 
   public onSpecialistSelect(args: Record<string, any>): void {
     const target: HTMLElement = closest(args['target'], '.specialist-item') as HTMLElement;
-    const deptId: string = target.getAttribute('data-deptid')!;
-    const doctorId: string  = target.getAttribute('data-doctorid')!;
+    const deptId: string = target.getAttribute('data-deptid');
+    const doctorId: string = target.getAttribute('data-doctorid');
     this.refreshDataSource(deptId, doctorId);
-    const doctorImage: HTMLElement = this.scheduleObj.element.querySelector('.doctor-icon .active-doctor')!;
+    const doctorImage: HTMLElement = this.scheduleObj.element.querySelector('.doctor-icon .active-doctor');
     doctorImage.setAttribute('src', './assets/images/' + this.activeDoctorData[0]['Text'] + '.png');
     this.specialistObj.hide();
   }
@@ -539,7 +539,7 @@ export class CalendarComponent implements OnInit {
   }
 
   public onItemChecked(args: ChangeEventArgs): void {
-    const waitItemId: string = closest(args.event!.currentTarget as HTMLElement, '.e-checkbox-wrapper').id;
+    const waitItemId: string = closest(args.event.currentTarget as HTMLElement, '.e-checkbox-wrapper').id;
     this.selectedWaitingItem.push(this.waitingList.filter((item: Record<string, any>) => item['Id'] === parseInt(waitItemId, 10))[0]);
   }
 
@@ -727,7 +727,7 @@ export class CalendarComponent implements OnInit {
 
   public clearSelection(): void {
     this.setDefaultData();
-    const doctorImage: HTMLElement = this.scheduleObj.element.querySelector('.doctor-icon .active-doctor')!;
+    const doctorImage: HTMLElement = this.scheduleObj.element.querySelector('.doctor-icon .active-doctor');
     doctorImage.setAttribute('src', './assets/Icons/Doctors.svg');
     this.specialistObj.hide();
   }

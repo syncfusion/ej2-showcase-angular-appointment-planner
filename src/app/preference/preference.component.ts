@@ -19,14 +19,14 @@ export class PreferenceComponent implements OnInit {
   public colorCategory: Record<string, any>[];
   public dayOfWeeks: Record<string, any>[];
   public fields: Record<string, any> = { text: 'Text', value: 'Value' };
-  public selectedView!: string;
-  public selectedStartHour!: string;
-  public selectedEndHour!: string;
-  public selectedCategory!: string;
-  public timeInterval!: number;
-  public calendarSettings!: CalendarSettings;
+  public selectedView: string;
+  public selectedStartHour: string;
+  public selectedEndHour: string;
+  public selectedCategory: string;
+  public timeInterval: number;
+  public calendarSettings: CalendarSettings;
   public width = '335px';
-  public selectedDayOfWeek!: number;
+  public selectedDayOfWeek: number;
 
   constructor(public dataService: DataService) {
     this.timeSlots = timeSlots;
