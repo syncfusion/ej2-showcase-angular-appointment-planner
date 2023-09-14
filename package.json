@@ -21,8 +21,7 @@
     "build:prod": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "ci-publish": "gulp publish-samples"
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
