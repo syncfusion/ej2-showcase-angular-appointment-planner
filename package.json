@@ -19,10 +19,10 @@
     "start": "ng serve",
     "build": "ng build",
     "build:prod": "ng build --prod",
+    "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "ci-publish": "gulp publish-samples"
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
