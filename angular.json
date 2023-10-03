@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "appointment-planner": {
+    "ej2-angular-appointment-planner": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/appointment-planner",
+            "outputPath": "dist/",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -65,10 +65,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "appointment-planner:build:production"
+              "browserTarget": "ej2-angular-appointment-planner:build:production"
             },
             "development": {
-              "browserTarget": "appointment-planner:build:development"
+              "browserTarget": "ej2-angular-appointment-planner:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -76,7 +76,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "appointment-planner:build"
+            "browserTarget": "ej2-angular-appointment-planner:build"
           }
         },
         "test": {
