@@ -64,7 +64,7 @@ export class AddEditDoctorComponent {
           const instance: DropDownList = (curElement.parentElement as EJ2Instance).ej2_instances[0] as DropDownList;
           obj[columnName] = instance.value;
           if (columnName === 'Specialization') {
-            obj['DepartmentId'] = (instance.getDataByValue(instance.value) as Record<string, any>)['DepartmentId'];
+            obj['DepartmentId'] = (instance.getDataByValue(obj[columnName]) as Record<string, any>)['DepartmentId'];
           }
         } else if (columnName === 'Gender') {
           obj[columnName] = curElement.querySelector('input').checked ? 'Male' : 'Female';

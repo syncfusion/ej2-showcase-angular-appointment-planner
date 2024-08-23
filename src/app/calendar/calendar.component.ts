@@ -91,10 +91,6 @@ export class CalendarComponent implements OnInit {
   public selectedWaitingItem: Record<string, any>[] = [];
   public comboBox: ComboBox;
   public fields: Record<string, any> = { text: 'Name', value: 'Id' };
-  public itemTemplate: string = '<div class="specialist-item"><img class="value" src="./assets/images/${Text}.png" alt="doctor"/>' +
-    '<div class="doctor-details"><div class="name">Dr.${Name}</div><div class="designation">${Designation}</div></div></div>';
-  public footerTemplate = `<div class="add-doctor"><div class="e-icon-add e-icons"></div>
-    <div class="add-doctor-text">Add New Doctor</div></div>`;
 
   constructor(public dataService: DataService) {
     (QuickPopups.prototype as any).applyFormValidation = () => { };
