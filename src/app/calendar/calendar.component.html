@@ -82,8 +82,23 @@
       <div class="choose-Specialist-container">
         <ejs-dropdownlist id='specialist' cssClass="e-specialist-doctors" #dropdownObj [dataSource]='doctorsData'
           [fields]='fields' placeholder='Choose Specialist' popupHeight='auto' popupWidth='221px' showClearButton='true'
-          (change)='onDoctorSelect($event)' (open)='onMultiSelectOpen($event)' [itemTemplate]='itemTemplate'
-          [footerTemplate]='footerTemplate'></ejs-dropdownlist>
+          (change)='onDoctorSelect($event)' (open)='onMultiSelectOpen($event)'>
+          <ng-template #itemTemplate let-data>
+            <div class="specialist-item">
+              <img class="value" src="./assets/images/{{data.Text}}.png" alt="doctor" />
+              <div class="doctor-details">
+                <div class="name">Dr.{{data.Name}}</div>
+                <div class="designation">{{data.Designation}}</div>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template #footerTemplate="" let-data="">
+            <div class="add-doctor">
+              <div class="e-icon-add e-icons"></div>
+              <div class="add-doctor-text">Add New Doctor</div>
+            </div>
+          </ng-template>
+        </ejs-dropdownlist>
       </div>
       <div class="add-event-container" style="display: none;">
         <button ejs-button (click)='createNewEvent($event)' class="e-primary">Add Appointment</button>
