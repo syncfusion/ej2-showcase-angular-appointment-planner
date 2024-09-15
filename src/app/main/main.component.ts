@@ -29,7 +29,7 @@ export class MainComponent implements AfterViewInit {
   }
 
   public btnClick(): void {
-    this.sideBar.show();
+    this.sideBar.toggle();
   }
 
   public onItemClick(args: any): void {

@@ -69,6 +69,11 @@
             },
             "development": {
               "browserTarget": "ej2-angular-appointment-planner:build:development"
+            },
+            "options": {
+              "sslKey": "C:/Users/lucaf/source/repos/ej2-showcase-angular-appointment-planner/key.pem",
+              "sslCert": "C:/Users/lucaf/source/repos/ej2-showcase-angular-appointment-planner/cert.pem",
+              "ssl": true
             }
           },
           "defaultConfiguration": "development"
@@ -100,5 +105,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
