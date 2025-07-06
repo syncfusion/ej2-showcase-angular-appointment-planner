@@ -223,10 +223,6 @@ export class CalendarComponent implements OnInit {
         };
         args.items.push(waitingListItem);
         args.items.splice(5, 1);
-      } else {
-        const specialistItem: ItemModel = { align: 'Center', cssClass: 'app-doctors' };
-        args.items.unshift(specialistItem);
-        args.items.splice(4, 2);
       }
     }
   }
@@ -276,7 +272,7 @@ export class CalendarComponent implements OnInit {
         });
         this.comboBox.appendTo(comboBoxElement);
         comboBoxElement.setAttribute('name', 'Name');
-        const buttonEle: HTMLInputElement = createElement('button', { attrs: { name: 'PatientButton' } }) as HTMLInputElement;
+        const buttonEle: HTMLButtonElement = createElement('button', { attrs: { name: 'PatientButton' } }) as HTMLButtonElement;
         buttonEle.onclick = this.onAddPatient.bind(this);
         container.appendChild(buttonEle);
         const button: Button = new Button({ iconCss: 'e-icons e-add-icon', cssClass: 'e-small e-round', isPrimary: true });
@@ -743,5 +739,11 @@ export class CalendarComponent implements OnInit {
     this.workHours = { start: '08:00', end: '21:00' };
     this.scheduleObj.workHours = this.workHours;
     this.activeDoctorData = [];
+  }
+
+  public quickInfoCloseClick(): void {
+    if (this.scheduleObj) {
+      this.scheduleObj.closeQuickInfoPopup();
+    }
   }
 }

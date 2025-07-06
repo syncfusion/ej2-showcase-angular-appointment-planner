@@ -1,7 +1,7 @@
 <div class="new-doctor-container" style="display:none">
   <ejs-dialog #newDoctorObj width='390px' cssClass='new-doctor-dialog' [isModal]='true' [visible]='false'
     [animationSettings]='animationSettings' [header]='title' [showCloseIcon]='true' target='body'
-    (beforeOpen)='onBeforeOpen($event)'>
+    (beforeOpen)='onBeforeOpen($event)' (beforeClose)='onBeforeClose()'>
     <ng-template #content>
       <form id='new-doctor-form'>
         <div class="name-container">
@@ -21,8 +21,8 @@
             </div>
           </div>
           <div class="mobile">
-            <ejs-maskedtextbox id='DoctorMobile' name='Mobile' cssClass='e-field' width='180px' placeholder='Mobile Number'
-              mask="(999) 999-9999" floatLabelType='Always'></ejs-maskedtextbox>
+            <ejs-maskedtextbox id='DoctorMobile' name='Mobile' cssClass='e-field' width='180px'
+              placeholder='Mobile Number' mask="(999) 999-9999" floatLabelType='Always'></ejs-maskedtextbox>
           </div>
         </div>
         <div class="email-container">

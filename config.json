@@ -1,0 +1,23 @@
+{
+  "productOwner": "Mahesh Palanisamy",
+  "sasslint": [
+    "./src/assets/**/*.scss"
+  ],
+  "tslint": [
+    "./src/app/**/*.ts",
+    "!./src/app/**/*-model.d.ts",
+    "!./src/app/**/**/*.d.ts",
+    "!./src/app/**/**/*.ngfactory.ts"
+  ],
+  "ts": [
+    "./src/app/**/*.ts",
+    "!./node_modules/**/*.ts"
+  ],
+  "styleDependency": [
+    "ej2"
+  ],
+  "isShowCase": true,
+  "publishSamples": [
+    "./dist/appointment-planner/**"
+  ]
+}

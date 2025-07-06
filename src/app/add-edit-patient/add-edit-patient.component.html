@@ -1,7 +1,7 @@
 <div class="new-patient-container" style="display:none">
   <ejs-dialog #newPatientObj width='390px' cssClass='new-patient-dialog' [isModal]='true' [visible]='false'
     [animationSettings]='animationSettings' [header]='title' [showCloseIcon]='true' target='body'
-    (beforeOpen)='onBeforeOpen($event)'>
+    (beforeOpen)='onBeforeOpen($event)' (beforeClose)='onBeforeClose()'>
     <ng-template #content>
       <form id='new-patient-form'>
         <div class="field-container name-container">
@@ -32,8 +32,8 @@
             </ejs-dropdownlist>
           </div>
           <div class="mobile">
-            <ejs-maskedtextbox id='PatientMobile' name='Mobile' cssClass='e-field' width='180px' placeholder='Mobile Number'
-              mask="(999) 999-9999" floatLabelType='Always'>
+            <ejs-maskedtextbox id='PatientMobile' name='Mobile' cssClass='e-field' width='180px'
+              placeholder='Mobile Number' mask="(999) 999-9999" floatLabelType='Always'>
             </ejs-maskedtextbox>
           </div>
         </div>

@@ -17,7 +17,6 @@
 
     .schedule-container {
       padding-right: 25px;
-      width: 85%;
 
       .e-schedule-toolbar-container {
         .e-toolbar-items {
@@ -54,71 +53,6 @@
                 .e-time,
                 .e-subject {
                   padding: 2px;
-                }
-              }
-            }
-          }
-        }
-      }
-
-      .e-quick-popup-wrapper.e-popup-open {
-        .e-event-popup {
-          .quick-info-header {
-            background-color: white;
-            padding: 8px 18px;
-
-            .quick-info-header-content {
-              height: 50px;
-              justify-content: flex-end;
-              display: flex;
-              flex-direction: column;
-              padding: 0 10px 5px;
-
-              .quick-info-title {
-                font-weight: 500;
-                font-size: 16px;
-                letter-spacing: 0.48px;
-                height: 22px;
-              }
-
-              .duration-text {
-                font-size: 11px;
-                letter-spacing: 0.33px;
-                height: 14px;
-              }
-            }
-          }
-
-          .event-content {
-            height: auto;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding-top: 15px;
-
-            div {
-              display: flex;
-              font-size: 11px;
-              color: $planner-font-color2;
-              letter-spacing: 0.33px;
-              min-height: 25px;
-
-              label {
-                display: inline-block;
-                min-width: 70px;
-                color: $planner-font-color2;
-                margin: 0;
-              }
-
-              div {
-                line-height: 25px;
-                padding: 0 0 0 12px;
-
-                span {
-                  font-size: 11px;
-                  color: #151515;
-                  letter-spacing: 0.33px;
-                  line-height: 1.4;
                 }
               }
             }
@@ -371,6 +305,77 @@
   }
 }
 
+.e-quick-popup-wrapper.e-popup-open {
+  .e-event-popup {
+    .quick-info-header {
+      background-color: white;
+      padding: 8px 18px;
+
+      .quick-info-header-icon-wrapper {
+        display: flex;
+        justify-content: flex-end;
+        padding: 0 0 6px 0;
+      }
+
+      .quick-info-header-content {
+        height: 50px;
+        justify-content: flex-end;
+        display: flex;
+        flex-direction: column;
+        padding: 0 10px 5px;
+
+        .quick-info-title {
+          font-weight: 500;
+          font-size: 16px;
+          letter-spacing: 0.48px;
+          height: 22px;
+        }
+
+        .duration-text {
+          font-size: 11px;
+          letter-spacing: 0.33px;
+          height: 14px;
+        }
+      }
+    }
+
+    .event-content {
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 15px;
+
+      div {
+        display: flex;
+        font-size: 11px;
+        color: $planner-font-color2;
+        letter-spacing: 0.33px;
+        min-height: 25px;
+
+        label {
+          display: inline-block;
+          min-width: 70px;
+          color: $planner-font-color2;
+          margin: 0;
+        }
+
+        div {
+          line-height: 25px;
+          padding: 0 0 0 12px;
+
+          span {
+            font-size: 11px;
+            color: #151515;
+            letter-spacing: 0.33px;
+            line-height: 1.4;
+          }
+        }
+      }
+    }
+  }
+}
+
 .e-schedule-dialog {
   .e-dlg-content {
     .custom-field-row {
@@ -504,14 +509,20 @@
               }
             }
           }
+
+          .e-table-container .e-vertical-view .e-header-cells .date-text {
+            white-space: normal;
+            font-size: 11px;
+          }
         }
       }
 
       .treeview-container {
+        width: 100%;
+        padding-top: 12px;
+
         .treeview-external-drag {
           &.e-treeview {
-            width: 225px;
-
             &.e-drag-item {
               position: relative !important;
             }

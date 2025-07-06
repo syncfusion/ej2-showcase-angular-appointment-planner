@@ -35,6 +35,9 @@
         <ng-template #quickInfoTemplatesHeader let-data>
           <div *ngIf="(data.elementType === 'event')">
             <div class="quick-info-header">
+              <div class="quick-info-header-icon-wrapper">
+                <button ejs-button cssClass="e-flat e-round e-small" iconCss="e-icons e-close-icon" (click)="quickInfoCloseClick()"></button>
+              </div>
               <div class="quick-info-header-content" [ngStyle]=getBackGroundColor(data)>
                 <div class="quick-info-title">Appointment Details</div>
                 <div class='duration-text'>{{getEventDetails(data)}}</div>

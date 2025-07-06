@@ -43,7 +43,6 @@ export class AddEditDoctorComponent {
   }
 
   public onCancelClick(): void {
-    this.resetFormFields();
     this.newDoctorObj.hide();
   }
 
@@ -63,8 +62,9 @@ export class AddEditDoctorComponent {
           columnName = curElement.querySelector('select').name;
           const instance: DropDownList = (curElement.parentElement as EJ2Instance).ej2_instances[0] as DropDownList;
           obj[columnName] = instance.value;
+          let value: string = instance.value as string;
           if (columnName === 'Specialization') {
-            obj['DepartmentId'] = (instance.getDataByValue(obj[columnName]) as Record<string, any>)['DepartmentId'];
+            obj['DepartmentId'] = (instance.getDataByValue(value) as Record<string, any>)['DepartmentId'];
           }
         } else if (columnName === 'Gender') {
           obj[columnName] = curElement.querySelector('input').checked ? 'Male' : 'Female';
@@ -98,11 +98,10 @@ export class AddEditDoctorComponent {
     };
     this.dataService.addActivityData(activityObj);
     this.refreshDoctors.emit();
-    if(!isNullOrUndefined(this.calendarComponent) && !isNullOrUndefined(this.calendarComponent.dropdownObj)) {
+    if (!isNullOrUndefined(this.calendarComponent) && !isNullOrUndefined(this.calendarComponent.dropdownObj)) {
       this.calendarComponent.dropdownObj.dataSource = [];
       this.calendarComponent.dropdownObj.dataSource = this.doctorsData;
     }
-    this.resetFormFields();
     this.newDoctorObj.hide();
   }
 
@@ -149,10 +148,10 @@ export class AddEditDoctorComponent {
         if (columnName === '' && isCustomElement) {
           columnName = curElement.querySelector('select').name;
           const instance: DropDownList = (curElement.parentElement as EJ2Instance).ej2_instances[0] as DropDownList;
-          instance.value = (instance as any).dataSource[0];
+          instance.value = (instance as any).dataSource[0].Id;
         } else if (columnName === 'Gender') {
           curElement.querySelectorAll('input')[0].checked = true;
-        } else if(columnName === 'Mobile') {
+        } else if (columnName === 'Mobile') {
           ((curElement.parentElement as EJ2Instance).ej2_instances[0] as MaskedTextBox).value = '';
         } else {
           curElement.querySelector('input').value = '';
@@ -212,5 +211,9 @@ export class AddEditDoctorComponent {
     rules['Email'] = { required: [true, 'Enter valid email'], email: [true, 'Email address is invalid'] };
     rules['Education'] = { required: [true, 'Enter valid education'] };
     this.dataService.renderFormValidator(formElement, rules, this.newDoctorObj.element);
+  }
+
+  public onBeforeClose(): void {
+    this.resetFormFields();
   }
 }

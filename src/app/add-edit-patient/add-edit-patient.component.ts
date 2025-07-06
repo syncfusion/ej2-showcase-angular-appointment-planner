@@ -46,7 +46,6 @@ export class AddEditPatientComponent {
   }
 
   public onCancelClick(): void {
-    this.resetFormFields();
     this.newPatientObj.hide();
   }
 
@@ -101,11 +100,10 @@ export class AddEditPatientComponent {
     this.dataService.addActivityData(activityObj);
     this.dataService.setPatientsData(this.patientsData);
     this.refreshEvent.emit();
-    if(!isNullOrUndefined(this.calendarComponent) && !isNullOrUndefined(this.calendarComponent.comboBox)) {
+    if (!isNullOrUndefined(this.calendarComponent) && !isNullOrUndefined(this.calendarComponent.comboBox)) {
       this.calendarComponent.comboBox.dataSource = [];
       this.calendarComponent.comboBox.dataSource = this.patientsData;
     }
-    this.resetFormFields();
     this.newPatientObj.hide();
   }
 
@@ -120,13 +118,13 @@ export class AddEditPatientComponent {
         if (columnName === '' && isDropElement) {
           columnName = curElement.querySelector('select').name;
           const instance: DropDownList = (curElement.parentElement as EJ2Instance).ej2_instances[0] as DropDownList;
-          instance.value = (instance as any).dataSource[0];
+          instance.value = (instance as any).dataSource[0].Value;
         } else if (columnName === 'DOB' && isDatePickElement) {
           const instance: DatePicker = (curElement.parentElement as EJ2Instance).ej2_instances[0] as DatePicker;
           instance.value = new Date();
         } else if (columnName === 'Gender') {
           curElement.querySelectorAll('input')[0].checked = true;
-        } else if(columnName === 'Mobile') {
+        } else if (columnName === 'Mobile') {
           ((curElement.parentElement as EJ2Instance).ej2_instances[0] as MaskedTextBox).value = '';
         } else {
           curElement.querySelector('input').value = '';
@@ -190,5 +188,9 @@ export class AddEditPatientComponent {
     rules['Mobile'] = { required: [customFn, 'Enter valid mobile number'] };
     rules['Email'] = { required: [true, 'Enter valid email'], email: [true, 'Email address is invalid'] };
     this.dataService.renderFormValidator(formElement, rules, this.newPatientObj.element);
+  }
+
+  public onBeforeClose(): void {
+    this.resetFormFields();
   }
 }
