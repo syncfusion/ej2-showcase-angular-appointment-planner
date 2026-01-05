@@ -11,6 +11,7 @@ import { CalendarComponent } from '../calendar/calendar.component';
 
 @Component({
   selector: 'app-add-edit-patient',
+  standalone: false,
   templateUrl: './add-edit-patient.component.html',
   styleUrls: ['./add-edit-patient.component.scss'],
   encapsulation: ViewEncapsulation.None

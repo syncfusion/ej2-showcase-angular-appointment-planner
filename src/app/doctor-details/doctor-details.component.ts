@@ -9,6 +9,7 @@ import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-doctor-details',
+  standalone: false,
   templateUrl: './doctor-details.component.html',
   styleUrls: ['./doctor-details.component.scss'],
   encapsulation: ViewEncapsulation.None

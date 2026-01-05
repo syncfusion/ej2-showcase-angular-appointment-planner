@@ -63,12 +63,15 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "buildTarget": "ej2-angular-appointment-planner:build"
+          },
           "configurations": {
             "production": {
-              "browserTarget": "ej2-angular-appointment-planner:build:production"
+              "buildTarget": "ej2-angular-appointment-planner:build:production"
             },
             "development": {
-              "browserTarget": "ej2-angular-appointment-planner:build:development"
+              "buildTarget": "ej2-angular-appointment-planner:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -76,7 +79,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ej2-angular-appointment-planner:build"
+            "buildTarget": "ej2-angular-appointment-planner:build"
           }
         },
         "test": {

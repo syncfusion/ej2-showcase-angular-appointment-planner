@@ -3,6 +3,7 @@ import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-about',
+  standalone: false,
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss']
 })

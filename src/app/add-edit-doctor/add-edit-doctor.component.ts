@@ -11,6 +11,7 @@ import { CalendarComponent } from '../calendar/calendar.component';
 
 @Component({
   selector: 'app-add-edit-doctor',
+  standalone: false,
   templateUrl: './add-edit-doctor.component.html',
   styleUrls: ['./add-edit-doctor.component.scss'],
   encapsulation: ViewEncapsulation.None

@@ -4,6 +4,7 @@ import { Tooltip, TooltipEventArgs } from '@syncfusion/ej2-angular-popups';
 import { ListView } from '@syncfusion/ej2-lists';
 @Component({
   selector: 'app-doctor-availability',
+  standalone: false,
   templateUrl: './doctor-availability.component.html',
   styleUrls: ['./doctor-availability.component.scss'],
   encapsulation: ViewEncapsulation.None
