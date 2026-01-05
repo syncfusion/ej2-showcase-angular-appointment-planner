@@ -1,4 +1,4 @@
-@import '../common.scss';
+@use '../common.scss' as *;
 
 .doctor-details-container {
   margin: 50px 57px;

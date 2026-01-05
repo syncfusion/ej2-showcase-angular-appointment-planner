@@ -1,4 +1,4 @@
-@import '../app/common.scss';
+@use '../app/common.scss' as *;
 
 @font-face {
   font-family: 'icons';

@@ -1,4 +1,4 @@
-@import '../common.scss';
+@use '../common.scss' as *;
 
 .planner-patient-wrapper {
   margin: 50px;
