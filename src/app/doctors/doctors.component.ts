@@ -7,6 +7,7 @@ import { Tooltip, TooltipEventArgs } from '@syncfusion/ej2-angular-popups';
 
 @Component({
   selector: 'app-doctors',
+  standalone: false,
   templateUrl: './doctors.component.html',
   styleUrls: ['./doctors.component.scss'],
   encapsulation: ViewEncapsulation.None

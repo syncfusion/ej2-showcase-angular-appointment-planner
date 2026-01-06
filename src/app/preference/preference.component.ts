@@ -7,6 +7,7 @@ import { Browser } from '@syncfusion/ej2-base';
 
 @Component({
   selector: 'app-preference',
+  standalone: false,
   templateUrl: './preference.component.html',
   styleUrls: ['./preference.component.scss'],
   encapsulation: ViewEncapsulation.None

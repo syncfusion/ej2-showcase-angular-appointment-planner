@@ -3,6 +3,7 @@ import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-recent-activity',
+  standalone: false,
   templateUrl: './recent-activity.component.html',
   styleUrls: ['./recent-activity.component.scss'],
   encapsulation: ViewEncapsulation.None

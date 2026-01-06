@@ -9,6 +9,7 @@ import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-patients',
+  standalone: false,
   templateUrl: './patients.component.html',
   styleUrls: ['./patients.component.scss'],
   providers: [EditService, PageService],

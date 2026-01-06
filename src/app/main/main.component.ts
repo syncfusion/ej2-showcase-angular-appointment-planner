@@ -4,6 +4,7 @@ import { SidebarComponent } from '@syncfusion/ej2-angular-navigations';
 
 @Component({
   selector: 'app-main',
+  standalone: false,
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss']
 })

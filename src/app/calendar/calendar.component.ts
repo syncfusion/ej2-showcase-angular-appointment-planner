@@ -34,6 +34,7 @@ L10n.load({
 
 @Component({
   selector: 'app-calendar',
+  standalone: false,
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss'],
   providers: [
